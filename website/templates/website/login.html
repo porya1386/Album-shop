@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% block page_title %}
+    <title>Log in | Jahan</title>
+  {% endblock page_title %}
+
+    {% block page_style %}
+        <link rel="stylesheet" href="{% static 'website/css/login.css' %}">
+    {% endblock page_style %}
+
+</head>
+    {% block page_content %}
+    
+        
+<body data-start="{% if register_form %}register{% endif %}">
+  
+
+  <main id="main">
+    <div class="auth-card" id="auth-card" data-mode="login">
+
+      <!-- ================= LOG IN (left side) ================= -->
+      <section class="pane pane-login" id="pane-login" aria-labelledby="login-title">
+        <h1 id="login-title">Log in</h1>
+        <p class="intro">Welcome back. Enter your details to continue.</p>
+
+        <form method="post" action="/login/">
+          {% csrf_token %}
+
+          {% if form.errors %}
+            <div class="alert" role="alert">
+              The username or password is incorrect. Check both and try again.
+            </div>
+          {% endif %}
+
+          <div class="field">
+            <label for="login-username">Username</label>
+            <input type="text" id="login-username" name="username" autocomplete="username" required>
+          </div>
+
+          <div class="field">
+            <label for="login-password">Password</label>
+            <div class="password-wrap">
+              <input type="password" id="login-password" name="password" autocomplete="current-password" required>
+              <button type="button" class="pw-toggle" aria-controls="login-password" aria-pressed="false">Show</button>
+            </div>
+          </div>
+
+          <input type="hidden" name="next" value="{{ next }}">
+
+          <button type="submit" class="btn btn-primary btn-block">Log in</button>
+        </form>
+
+        <p class="switch-mobile">
+          New here? <button type="button" data-switch="register">Register</button>
+        </p>
+      </section>
+
+      <!-- ================= REGISTER (right side) ================= -->
+      <section class="pane pane-register" id="pane-register" aria-labelledby="register-title">
+        <h1 id="register-title">Create an account</h1>
+        <p class="intro">It takes a minute. You can then follow new paintings and get in touch.</p>
+
+        <form method="post" action="/register/">
+          {% csrf_token %}
+
+          {% if register_form.errors %}
+            <div class="alert" role="alert">
+              <ul>
+                {% for field, errors in register_form.errors.items %}
+                  {% for error in errors %}<li>{{ error }}</li>{% endfor %}
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
+
+          <div class="field">
+            <label for="reg-username">Username</label>
+            <input type="text" id="reg-username" name="username" autocomplete="username" required>
+          </div>
+
+          <div class="field">
+            <label for="reg-password1">Password</label>
+            <div class="password-wrap">
+              <input type="password" id="reg-password1" name="password1" autocomplete="new-password" minlength="8" required>
+              <button type="button" class="pw-toggle" aria-controls="reg-password1" aria-pressed="false">Show</button>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="reg-password2">Repeat password</label>
+            <div class="password-wrap">
+              <input type="password" id="reg-password2" name="password2" autocomplete="new-password" minlength="8" required>
+              <button type="button" class="pw-toggle" aria-controls="reg-password2" aria-pressed="false">Show</button>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block">Create account</button>
+        </form>
+
+        <p class="switch-mobile">
+          Already have an account? <button type="button" data-switch="login">Log in</button>
+        </p>
+      </section>
+
+      <!-- ================= SLIDING PANEL ================= -->
+      <div class="overlay" id="overlay">
+        <!-- Shown while the log in form is open (panel on the right) -->
+        <div class="overlay-content ov-register" id="ov-register">
+          <h2>New here?</h2>
+          <p>Create an account to follow new paintings and get in touch.</p>
+          <button type="button" class="btn btn-ghost">Register</button>
+        </div>
+
+        <!-- Shown while the register form is open (panel on the left) -->
+        <div class="overlay-content ov-login" id="ov-login">
+          <h2>Welcome back</h2>
+          <p>Already have an account? Log in to continue.</p>
+          <button type="button" class="btn btn-ghost">Log in</button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+    {% endblock page_content %}
+ {% block page_script %}
+    <script src='{% static 'website/js/login.js' %}'></script>
+ {% endblock page_script %}
+</body>
+</html>

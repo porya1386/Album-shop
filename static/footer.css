@@ -1,0 +1,18 @@
+ /* ---------- Footer ---------- */
+    .site-footer {
+      background: rgba(10, 16, 12, .55);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(253, 246, 232, .18);
+      padding: 1.5rem 0;
+      font-size: .95rem;
+      color: var(--ink-soft);
+    }
+    .footer-inner { display: flex; justify-content: space-between; flex-wrap: wrap; gap: .5rem 2rem; }
+    .footer-inner p { margin: 0; }
+    .footer-inner a { color: var(--ink); }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: repeat(2, 1fr); }
+    }

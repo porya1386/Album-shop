@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% block page_title %}<title>Jahan | Album-Shop</title>{% endblock page_title %}
+  {% block page_style %}<link rel="stylesheet" href="{% static 'website/css/home.css' %}">{% endblock page_style %}
+</head>
+<body>
+  {% block page_content %}
+  <main>
+    <div class="wrap hero">
+      <h1>Quiet places, careful work.</h1>
+      <p class="lead">
+        I'm Your Name, a web developer who builds clear, fast websites with Python and Django.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="/about/">About me</a>
+        <a class="btn btn-ghost" href="mailto:you@example.com">Get in touch</a>
+      </div>
+    </div>
+  </main>
+  {% endblock page_content %}
+  {% block page_script %}
+    <script src="{% static 'website/js/js.home.js' %}"></script>
+  {% endblock page_script %}
+</body>
+</html>
