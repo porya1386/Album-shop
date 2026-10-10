@@ -1,18 +1,198 @@
- /* ---------- Footer ---------- */
-    .site-footer {
-      background: rgba(10, 16, 12, .55);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border-top: 1px solid rgba(253, 246, 232, .18);
-      padding: 1.5rem 0;
-      font-size: .95rem;
-      color: var(--ink-soft);
-    }
-    .footer-inner { display: flex; justify-content: space-between; flex-wrap: wrap; gap: .5rem 2rem; }
-    .footer-inner p { margin: 0; }
-    .footer-inner a { color: var(--ink); }
+/* ---------- Footer ----------
+   Uses the site variables:
+   --gold, --night, --ink, --ink-soft, --font-display
+------------------------------------------------ */
 
-    /* ---------- Responsive ---------- */
-    @media (max-width: 900px) {
-      .grid { grid-template-columns: repeat(2, 1fr); }
-    }
+.site-footer {
+  margin-top: auto;                       /* sticks to the bottom on short pages */
+  padding: 3.5rem 0 1.5rem;
+  background: rgba(10, 16, 12, .88);
+  border-top: 1px solid rgba(253, 246, 232, .18);
+  color: var(--ink-soft);
+  font-size: .98rem;
+  line-height: 1.6;
+}
+
+.site-footer a {
+  color: var(--ink);
+  text-decoration: none;
+  transition: color .15s;
+}
+.site-footer a:hover { color: var(--gold); }
+.site-footer a:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Layout */
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 2.5rem 3rem;
+  padding-bottom: 2.5rem;
+}
+
+/* Brand: round photo + name side by side */
+.footer-brand-head {
+  display: flex;
+  align-items: center;
+  gap: .9rem;
+  margin-bottom: .75rem;
+}
+.footer-avatar {
+  flex: 0 0 auto;
+  width: 60px;
+  height: 60px;
+  min-width: 60px;
+  max-width: 60px;
+  border-radius: 50%;
+  object-fit: cover;                       /* crops the photo to a perfect circle */
+  border: 2px solid var(--gold);
+  background: #2a3a2e;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .4);
+}
+.footer-brand-head .footer-logo { margin-bottom: 0; }
+
+.footer-logo {
+  display: inline-block;
+  margin-bottom: .75rem;
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.footer-about { margin: 0; max-width: 36ch; }
+
+/* Column titles */
+.footer-title {
+  margin: 0 0 1rem;
+  font-size: .8rem;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* Contact list */
+.footer-list { margin: 0; padding: 0; list-style: none; }
+.footer-list li { margin-bottom: 1rem; }
+.footer-list li:last-child { margin-bottom: 0; }
+.footer-label {
+  display: block;
+  margin-bottom: .1rem;
+  font-size: .78rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  opacity: .8;
+}
+.footer-list address { margin: 0; font-style: normal; color: var(--ink); }
+.footer-list a { color: var(--ink); }
+
+/* Social links */
+.footer-social { margin: 0; padding: 0; list-style: none; display: grid; gap: .75rem; }
+.footer-social a {
+  display: inline-flex;
+  align-items: center;
+  gap: .8rem;
+}
+
+/* Round badge around each icon */
+.social-link .chip {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 1.5px solid rgba(253, 246, 232, .25);
+  border-radius: 50%;
+  color: var(--c, var(--ink));              /* icon colour (resting) */
+  background: transparent;
+  transition: background .2s, color .2s, border-color .2s, transform .2s;
+}
+.social-link .social-name { transition: color .2s; }
+
+/* Hover / keyboard focus */
+.social-link:hover .chip,
+.social-link:focus-visible .chip {
+  background: var(--bg, var(--gold));
+  border-color: var(--bg, var(--gold));
+  color: var(--on, #fff);
+  transform: translateY(-3px);
+}
+.social-link:hover .social-name,
+.social-link:focus-visible .social-name { color: var(--c, var(--gold)); }
+
+/* ---- Brand colours ----
+   --c  = icon colour at rest (light enough to read on the dark footer)
+   --bg = badge fill on hover
+   --on = icon colour on hover                                        */
+.social-telegram  { --c: #3bb4ea; --bg: #229ed9; --on: #fff; }
+.social-linkedin  { --c: #4a9be8; --bg: #0a66c2; --on: #fff; }
+.social-instagram { --c: #f0568f; --bg: #e1306c; --on: #fff; }
+.social-instagram:hover .chip,
+.social-instagram:focus-visible .chip {
+  background: linear-gradient(45deg, #f09433, #e6683c 30%, #dc2743 55%, #bc1888);
+  border-color: transparent;
+}
+
+/* GitHub: white at rest, black icon on a white badge on hover */
+.social-github { --c: var(--ink); }
+.footer-dev a.social-github:hover { color: #fff; }
+.footer-dev a.social-github:hover svg.icon { color: #fff; }
+/* Fixed icon size (higher specificity so global svg/img rules can't stretch them) */
+.site-footer svg.icon {
+  display: inline-block;
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  max-width: 20px;
+  max-height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Bottom bar */
+.footer-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(253, 246, 232, .14);
+  font-size: .9rem;
+}
+.footer-bottom p { margin: 0; }
+.footer-dev a {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  margin-left: .25rem;
+  font-weight: 600;
+}
+.site-footer .footer-dev svg.icon {
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  max-width: 18px;
+  max-height: 18px;
+}
+
+/* Responsive */
+@media (max-width: 860px) {
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .footer-brand { grid-column: 1 / -1; }
+}
+@media (max-width: 520px) {
+  .site-footer { padding-top: 2.5rem; }
+  .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}

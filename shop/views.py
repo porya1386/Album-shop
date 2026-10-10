@@ -14,7 +14,8 @@ def products(request):
 
 
 def product_details(request, slug):
-    data = get_object_or_404(Album_image, slug=slug)
+    data = get_object_or_404(
+        Album_image.objects.prefetch_related('images'), slug=slug)
     return render(request, 'shop/product_details.html', {'product': data})
 
 

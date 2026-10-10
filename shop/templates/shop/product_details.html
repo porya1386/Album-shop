@@ -22,14 +22,48 @@
         <article class="pd {% if not product.is_active %}is-sold{% endif %}">
 
             <div class="pd-media">
-                <button type="button" class="pd-frame" id="pd-zoom-open"
-                        aria-label="View {{ product.title }} full size">
-                    <img src="{{ product.image.url }}" alt="{{ product.title }}">
-                    {% if not product.is_active %}
-                        <span class="pd-badge">Sold</span>
+                {% with extra=product.images.all %}
+
+                <div class="pd-stage">
+                    <button type="button" class="pd-frame" id="pd-zoom-open"
+                            aria-label="View {{ product.title }} full size">
+                        <img id="pd-main-img" src="{{ product.image.url }}" alt="{{ product.title }}">
+                        {% if not product.is_active %}
+                            <span class="pd-badge">Sold</span>
+                        {% endif %}
+                        <span class="pd-zoom-hint">Click to enlarge</span>
+                    </button>
+
+                    {% if extra %}
+                    <button type="button" class="pd-arrow pd-arrow--prev" id="pd-prev" aria-label="Previous image">&#8249;</button>
+                    <button type="button" class="pd-arrow pd-arrow--next" id="pd-next" aria-label="Next image">&#8250;</button>
                     {% endif %}
-                    <span class="pd-zoom-hint">Click to enlarge</span>
-                </button>
+                </div>
+
+                {% if extra %}
+                <ul class="pd-thumbs" id="pd-thumbs">
+                    <li>
+                        <button type="button" class="pd-thumb is-active"
+                                data-src="{{ product.image.url }}"
+                                data-alt="{{ product.title }}"
+                                aria-label="Show main image">
+                            <img src="{{ product.image.url }}" alt="">
+                        </button>
+                    </li>
+                    {% for img in extra %}
+                    <li>
+                        <button type="button" class="pd-thumb"
+                                data-src="{{ img.image.url }}"
+                                data-alt="{{ img.caption|default:product.title }}"
+                                aria-label="Show image {{ forloop.counter|add:1 }}">
+                            <img src="{{ img.image.url }}" alt="">
+                        </button>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+
+                {% endwith %}
             </div>
 
             <div class="pd-info">
@@ -87,7 +121,7 @@
 {# Full size viewer #}
 <dialog id="pd-zoom" aria-label="{{ product.title }} full size">
     <button type="button" class="pd-zoom-close" id="pd-zoom-close" aria-label="Close">&times;</button>
-    <img src="{{ product.image.url }}" alt="{{ product.title }}">
+    <img id="pd-zoom-img" src="{{ product.image.url }}" alt="{{ product.title }}">
 </dialog>
 {% endblock page_content %}
 
