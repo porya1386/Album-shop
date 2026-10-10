@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 {% load static %}
+{% load widget_tweaks %}
 
 {% block page_title %}
-    <title>Products | Jahan </title>
+    <title>Products | Jahan</title>
 {% endblock page_title %}
 
 {% block page_style %}
-    <link rel="stylesheet" href="{% static 'website/css/products.css' %}">
+    <link rel="stylesheet" href="{% static 'shop/css/products.css' %}">
 {% endblock page_style %}
 
 {% block page_content %}
@@ -19,10 +20,67 @@
             </p>
         </div>
 
-        <div class="grid" id="grid"></div>
+        {# Optional filter form: only rendered if the view passes a `form` (see notes). #}
+        {% if form %}
+        <form method="get" class="filter-form" role="search">
+            <div class="filter-field">
+                <label for="{{ form.q.id_for_label }}">Search</label>
+                {% render_field form.q class="input" placeholder="Search paintings..." %}
+            </div>
+            <div class="filter-field">
+                <label for="{{ form.sort.id_for_label }}">Sort by</label>
+                {% render_field form.sort class="input" %}
+            </div>
+            <button type="submit" class="btn btn-primary">Apply</button>
+        </form>
+        {% endif %}
+
+        <div class="grid" id="grid">
+            {% for product in products %}
+            <article class="product{% if not product.is_active %} is-sold{% endif %}">
+                <div class="frame">
+                    <img src="{{ product.image.url }}"
+                         alt="{{ product.title }}"
+                         loading="lazy">
+                    {% if not product.is_active %}
+                        <span class="badge-sold">Sold</span>
+                    {% endif %}
+                </div>
+
+                <div class="product-info">
+                    <h2>{{ product.title }}</h2>
+                    <p class="meta">
+                        {{ product.size|default:"" }}{% if product.size and product.year %} &middot; {% endif %}{{ product.year|date:"Y" }}
+                    </p>
+                    {% if product.description %}
+                        <p class="excerpt">{{ product.description|truncatewords:14 }}</p>
+                    {% endif %}
+
+                    <div class="product-foot">
+                        <span class="price">${{ product.price|floatformat:"g" }}</span>
+                        <button type="button"
+                                class="btn btn-ghost js-open-details"
+                                data-title="{{ product.title }}"
+                                data-price="${{ product.price|floatformat:'g' }}"
+                                data-description="{{ product.description }}"
+                                data-image="{{ product.image.url }}"
+                                data-size="{{ product.size|default:'-' }}"
+                                data-year="{{ product.year|date:'Y'|default:'-' }}"
+                                data-sold="{% if product.is_active %}false{% else %}true{% endif %}"
+                                data-url="{{ product.get_absolute_url }}">
+                            About this painting
+                        </button>
+                    </div>
+                </div>
+            </article>
+            {% empty %}
+            <p class="empty">No paintings available right now.</p>
+            {% endfor %}
+        </div>
     </div>
 </main>
 
+{# One single dialog, filled by products.js from the clicked card's data-* attributes #}
 <dialog id="details" aria-labelledby="d-title">
     <div class="dialog-body">
         <div class="dialog-image">
@@ -30,7 +88,7 @@
         </div>
 
         <div class="dialog-text">
-            <button type="button" class="dialog-close" id="d-close">
+            <button type="button" class="dialog-close" id="d-close" aria-label="Close">
                 &times;
             </button>
 
@@ -39,9 +97,6 @@
             <p id="d-desc"></p>
 
             <dl>
-                <dt>Medium</dt>
-                <dd id="d-medium"></dd>
-
                 <dt>Size</dt>
                 <dd id="d-size"></dd>
 
@@ -49,14 +104,19 @@
                 <dd id="d-year"></dd>
             </dl>
 
-            <a class="btn btn-primary" id="d-buy" href="#">
-                Ask about this painting
-            </a>
+            <div class="dialog-actions">
+                <a class="btn btn-primary" id="d-buy" href="#">
+                    Ask about this painting
+                </a>
+                <a class="btn" id="d-page" href="#">
+                    Open full page
+                </a>
+            </div>
         </div>
     </div>
 </dialog>
 {% endblock page_content %}
 
 {% block page_script %}
-    <script src="{% static 'website/js/products.js' %}"></script>
+    <script src="{% static 'shop/js/products.js' %}"></script>
 {% endblock page_script %}
