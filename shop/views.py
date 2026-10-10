@@ -4,12 +4,18 @@ from rest_framework.response import Response
 from .models import Album_image
 from .serializer import Album_Serializer
 from rest_framework import status
+from django.shortcuts import get_object_or_404
 
 
 def products(request):
     # ORM
     data = Album_image.objects.all().order_by('id')
     return render(request, 'shop/products.html', {'products': data})
+
+
+def product_details(request, slug):
+    data = get_object_or_404(Album_image, slug=slug)
+    return render(request, 'shop/product_details.html', {'product': data})
 
 
 class Product_api(APIView):

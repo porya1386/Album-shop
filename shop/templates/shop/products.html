@@ -20,7 +20,7 @@
             </p>
         </div>
 
-        {# Optional filter form: only rendered if the view passes a `form` (see notes). #}
+        {# Optional filter form: only rendered if the view passes a `form`. #}
         {% if form %}
         <form method="get" class="filter-form" role="search">
             <div class="filter-field">
@@ -38,14 +38,14 @@
         <div class="grid" id="grid">
             {% for product in products %}
             <article class="product{% if not product.is_active %} is-sold{% endif %}">
-                <div class="frame">
+                <a class="frame" href="{% url 'product_details' product.slug %}">
                     <img src="{{ product.image.url }}"
                          alt="{{ product.title }}"
                          loading="lazy">
                     {% if not product.is_active %}
                         <span class="badge-sold">Sold</span>
                     {% endif %}
-                </div>
+                </a>
 
                 <div class="product-info">
                     <h2>{{ product.title }}</h2>
@@ -58,18 +58,9 @@
 
                     <div class="product-foot">
                         <span class="price">${{ product.price|floatformat:"g" }}</span>
-                        <button type="button"
-                                class="btn btn-ghost js-open-details"
-                                data-title="{{ product.title }}"
-                                data-price="${{ product.price|floatformat:'g' }}"
-                                data-description="{{ product.description }}"
-                                data-image="{{ product.image.url }}"
-                                data-size="{{ product.size|default:'-' }}"
-                                data-year="{{ product.year|date:'Y'|default:'-' }}"
-                                data-sold="{% if product.is_active %}false{% else %}true{% endif %}"
-                                data-url="{{ product.get_absolute_url }}">
+                        <a class="btn btn-ghost" href="{% url 'product_details' product.slug %}">
                             About this painting
-                        </button>
+                        </a>
                     </div>
                 </div>
             </article>
@@ -79,44 +70,4 @@
         </div>
     </div>
 </main>
-
-{# One single dialog, filled by products.js from the clicked card's data-* attributes #}
-<dialog id="details" aria-labelledby="d-title">
-    <div class="dialog-body">
-        <div class="dialog-image">
-            <img id="d-image" src="" alt="">
-        </div>
-
-        <div class="dialog-text">
-            <button type="button" class="dialog-close" id="d-close" aria-label="Close">
-                &times;
-            </button>
-
-            <h2 id="d-title"></h2>
-            <span class="price" id="d-price"></span>
-            <p id="d-desc"></p>
-
-            <dl>
-                <dt>Size</dt>
-                <dd id="d-size"></dd>
-
-                <dt>Year</dt>
-                <dd id="d-year"></dd>
-            </dl>
-
-            <div class="dialog-actions">
-                <a class="btn btn-primary" id="d-buy" href="#">
-                    Ask about this painting
-                </a>
-                <a class="btn" id="d-page" href="#">
-                    Open full page
-                </a>
-            </div>
-        </div>
-    </div>
-</dialog>
 {% endblock page_content %}
-
-{% block page_script %}
-    <script src="{% static 'shop/js/products.js' %}"></script>
-{% endblock page_script %}
