@@ -31,6 +31,8 @@ It aims to provide a modern design and a reliable backend.
 ### Django REST Framework
 ![About Page](docs/images/restframework.png)
 
+### Product Details
+![Product Details](docs/images/product_details.png)
 
 
 ## Tech Stack
