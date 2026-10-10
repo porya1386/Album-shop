@@ -1,5 +1,4 @@
-
-name: Django CI
+name: Django CI/CD
 
 on:
   push:
@@ -25,8 +24,36 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run Django checks
+      - name: Django system check
         run: python manage.py check
 
       - name: Run tests
         run: python manage.py test
+
+  build:
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create deployment package
+        run: |
+          zip -r django-project.zip . \
+            -x ".git/*" \
+               ".github/*" \
+               "*/__pycache__/*" \
+               "*.pyc" \
+               "db.sqlite3" \
+               ".env" \
+               "venv/*" \
+               ".venv/*"
+
+      - name: Upload deployment artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: django-deployment
+          path: django-project.zip
+          retention-days: 7
