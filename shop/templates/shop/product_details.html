@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block page_title %}
+    <title>{{ product.title }} | Jahan</title>
+{% endblock page_title %}
+
+{% block page_style %}
+    <link rel="stylesheet" href="{% static 'shop/css/product_details.css' %}">
+{% endblock page_style %}
+
+{% block page_content %}
+<main class="pd-page">
+    <div class="wrap">
+
+        <nav class="pd-crumbs" aria-label="Breadcrumb">
+            <a href="/shop/products/">Products</a>
+            <span aria-hidden="true">/</span>
+            <span aria-current="page">{{ product.title }}</span>
+        </nav>
+
+        <article class="pd {% if not product.is_active %}is-sold{% endif %}">
+
+            <div class="pd-media">
+                <button type="button" class="pd-frame" id="pd-zoom-open"
+                        aria-label="View {{ product.title }} full size">
+                    <img src="{{ product.image.url }}" alt="{{ product.title }}">
+                    {% if not product.is_active %}
+                        <span class="pd-badge">Sold</span>
+                    {% endif %}
+                    <span class="pd-zoom-hint">Click to enlarge</span>
+                </button>
+            </div>
+
+            <div class="pd-info">
+                <p class="pd-eyebrow">Original painting</p>
+                <h1>{{ product.title }}</h1>
+
+                <p class="pd-price">${{ product.price|floatformat:"g" }}</p>
+
+                {% if product.description %}
+                    <p class="pd-desc">{{ product.description|linebreaksbr }}</p>
+                {% endif %}
+
+                <dl class="pd-facts">
+                    {% if product.size %}
+                    <div>
+                        <dt>Size</dt>
+                        <dd>{{ product.size }}</dd>
+                    </div>
+                    {% endif %}
+
+                    {% if product.year %}
+                    <div>
+                        <dt>Year</dt>
+                        <dd>{{ product.year|date:"Y" }}</dd>
+                    </div>
+                    {% endif %}
+
+                    <div>
+                        <dt>Availability</dt>
+                        <dd>
+                            {% if product.is_active %}
+                                <span class="pd-status pd-status--ok">Available</span>
+                            {% else %}
+                                <span class="pd-status pd-status--sold">Sold</span>
+                            {% endif %}
+                        </dd>
+                    </div>
+                </dl>
+
+                <div class="pd-actions">
+                    {% if product.is_active %}
+                        <a class="btn btn-primary"
+                           href="mailto:?subject=Question%20about%3A%20{{ product.title|urlencode }}">
+                            Ask about this painting
+                        </a>
+                    {% endif %}
+                    <a class="btn btn-ghost" href="/shop/products/">Back to products</a>
+                    <button type="button" class="btn btn-ghost" id="pd-copy">Copy link</button>
+                </div>
+            </div>
+        </article>
+    </div>
+</main>
+
+{# Full size viewer #}
+<dialog id="pd-zoom" aria-label="{{ product.title }} full size">
+    <button type="button" class="pd-zoom-close" id="pd-zoom-close" aria-label="Close">&times;</button>
+    <img src="{{ product.image.url }}" alt="{{ product.title }}">
+</dialog>
+{% endblock page_content %}
+
+{% block page_script %}
+    <script src="{% static 'shop/js/product_details.js' %}"></script>
+{% endblock page_script %}

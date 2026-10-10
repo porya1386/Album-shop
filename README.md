@@ -2,38 +2,32 @@
 
 > A simple, modern, and ready-to-use Django project.
 
-\<!-- A fully functional Django project designed to make selling products online easier. -->
+<!-- A fully functional Django project designed to make selling products online easier. -->
 
 ## Overview
 
-\<!--
+<!--
 A simple website for people who want to sell their products without spending
 too much time building and maintaining an online store.
 It aims to provide a modern design and a reliable backend.
-\-->
+-->
 
 ## Screenshots
 
 ### About Page
 ![About Page](docs/images/about.png)
 
-
 ### Login Page
-![About Page](docs/images/loginpage.png)
+![Login Page](docs/images/loginpage.png)
 
-
-
-### Swagger API
-![About Page](docs/images/api.png)
-
-
-
-### Django REST Framework
-![About Page](docs/images/restframework.png)
-
-### Product Details
+### Product Details Page
 ![Product Details](docs/images/product_details.png)
 
+### Swagger API
+![Swagger API](docs/images/api.png)
+
+### Django REST Framework
+![Django REST Framework](docs/images/restframework.png)
 
 ## Tech Stack
 
@@ -113,7 +107,7 @@ Open the application in your browser:
 
 ## Configuration
 
-\<!-- Document any required environment variables or project settings here. -->
+<!-- Document any required environment variables or project settings here. -->
 
 ## Testing
 

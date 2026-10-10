@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 {% load static %}
+{% load widget_tweaks %}
 
 {% block page_title %}
-    <title>Products | Jahan </title>
+    <title>Products | Jahan</title>
 {% endblock page_title %}
 
 {% block page_style %}
-    <link rel="stylesheet" href="{% static 'website/css/products.css' %}">
+    <link rel="stylesheet" href="{% static 'shop/css/products.css' %}">
 {% endblock page_style %}
 
 {% block page_content %}
@@ -19,44 +20,54 @@
             </p>
         </div>
 
-        <div class="grid" id="grid"></div>
+        {# Optional filter form: only rendered if the view passes a `form`. #}
+        {% if form %}
+        <form method="get" class="filter-form" role="search">
+            <div class="filter-field">
+                <label for="{{ form.q.id_for_label }}">Search</label>
+                {% render_field form.q class="input" placeholder="Search paintings..." %}
+            </div>
+            <div class="filter-field">
+                <label for="{{ form.sort.id_for_label }}">Sort by</label>
+                {% render_field form.sort class="input" %}
+            </div>
+            <button type="submit" class="btn btn-primary">Apply</button>
+        </form>
+        {% endif %}
+
+        <div class="grid" id="grid">
+            {% for product in products %}
+            <article class="product{% if not product.is_active %} is-sold{% endif %}">
+                <a class="frame" href="{% url 'product_details' product.slug %}">
+                    <img src="{{ product.image.url }}"
+                         alt="{{ product.title }}"
+                         loading="lazy">
+                    {% if not product.is_active %}
+                        <span class="badge-sold">Sold</span>
+                    {% endif %}
+                </a>
+
+                <div class="product-info">
+                    <h2>{{ product.title }}</h2>
+                    <p class="meta">
+                        {{ product.size|default:"" }}{% if product.size and product.year %} &middot; {% endif %}{{ product.year|date:"Y" }}
+                    </p>
+                    {% if product.description %}
+                        <p class="excerpt">{{ product.description|truncatewords:14 }}</p>
+                    {% endif %}
+
+                    <div class="product-foot">
+                        <span class="price">${{ product.price|floatformat:"g" }}</span>
+                        <a class="btn btn-ghost" href="{% url 'product_details' product.slug %}">
+                            About this painting
+                        </a>
+                    </div>
+                </div>
+            </article>
+            {% empty %}
+            <p class="empty">No paintings available right now.</p>
+            {% endfor %}
+        </div>
     </div>
 </main>
-
-<dialog id="details" aria-labelledby="d-title">
-    <div class="dialog-body">
-        <div class="dialog-image">
-            <img id="d-image" src="" alt="">
-        </div>
-
-        <div class="dialog-text">
-            <button type="button" class="dialog-close" id="d-close">
-                &times;
-            </button>
-
-            <h2 id="d-title"></h2>
-            <span class="price" id="d-price"></span>
-            <p id="d-desc"></p>
-
-            <dl>
-                <dt>Medium</dt>
-                <dd id="d-medium"></dd>
-
-                <dt>Size</dt>
-                <dd id="d-size"></dd>
-
-                <dt>Year</dt>
-                <dd id="d-year"></dd>
-            </dl>
-
-            <a class="btn btn-primary" id="d-buy" href="#">
-                Ask about this painting
-            </a>
-        </div>
-    </div>
-</dialog>
 {% endblock page_content %}
-
-{% block page_script %}
-    <script src="{% static 'website/js/products.js' %}"></script>
-{% endblock page_script %}

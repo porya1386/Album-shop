@@ -1,0 +1,200 @@
+/* ---------- Product details page ----------
+   Uses the same variables as products.css:
+   --gold, --night, --ink, --ink-soft, --font-display
+------------------------------------------------ */
+
+/* Buttons (same as products.css; harmless if loaded twice) */
+.pd-page .btn {
+  display: inline-block;
+  font: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  padding: .7rem 1.4rem;
+  border-radius: 999px;
+  border: 2px solid var(--gold);
+  cursor: pointer;
+  transition: background .15s, color .15s, border-color .15s;
+}
+.pd-page .btn-primary { background: var(--gold); color: var(--night); }
+.pd-page .btn-primary:hover { background: var(--ink); border-color: var(--ink); }
+.pd-page .btn-ghost { background: transparent; color: var(--ink); border-color: var(--ink); }
+.pd-page .btn-ghost:hover { background: var(--ink); color: var(--night); }
+
+.pd-page { flex: 1; padding: 3rem 0 5rem; }
+
+/* Breadcrumb */
+.pd-crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .6rem;
+  margin-bottom: 2rem;
+  font-size: .95rem;
+  color: var(--ink-soft);
+}
+.pd-crumbs a { color: var(--ink-soft); text-decoration: none; }
+.pd-crumbs a:hover { color: var(--ink); text-decoration: underline; }
+.pd-crumbs [aria-current] { color: var(--ink); }
+
+/* Layout */
+.pd {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 3.5rem;
+  align-items: start;
+}
+
+/* Image in a light "mat", like the product cards */
+.pd-media { position: sticky; top: 6rem; }
+
+.pd-frame {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 12px;
+  border: 0;
+  background: var(--ink);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, .5);
+  cursor: zoom-in;
+}
+.pd-frame img {
+  display: block;
+  width: 100%;
+  max-height: 75vh;
+  object-fit: contain;
+  background: #2a3a2e;
+}
+.pd-frame:focus-visible { outline: 3px solid var(--gold); outline-offset: 4px; }
+
+.pd-zoom-hint {
+  position: absolute;
+  right: 22px;
+  bottom: 22px;
+  padding: .3rem .8rem;
+  font-size: .8rem;
+  color: var(--ink);
+  background: rgba(10, 16, 12, .75);
+  border-radius: 999px;
+  opacity: 0;
+  transition: opacity .2s;
+}
+.pd-frame:hover .pd-zoom-hint,
+.pd-frame:focus-visible .pd-zoom-hint { opacity: 1; }
+
+.pd-badge {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  padding: .3rem .9rem;
+  font-size: .85rem;
+  font-weight: 600;
+  color: var(--ink);
+  background: rgba(10, 16, 12, .85);
+  border-radius: 999px;
+}
+.pd.is-sold .pd-frame img { opacity: .6; }
+
+/* Text column */
+.pd-eyebrow {
+  margin: 0 0 .6rem;
+  font-size: .85rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.pd-info h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 0 0 1rem;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, .45);
+}
+.pd-price {
+  margin: 0 0 1.5rem;
+  font-size: 1.7rem;
+  font-weight: 600;
+  color: var(--gold);
+}
+.pd-desc {
+  margin: 0 0 2rem;
+  max-width: 56ch;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: var(--ink-soft);
+}
+
+/* Facts */
+.pd-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 1rem;
+  margin: 0 0 2.25rem;
+  padding: 1.25rem 0;
+  border-top: 1px solid rgba(253, 246, 232, .18);
+  border-bottom: 1px solid rgba(253, 246, 232, .18);
+}
+.pd-facts dt {
+  margin: 0 0 .25rem;
+  font-size: .8rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.pd-facts dd { margin: 0; font-weight: 600; font-size: 1.05rem; }
+
+.pd-status::before {
+  content: "";
+  display: inline-block;
+  width: .6rem;
+  height: .6rem;
+  margin-right: .5rem;
+  border-radius: 50%;
+  background: currentColor;
+}
+.pd-status--ok { color: #8fd694; }
+.pd-status--sold { color: #e08b7d; }
+
+/* Buttons row */
+.pd-actions { display: flex; flex-wrap: wrap; gap: .8rem; }
+
+/* Full size viewer */
+#pd-zoom {
+  width: min(1100px, calc(100% - 2rem));
+  max-height: calc(100vh - 2rem);
+  padding: 0;
+  border: 0;
+  border-radius: 14px;
+  background: #0c130e;
+  overflow: auto;
+}
+#pd-zoom::backdrop { background: rgba(5, 9, 6, .85); }
+#pd-zoom img { display: block; width: 100%; height: auto; cursor: zoom-out; }
+.pd-zoom-close {
+  position: absolute;
+  top: .75rem;
+  right: .75rem;
+  width: 42px;
+  height: 42px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(10, 16, 12, .75);
+  color: var(--ink);
+  font-size: 1.7rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.pd-zoom-close:hover { background: rgba(253, 246, 232, .25); }
+
+/* Responsive */
+@media (max-width: 860px) {
+  .pd { grid-template-columns: 1fr; gap: 2.25rem; }
+  .pd-media { position: static; }
+  .pd-page { padding: 2rem 0 3.5rem; }
+}
+@media (max-width: 520px) {
+  .pd-actions .btn { flex: 1 1 100%; text-align: center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
