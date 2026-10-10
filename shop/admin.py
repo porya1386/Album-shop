@@ -11,5 +11,10 @@ class GalleryInline(admin.TabularInline):
 @admin.register(Album_image)
 class Album_image_admin(admin.ModelAdmin):
     list_display = ['title', 'is_active', 'price']
+    list_filter = ['title', 'price', 'is_active', 'year']
+    search_fields = ['title', 'price', 'is_active', 'year']
+    list_editable = ['price', 'is_active']
+    list_display_links = ['title']
+    ordering = ['title']
     inlines = [GalleryInline]
     exclude = ['slug']
