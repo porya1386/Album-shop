@@ -1,16 +1,18 @@
 {% extends "base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  {% block page_title %}<title>Jahan | Album-Shop</title>{% endblock page_title %}
-  {% block page_style %}<link rel="stylesheet" href="{% static 'website/css/home.css' %}">{% endblock page_style %}
-</head>
-<body>
-  {% block page_content %}
-  <main>
+
+{% block page_title %}<title>Jahan | Album-Shop</title>{% endblock page_title %}
+
+{% block page_style %}
+  <link rel="stylesheet" href="{% static 'website/css/home.css' %}">
+  <link rel="stylesheet" href="{% static 'website/css/gallery.css' %}">
+{% endblock page_style %}
+
+{% block page_content %}
+<main>
+  {# One wrapper so <main> (which may be a flex row in home.css) has a single child #}
+  <div class="home">
+
     <div class="wrap hero">
       <h1>Quiet places, careful work.</h1>
       <p class="lead">
@@ -21,10 +23,46 @@
         <a class="btn btn-ghost" href="mailto:you@example.com">Get in touch</a>
       </div>
     </div>
-  </main>
-  {% endblock page_content %}
-  {% block page_script %}
-    <script src="{% static 'website/js/home.js' %}"></script>
-  {% endblock page_script %}
-</body>
-</html>
+
+    {% if products %}
+    <section class="gallery" aria-labelledby="gallery-title">
+      <div class="wrap gallery-head">
+        <h2 id="gallery-title">Latest paintings</h2>
+        <p>Hover to pause. Click a painting to read more about it.</p>
+      </div>
+
+      <div class="marquee">
+        <div class="marquee-viewport" id="marquee-viewport">
+          <div class="marquee-track" id="marquee-track">
+            <ul class="marquee-group" id="marquee-group">
+              {% for product in products %}
+              <li class="tile">
+                <a class="tile-link" href="{% url 'product_details' product.slug %}">
+                  <span class="tile-frame">
+                    <img src="{{ product.image.url }}"
+                         alt="{{ product.title }}"
+                         loading="lazy" decoding="async">
+                  </span>
+                  <span class="tile-title">{{ product.title }}</span>
+                  <span class="tile-price">${{ product.price|floatformat:"g" }}</span>
+                </a>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+
+        {# Blurred, fading edges on the left and right #}
+        <span class="edge edge--left" aria-hidden="true"></span>
+        <span class="edge edge--right" aria-hidden="true"></span>
+      </div>
+    </section>
+    {% endif %}
+
+  </div>
+</main>
+{% endblock page_content %}
+
+{% block page_script %}
+  <script src="{% static 'website/js/gallery.js' %}"></script>
+{% endblock page_script %}

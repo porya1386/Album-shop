@@ -1,5 +1,6 @@
 {% load static %}
-<head><link rel="stylesheet" href="{% static 'header.css' %}"></head>
+{# current = name of the url pattern of this page (home, about, products, product_details, ...) #}
+{% with current=request.resolver_match.url_name %}
 <header class="site-header">
   <div class="wrap header-inner">
     <a class="brand" href="/">Jahan</a>
@@ -9,10 +10,11 @@
     </button>
 
     <nav id="site-nav" class="site-nav" aria-label="Main">
-      <a href="{% url "home" %}" aria-current="page">Home</a>
-      <a href="{% url "about" %}">About me</a>
-      <a href="{% url "products" %}">Products</a>
-      <a href="{% url "login" %}" class="nav-login">Log in</a>
+      <a href="{% url 'home' %}"{% if current == 'home' %} aria-current="page"{% endif %}>Home</a>
+      <a href="{% url 'about' %}"{% if current == 'about' %} aria-current="page"{% endif %}>About me</a>
+      <a href="{% url 'products' %}"{% if current == 'products' or current == 'product_details' %} aria-current="page"{% endif %}>Products</a>
+      <a href="{% url 'login' %}" class="nav-login">Log in</a>
     </nav>
   </div>
 </header>
+{% endwith %}

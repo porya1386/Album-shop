@@ -1,0 +1,169 @@
+/* ---------- Home page: centred layout + auto-scrolling gallery ----------
+   Uses the site variables: --gold, --ink, --ink-soft, --font-display
+------------------------------------------------------------------------- */
+
+/* ---- Home layout: everything stacked and centred ---- */
+.home { display: block; width: 100%; }
+
+.home .hero {
+  display: block;
+  max-width: 860px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+.home .hero .lead { margin-left: auto; margin-right: auto; }
+.home .hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+/* ---- Gallery ---- */
+.gallery { margin-top: 3.5rem; }
+
+.gallery-head { margin-bottom: .25rem; text-align: center; }
+.gallery-head h2 {
+  margin: 0 0 .5rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.7rem, 3.2vw, 2.4rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, .45);
+}
+.gallery-head p { margin: 0; color: var(--ink-soft); }
+
+/* ---- Marquee ----
+   The marquee is as wide as the page content (max 1080px) and is a "container":
+   tile sizes are written in cqw (1cqw = 1% of the marquee's width), so
+   3 tiles always fit across it:  3 x 22cqw + 2 x 3cqw = 72cqw  (the un-faded middle). */
+.marquee {
+  position: relative;
+  max-width: 1080px;
+  margin: 0 auto;
+  container-type: inline-size;
+  --tile-w: 22cqw;
+  --gap: 3cqw;
+}
+
+.marquee-viewport {
+  overflow: hidden;
+  padding: 1.75rem 0 2.25rem;               /* room for the tilt and the shadows */
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 14%, #000 86%, transparent 100%);
+          mask-image: linear-gradient(to right, transparent 0%, #000 14%, #000 86%, transparent 100%);
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll var(--dur, 60s) linear infinite;   /* right -> left */
+  will-change: transform;
+}
+/* --shift and --dur are set by gallery.js */
+@keyframes marquee-scroll {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(calc(var(--shift, 0px) * -1), 0, 0); }
+}
+/* Pause while the mouse is over the gallery, or while a link has KEYBOARD focus.
+   (Not :focus-within: a link you just clicked keeps focus, so after pressing
+   Back the gallery would stay frozen until a refresh.) */
+.marquee:hover .marquee-track { animation-play-state: paused; }
+.marquee:has(:focus-visible) .marquee-track { animation-play-state: paused; }
+
+.marquee-group {
+  display: flex;
+  flex: none;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ---- One painting ---- */
+.tile {
+  flex: none;
+  width: var(--tile-w);
+  margin-right: var(--gap);                 /* margin (not gap) so the loop is seamless */
+  transition: transform .35s ease;
+}
+.tile:nth-child(3n+1) { transform: rotate(-1.5deg) translateY(6px); }
+.tile:nth-child(3n+2) { transform: rotate(1.2deg)  translateY(-6px); }
+.tile:nth-child(3n)   { transform: rotate(-.8deg)  translateY(9px); }
+.tile:hover               { transform: rotate(0) translateY(-4px) scale(1.04); }
+.tile:has(:focus-visible) { transform: rotate(0) translateY(-4px) scale(1.04); }
+
+.tile-link { display: block; color: inherit; text-decoration: none; }
+.tile-link:focus-visible { outline: 3px solid var(--gold); outline-offset: 6px; border-radius: 16px; }
+
+/* Light "mat" like the products page, now with rounded corners */
+.tile-frame {
+  display: block;
+  padding: 7px;
+  background: var(--ink);
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .45);
+}
+.tile-frame img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 8px;
+  background: #2a3a2e;
+}
+.tile-title {
+  display: block;
+  margin-top: .7rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  line-height: 1.2;
+  color: var(--ink);
+}
+.tile-price {
+  display: block;
+  margin-top: .15rem;
+  font-size: .92rem;
+  font-weight: 600;
+  color: var(--gold);
+}
+
+/* ---- Blurred edges (blur gets stronger towards the border) ---- */
+.edge {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 14%;
+  pointer-events: none;
+  -webkit-backdrop-filter: blur(6px);
+          backdrop-filter: blur(6px);
+}
+.edge--left {
+  left: 0;
+  -webkit-mask-image: linear-gradient(to right, #000, transparent);
+          mask-image: linear-gradient(to right, #000, transparent);
+}
+.edge--right {
+  right: 0;
+  -webkit-mask-image: linear-gradient(to left, #000, transparent);
+          mask-image: linear-gradient(to left, #000, transparent);
+}
+
+/* ---- Smaller screens: fewer, bigger tiles so they stay readable ---- */
+@media (max-width: 860px) {
+  .marquee { --tile-w: 34cqw; --gap: 4cqw; }
+}
+@media (max-width: 560px) {
+  .marquee { --tile-w: 62cqw; --gap: 6cqw; }
+  .gallery { margin-top: 2.5rem; }
+}
+
+/* ---- No motion: let people scroll by hand instead ---- */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+  .marquee-viewport { overflow-x: auto; }
+  .tile { transition: none; }
+}

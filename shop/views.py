@@ -19,6 +19,9 @@ def product_details(request, slug):
     return render(request, 'shop/product_details.html', {'product': data})
 
 
+# APIS
+
+
 class Product_api(APIView):
 
     def get(self, request):
