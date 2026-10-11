@@ -14,6 +14,9 @@ It aims to provide a modern design and a reliable backend.
 
 ## Screenshots
 
+### Home Page
+![Home Page](docs/images/home_page.png)
+
 ### About Page
 ![About Page](docs/images/about.png)
 
