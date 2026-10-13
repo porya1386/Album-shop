@@ -1,10 +1,12 @@
 from django.urls import path
-from .views import Product_api, products, Product_details_api, product_details
+from .views import *
 
 # Product urls
 urlpatterns = [
     path('products/', products, name='products'),
-    path('product_details/<slug:slug>/', product_details, name='product_details')
+    path('product_details/<slug:slug>/',
+         product_details, name='product_details'),
+    path('products/<slug:slug>/like/', toggle_like, name='toggle_like'),
 ]
 
 

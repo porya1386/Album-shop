@@ -1,0 +1,32 @@
+{% comment %}
+  Like button + view counter.   Save as:  templates/includes/like_stats.html
+
+  Needs   product   with  .like_count  .views  .liked   (set in the views)
+  Options small=True  for the compact version used on the product cards
+
+  Usage:  {% include "includes/like_stats.html" with product=product %}
+          {% include "includes/like_stats.html" with product=product small=True %}
+{% endcomment %}
+<div class="stats{% if small %} stats--sm{% endif %}">
+
+  <button type="button"
+          class="like-btn{% if product.liked %} is-liked{% endif %}"
+          data-url="{% url 'toggle_like' product.slug %}"
+          data-csrf="{{ csrf_token }}"
+          data-login-url="{% if not user.is_authenticated %}{% url 'login' %}?next={{ request.get_full_path|urlencode }}{% endif %}"
+          aria-pressed="{% if product.liked %}true{% else %}false{% endif %}"
+          aria-label="Like {{ product.title }}">
+    <span class="like-icon">
+      <svg class="icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      <span class="like-burst" aria-hidden="true"></span>
+    </span>
+    <span class="like-count">{{ product.like_count }}</span>
+  </button>
+
+  <span class="view-count" title="Views">
+    <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+    <span>{{ product.views }}</span>
+    <span class="sr-only">views</span>
+  </span>
+
+</div>

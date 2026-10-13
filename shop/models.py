@@ -1,8 +1,10 @@
 from django.db import models
 from django.utils.text import slugify
-
+from django.conf import settings
 
 # Album Image Data
+
+
 class Album_image(models.Model):
     title = models.CharField(max_length=160, null=True, verbose_name='Album Image Title',
                              help_text='Enter Youre Album Image Title', blank=False)
@@ -21,6 +23,11 @@ class Album_image(models.Model):
     update_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True, verbose_name='Sold or not',
                                     help_text='Validate if u have the album or did u sell it already')
+    views = models.PositiveIntegerField(
+        default=0, editable=False, verbose_name='Views')
+
+    likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='liked_paintings',
+                                   blank=True, verbose_name='Liked by')
 
     def __str__(self):
         return f"{self.title} {self.is_active} {self.price}"
