@@ -215,6 +215,9 @@
     align-items: center;
     gap: 7px;
     cursor: pointer;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1rem;
 }
 
 .remember-label input {
@@ -223,6 +226,9 @@
 
 .forgot-link {
     text-decoration: none;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1rem;
 }
 
 .forgot-link:hover {

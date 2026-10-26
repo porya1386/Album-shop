@@ -12,20 +12,29 @@ from .models import Album_image
 from .search import parse_terms
 from .serializer import Album_Serializer
 from django.conf import settings
-
+import calendar
 
 # ---------------------------------------------------------------- helpers
 
+
 def _search_q(terms):
-    """Every word must match the title, the price or the year."""
+    """Every word must match the title, price, year or month."""
     q = Q()
+
     for term in terms:
         match = Q(title__icontains=term["text"])
+
         if term["number"] is not None:
             match |= Q(price=term["number"])
+
         if term["year"] is not None:
-            match |= Q(year=term["year"])
+            match |= Q(year__year=term["year"])
+
+        if term.get("month") is not None:
+            match &= Q(year__month=term["month"])
+
         q &= match
+
     return q
 
 
