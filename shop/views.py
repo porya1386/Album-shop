@@ -1,16 +1,17 @@
 from django.db.models import Count, Exists, F, OuterRef, Q, Value, BooleanField
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, resolve_url
 from django.urls import reverse
 from django.views.decorators.http import require_POST, require_safe
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
+from django.contrib.auth.decorators import login_required
 from .forms import ProductFilterForm
 from .models import Album_image
 from .search import parse_terms
 from .serializer import Album_Serializer
+from django.conf import settings
 
 
 # ---------------------------------------------------------------- helpers
@@ -78,6 +79,7 @@ def products(request):
     })
 
 
+@login_required()
 @require_safe
 def product_details(request, slug):
     product = get_object_or_404(
@@ -98,7 +100,9 @@ def toggle_like(request, slug):
     """Called by likes.js: like if not liked yet, unlike if already liked."""
     if not request.user.is_authenticated:
         return JsonResponse(
-            {"error": "login_required", "login_url": reverse("login")}, status=401
+            {"error": "login_required",
+                "login_url": resolve_url(settings.LOGIN_URL)},
+            status=401,
         )
 
     product = get_object_or_404(Album_image, slug=slug)

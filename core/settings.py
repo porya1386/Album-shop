@@ -32,6 +32,7 @@ LOGIN_REDIRECT_URL = "home"
 # Application definition
 
 INSTALLED_APPS = [
+    'accounts',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -46,6 +47,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'rest_framework',
     'widget_tweaks',
+    "django_recaptcha",
 ]
 
 MIDDLEWARE = [
@@ -162,3 +164,16 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+# Login Redirect
+
+LOGIN_URL = "/accounts/"
+LOGIN_REDIRECT_URL = "shop:products"
+LOGOUT_REDIRECT_URL = "accounts:login"
+
+
+# Captcha
+
+RECAPTCHA_PUBLIC_KEY = "6LdFQwIuAAAAAMk1CTOlLO--t6uWTNVW-kBSSHcW"
+RECAPTCHA_PRIVATE_KEY = "6LdFQwIuAAAAAMiGCDQH6sE7eYNqVGqrfSAHLiAr"
+SILENCED_SYSTEM_CHECKS = ["django_recaptcha.recaptcha_test_key_error"]
+RECAPTCHA_DOMAIN = "www.recaptcha.net"

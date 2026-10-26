@@ -5,7 +5,13 @@
 <header class="site-header">
     <div class="wrap header-inner">
 
-        <a class="brand" href="{% url 'home' %}">Jahan</a>
+        <a class="brand" href="{% url 'home' %}">
+            {% if user.is_authenticated %}
+                {{ user.username|title }}
+            {% else %}
+                Jahan
+            {% endif %}
+        </a>
 
         <button
             class="nav-toggle"
@@ -18,6 +24,7 @@
         </button>
 
         <nav id="site-nav" class="site-nav" aria-label="Main navigation">
+
             <a href="{% url 'home' %}"
                {% if current == 'home' %}aria-current="page"{% endif %}>
                 Home
@@ -33,11 +40,20 @@
                 Products
             </a>
 
-            <a href="{% url 'login' %}" class="nav-login">
-                Log in
-            </a>
-        </nav>
+            {% if user.is_authenticated %}
+                <form method="post" action="/accounts/logout/" class="logout-form">
+                    {% csrf_token %}
+                    <button type="submit" class="logout-btn">
+                        Logout
+                    </button>
+                </form>
+            {% else %}
+                <a href="{% url 'accounts:login' %}" class="nav-login">
+                    Log in
+                </a>
+            {% endif %}
 
+        </nav>
     </div>
 </header>
 {% endwith %}

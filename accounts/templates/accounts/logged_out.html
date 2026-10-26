@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block page_title %}<title>Logged Out | Album-shop</title>{% endblock page_title %}
+    {% block page_style %}{% endblock page_style %}
+</head>
+<body>
+    {% include "includes/header.html" %}
+    {% block page_content %}{% endblock page_content %}
+    {% block page_script %}{% endblock page_script %}
+    {% include "includes/footer.html" %}
+    <script src="{% static 'js/glow.js' %}"></script>
+    <script src="{% static 'js/header.js' %}"></script>
+</body>
+</html>

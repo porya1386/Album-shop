@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block page_title %}
+    <title>Register | Album-shop</title>
+{% endblock page_title %}
+
+{% block page_style %}
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+{% endblock page_style %}
+
+{% block page_content %}
+<main class="auth-page">
+    <section class="auth-card">
+        <h1>Create Account</h1>
+        <p>Create an account to explore the gallery.</p>
+
+        {% for message in messages %}
+            <p class="auth-message {{ message.tags }}">{{ message }}</p>
+        {% endfor %}
+
+        <form method="post">
+            {% csrf_token %}
+
+            {% for field in form %}
+                <div class="form-group">
+                    {# the captcha has no label, so skip the empty <label> #}
+                    {% if field.label %}{{ field.label_tag }}{% endif %}
+                    {{ field }}
+
+                    {% if field.help_text %}
+                        <small>{{ field.help_text }}</small>
+                    {% endif %}
+
+                    {% for error in field.errors %}
+                        <p class="auth-error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+
+            {% for error in form.non_field_errors %}
+                <p class="auth-error">{{ error }}</p>
+            {% endfor %}
+
+            <button type="submit">Create Account</button>
+        </form>
+
+        <p class="auth-alternative">
+            Already have an account?
+            <a href="{% url 'accounts:login' %}">Login</a>
+        </p>
+    </section>
+</main>
+{% endblock page_content %}

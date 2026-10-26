@@ -13,7 +13,7 @@
           class="like-btn{% if product.liked %} is-liked{% endif %}"
           data-url="{% url 'toggle_like' product.slug %}"
           data-csrf="{{ csrf_token }}"
-          data-login-url="{% if not user.is_authenticated %}{% url 'login' %}?next={{ request.get_full_path|urlencode }}{% endif %}"
+          data-login-url="{% if not user.is_authenticated %}{% url 'accounts:login' %}?next={{ request.get_full_path|urlencode }}{% endif %}"
           aria-pressed="{% if product.liked %}true{% else %}false{% endif %}"
           aria-label="Like {{ product.title }}">
     <span class="like-icon">

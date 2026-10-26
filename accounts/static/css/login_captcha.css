@@ -1,0 +1,30 @@
+/* paste at the end of static/css/login.css */
+
+.captcha-group {
+  display: flex;
+  justify-content: center;
+  min-height: 78px;            /* height of the reCAPTCHA checkbox */
+  margin: 1rem 0;
+  overflow: visible;
+}
+
+.captcha-hint {
+  margin: 0 0 .75rem;
+  font-size: .9rem;
+  text-align: center;
+  color: var(--ink-soft);
+}
+
+.pane-login .btn:disabled,
+.pane-register .btn:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+}
+
+/* narrow phones: the reCAPTCHA is 304px wide */
+@media (max-width: 380px) {
+  .captcha-group .g-recaptcha {
+    transform: scale(.85);
+    transform-origin: center;
+  }
+}
