@@ -1,20 +1,43 @@
+
 {% load static %}
-{# current = name of the url pattern of this page (home, about, products, product_details, ...) #}
+
 {% with current=request.resolver_match.url_name %}
 <header class="site-header">
-  <div class="wrap header-inner">
-    <a class="brand" href="/">Jahan</a>
+    <div class="wrap header-inner">
 
-    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
-      <span></span><span></span>
-    </button>
+        <a class="brand" href="{% url 'home' %}">Jahan</a>
 
-    <nav id="site-nav" class="site-nav" aria-label="Main">
-      <a href="{% url 'home' %}"{% if current == 'home' %} aria-current="page"{% endif %}>Home</a>
-      <a href="{% url 'about' %}"{% if current == 'about' %} aria-current="page"{% endif %}>About me</a>
-      <a href="{% url 'products' %}"{% if current == 'products' or current == 'product_details' %} aria-current="page"{% endif %}>Products</a>
-      <a href="{% url 'login' %}" class="nav-login">Log in</a>
-    </nav>
-  </div>
+        <button
+            class="nav-toggle"
+            type="button"
+            aria-expanded="false"
+            aria-controls="site-nav"
+            aria-label="Open menu">
+            <span></span>
+            <span></span>
+        </button>
+
+        <nav id="site-nav" class="site-nav" aria-label="Main navigation">
+            <a href="{% url 'home' %}"
+               {% if current == 'home' %}aria-current="page"{% endif %}>
+                Home
+            </a>
+
+            <a href="{% url 'about' %}"
+               {% if current == 'about' %}aria-current="page"{% endif %}>
+                About me
+            </a>
+
+            <a href="{% url 'products' %}"
+               {% if current == 'products' or current == 'product_details' %}aria-current="page"{% endif %}>
+                Products
+            </a>
+
+            <a href="{% url 'login' %}" class="nav-login">
+                Log in
+            </a>
+        </nav>
+
+    </div>
 </header>
 {% endwith %}

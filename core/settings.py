@@ -83,30 +83,35 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # I will connect my database to hamravesh.ir
 # Postgres
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": os.environ.get("POSTGRES_DB", "django_test_db"),
+#         "USER": os.environ.get("POSTGRES_USER", "django_admin"),
+#         "PASSWORD": os.environ.get(
+#             "POSTGRES_PASSWORD",
+#             "test_password_123",
+#         ),
+#         "HOST": os.environ.get("POSTGRES_HOST", "127.0.0.1"),
+#         "PORT": os.environ.get("POSTGRES_PORT", "5432"),
+#     }
+# }
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.environ.get("POSTGRES_DB", "django_test_db"),
-        "USER": os.environ.get("POSTGRES_USER", "django_admin"),
-        "PASSWORD": os.environ.get(
-            "POSTGRES_PASSWORD",
-            "test_password_123",
-        ),
-        "HOST": os.environ.get("POSTGRES_HOST", "127.0.0.1"),
-        "PORT": os.environ.get("POSTGRES_PORT", "5432"),
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
-
-CACHES = {
-    "default": {
-        "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": os.environ.get(
-            "REDIS_URL",
-            "redis://127.0.0.1:6379/1",
-        ),
-        "TIMEOUT": 300,
-    }
-}
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django.core.cache.backends.redis.RedisCache",
+#         "LOCATION": os.environ.get(
+#             "REDIS_URL",
+#             "redis://127.0.0.1:6379/1",
+#         ),
+#         "TIMEOUT": 300,
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators

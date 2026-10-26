@@ -13,6 +13,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'root.css' %}">
     <link rel="stylesheet" href="{% static 'header.css' %}">
+    <link rel="apple-touch-icon" sizes="180x180"
+      href="{% static 'images/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32"
+      href="{% static 'images/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16"
+      href="{% static 'images/favicon-16x16.png' %}">
+    <link rel="manifest"
+      href="{% static 'images/site.webmanifest' %}">
 </head>
 <body>
     {% include "includes/header.html" %}
@@ -20,5 +28,6 @@
     {% block page_script %}{% endblock page_script %}
     {% include "includes/footer.html" %}
     <script src="{% static 'js/glow.js' %}"></script>
+    <script src="{% static 'js/header.js' %}"></script>
 </body>
 </html>
