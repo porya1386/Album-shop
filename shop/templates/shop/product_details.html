@@ -89,7 +89,7 @@
                     {% if product.year %}
                     <div>
                         <dt>Year</dt>
-                        <dd>{{ product.year }}</dd>
+                        <dd>{{ product.year|date:"Y" }}</dd>
                     </div>
                     {% endif %}
 
