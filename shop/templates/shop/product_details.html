@@ -6,6 +6,7 @@
 {% endblock page_title %}
 
 {% block page_style %}
+    <link rel="stylesheet" href="{% static 'shop/css/loading.css' %}">
     <link rel="stylesheet" href="{% static 'shop/css/product_details.css' %}">
     <link rel="stylesheet" href="{% static "shop/css/likes.css" %}">
 {% endblock page_style %}
@@ -128,6 +129,7 @@
 {% endblock page_content %}
 
 {% block page_script %}
+    <script src="{% static 'shop/js/loading.js' %}"></script>
     <script src="{% static 'shop/js/product_details.js' %}"></script>
     <script src="{% static 'shop/js/likes.js' %}"></script>
 {% endblock page_script %}

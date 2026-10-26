@@ -1,0 +1,45 @@
+/* ---------- Loading animations ----------
+   - shimmer placeholder while product images load, then fade in
+   - skeleton cards + spinner button while a search runs
+------------------------------------------------ */
+:root { --sk-base: rgba(253, 246, 232, .08); --sk-hi: rgba(253, 246, 232, .2); }
+
+@keyframes sk-shimmer { to { background-position: -200% 0; } }
+@keyframes sk-spin { to { transform: rotate(360deg); } }
+
+/* the moving highlight (!important beats `.results .frame { background: none }`) */
+.sk,
+.frame.is-loading,
+.pd-frame.is-loading,
+.pd-thumb.is-loading {
+  background: linear-gradient(100deg, var(--sk-base) 30%, var(--sk-hi) 50%, var(--sk-base) 70%) 0 0 / 200% 100% !important;
+  animation: sk-shimmer 1.3s linear infinite;
+}
+
+/* image hidden until loaded, then fades in */
+.frame img, .pd-frame img, .pd-thumb img { transition: opacity .4s ease; }
+.is-loading > img { opacity: 0 !important; }
+.is-loading .pd-zoom-hint, .is-loading .badge-sold, .is-loading .pd-badge { visibility: hidden; }
+
+/* skeleton card (same size as a real card) */
+.product--skeleton { pointer-events: none; }
+.product--skeleton .frame { aspect-ratio: 1 / 1; box-shadow: none; }
+.sk-line { height: 14px; margin: 0 0 .7rem; border-radius: 7px; }
+.sk-title { width: 65%; height: 22px; margin-top: .25rem; }
+.sk-meta { width: 35%; }
+.sk-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 1.1rem; }
+.sk-price { width: 22%; height: 20px; margin: 0; }
+.sk-pill { width: 44%; height: 44px; border-radius: 999px; }
+
+/* spinner inside the Search button */
+.btn .spinner {
+  display: inline-block; width: 16px; height: 16px; margin-right: .55rem; vertical-align: -2px;
+  border: 2px solid rgba(10, 16, 12, .3); border-top-color: var(--night, #0a100c);
+  border-radius: 50%; animation: sk-spin .7s linear infinite;
+}
+.btn.is-busy { opacity: .8; cursor: progress; }
+
+@media (prefers-reduced-motion: reduce) {
+  .sk, .frame.is-loading, .pd-frame.is-loading, .pd-thumb.is-loading { animation: none; }
+  .btn .spinner { animation-duration: 1.6s; }
+}
