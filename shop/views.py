@@ -7,26 +7,70 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.contrib.auth.decorators import login_required
-from .models import Album_image
 from .serializer import Album_Serializer
-from django.contrib.auth.decorators import login_required
+from django.db.models import Count, Q
+from django.shortcuts import render
+from .forms import ProductFilterForm
+from .models import Album_image
+from .search import parse_terms
+
+
+def _search_q(terms):
+    """Every word must match the title, the price or the year."""
+    q = Q()
+    for t in terms:
+        one = Q(title__icontains=t["text"])
+        if t["number"] is not None:
+            one |= Q(price=t["number"])
+        if t["year"] is not None:
+            one |= Q(year=t["year"])
+        q &= one
+    return q
 
 
 def products(request):
-    # ORM: every painting + how many likes it has
-    data = list(
-        Album_image.objects.annotate(like_count=Count('likes')).order_by('id')
-    )
+    base = Album_image.objects.all()
+    total = base.count()
 
-    # Kodom item haye user login shode like karde masalan mahsol item = (3,5,2) , mahsolat tekrari nadarim ke yani like tekrari nadarim
+    form = ProductFilterForm(request.GET or None)
+    qs = base
+    searching = False
+    if form.is_valid():
+        cd = form.cleaned_data
+        terms = parse_terms(cd.get("q"))
+        if terms:
+            qs = qs.filter(_search_q(terms))
+        searching = bool(terms)
+
+    data = list(qs.annotate(like_count=Count("likes")).order_by("id"))
+
     liked_ids = set()
     if request.user.is_authenticated:
         liked_ids = set(
-            request.user.liked_paintings.values_list('id', flat=True))
+            request.user.liked_paintings.values_list("id", flat=True))
     for item in data:
         item.liked = item.id in liked_ids
 
-    return render(request, 'shop/products.html', {'products': data})
+    # remove-links for the "active filter" chips
+    chips = []
+    params = request.GET.copy()
+    if form.is_valid():
+        for key, label in (("q", "Search"),):
+            if form.cleaned_data.get(key) not in (None, ""):
+                p = params.copy()
+                p.pop(key, None)
+                value = form.cleaned_data[key]
+                chips.append({"label": label, "value": value,
+                             "remove": "?" + p.urlencode() if p else "?"})
+
+    return render(request, "shop/products.html", {
+        "products": data,
+        "form": form,
+        "chips": chips,
+        "searching": searching,
+        "result_count": len(data),
+        "total_count": total,
+    })
 
 
 def product_details(request, slug):

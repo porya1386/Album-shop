@@ -9,6 +9,7 @@
 {% block page_style %}
     <link rel="stylesheet" href="{% static 'shop/css/products.css' %}">
     <link rel="stylesheet" href="{% static 'shop/css/likes.css' %}">
+    <link rel="stylesheet" href="{% static 'shop/css/filters.css' %}">
 {% endblock page_style %}
 
 {% block page_content %}
@@ -21,57 +22,78 @@
             </p>
         </div>
 
-        {# Optional filter form: only rendered if the view passes a `form`. #}
-        {% if form %}
-        <form method="get" class="filter-form" role="search">
-            <div class="filter-field">
-                <label for="{{ form.q.id_for_label }}">Search</label>
-                {% render_field form.q class="input" placeholder="Search paintings..." %}
-            </div>
-            <div class="filter-field">
-                <label for="{{ form.sort.id_for_label }}">Sort by</label>
-                {% render_field form.sort class="input" %}
-            </div>
-            <button type="submit" class="btn btn-primary">Apply</button>
+        {# Search by name, price or year #}
+        <form method="get" id="filter-form" class="search-bar" role="search" action="{% url 'products' %}">
+            <svg class="search-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/>
+                <path d="M20 20l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <label class="sr-only" for="{{ form.q.id_for_label }}">Search</label>
+            {% render_field form.q class="search-input" %}
+            <button type="submit" class="btn btn-primary">Search</button>
         </form>
+
+        {% if form.errors %}
+        <div class="filter-alert" role="alert">
+            {% for field, errs in form.errors.items %}{% for e in errs %}<p>{{ e }}</p>{% endfor %}{% endfor %}
+        </div>
         {% endif %}
 
-        <div class="grid" id="grid">
-            {% for product in products %}
-            <article class="product{% if not product.is_active %} is-sold{% endif %}">
-                <a class="frame" href="{% url 'product_details' product.slug %}">
-                    <img src="{{ product.image.url }}"
-                         alt="{{ product.title }}"
-                         loading="lazy">
-                    {% if not product.is_active %}
-                        <span class="badge-sold">Sold</span>
-                    {% endif %}
-                </a>
-
-                <div class="product-info">
-                    <h2>{{ product.title }}</h2>
-                    <p class="meta">
-                        {{ product.size|default:"" }}{% if product.size and product.year %} &middot; {% endif %}{{ product.year|date:"Y" }}
+        <div class="results">
+                <div class="results-bar">
+                    <p class="result-count" aria-live="polite">
+                        {% if searching %}{{ result_count }} of {{ total_count }} paintings{% else %}{{ total_count }} painting{{ total_count|pluralize }}{% endif %}
                     </p>
-                    {% if product.description %}
-                        <p class="excerpt">{{ product.description|truncatewords:14 }}</p>
-                    {% endif %}
-
-                    {# Like button + views #}
-                    {% include "includes/like_stats.html" with product=product small=True %}
-
-                    <div class="product-foot">
-                        <span class="price">${{ product.price|floatformat:"g" }}</span>
-                        <a class="btn btn-ghost" href="{% url 'product_details' product.slug %}">
-                            About this painting
-                        </a>
-                    </div>
                 </div>
-            </article>
-            {% empty %}
-            <p class="empty">No paintings available right now.</p>
-            {% endfor %}
-        </div>
+
+                {% if chips %}
+                <ul class="chips">
+                    {% for c in chips %}
+                    <li><a class="chip" href="{{ c.remove }}" aria-label="Remove filter {{ c.label }} {{ c.value }}">{{ c.label }}: {{ c.value }} <span aria-hidden="true">&times;</span></a></li>
+                    {% endfor %}
+                    <li><a class="chip chip-clear" href="{% url 'products' %}">Clear all</a></li>
+                </ul>
+                {% endif %}
+
+                <div class="grid" id="grid">
+                    {% for product in products %}
+                    <article class="product{% if not product.is_active %} is-sold{% endif %}">
+                        <a class="frame" href="{% url 'product_details' product.slug %}">
+                            <img src="{{ product.image.url }}" alt="{{ product.title }}" loading="lazy">
+                            {% if not product.is_active %}
+                                <span class="badge-sold">Sold</span>
+                            {% endif %}
+                        </a>
+
+                        <div class="product-info">
+                            <h2>{{ product.title }}</h2>
+                            <p class="meta">
+                                {{ product.size|default:"" }}{% if product.size and product.year %} &middot; {% endif %}{{ product.year|default:"" }}
+                            </p>
+                            {% if product.description %}
+                                <p class="excerpt">{{ product.description|truncatewords:14 }}</p>
+                            {% endif %}
+
+                            {% include "includes/like_stats.html" with product=product small=True %}
+
+                            <div class="product-foot">
+                                <span class="price">${{ product.price|floatformat:"g" }}</span>
+                                <a class="btn btn-ghost" href="{% url 'product_details' product.slug %}">About this painting</a>
+                            </div>
+                        </div>
+                    </article>
+                    {% empty %}
+                    <div class="empty">
+                        {% if searching %}
+                            <p>No paintings match your search.</p>
+                            <a class="btn btn-ghost" href="{% url 'products' %}">Clear filters</a>
+                        {% else %}
+                            <p>No paintings available right now.</p>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
     </div>
 </main>
 {% endblock page_content %}
