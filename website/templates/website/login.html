@@ -1,10 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   {% block page_title %}
     <title>Log in | Jahan</title>
   {% endblock page_title %}
@@ -13,8 +9,7 @@
         <link rel="stylesheet" href="{% static 'website/css/login.css' %}">
     {% endblock page_style %}
 
-</head>
-    {% block page_content %}
+{% block page_content %}
     
         
 <body data-start="{% if register_form %}register{% endif %}">
@@ -126,7 +121,7 @@
 
     </div>
   </main>
-    {% endblock page_content %}
+{% endblock page_content %}
  {% block page_script %}
     <script src='{% static 'website/js/login.js' %}'></script>
  {% endblock page_script %}

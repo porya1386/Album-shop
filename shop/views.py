@@ -6,9 +6,10 @@ from django.views.decorators.http import require_POST
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
+from django.contrib.auth.decorators import login_required
 from .models import Album_image
 from .serializer import Album_Serializer
+from django.contrib.auth.decorators import login_required
 
 
 def products(request):
@@ -17,7 +18,7 @@ def products(request):
         Album_image.objects.annotate(like_count=Count('likes')).order_by('id')
     )
 
-    # which of them did the logged-in user like?
+    # Kodom item haye user login shode like karde masalan mahsol item = (3,5,2) , mahsolat tekrari nadarim ke yani like tekrari nadarim
     liked_ids = set()
     if request.user.is_authenticated:
         liked_ids = set(

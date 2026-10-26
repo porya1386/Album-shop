@@ -17,8 +17,8 @@ class Album_image(models.Model):
     slug = models.SlugField(blank=False, null=True)
     size = models.CharField(
         blank=False, null=True, help_text='Enter Youre Album Image Size like 60 x 90 cm', verbose_name='Album Image Size')
-    year = models.DateField(null=True, verbose_name='Album Image Time Creation',
-                            help_text='Enter The Time u Created masterpiece')
+    year = models.PositiveSmallIntegerField(default=0, verbose_name='Album Image Time Creation',
+                                            help_text='Enter The Year u Created masterpiece')
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True, verbose_name='Sold or not',
