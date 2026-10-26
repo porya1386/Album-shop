@@ -10,6 +10,43 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    # Same services as your docker-compose (postgres:16 and redis:7).
+    # They are reached on localhost from the runner, not by the compose names.
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: album_shop
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+      redis:
+        image: redis:7
+        ports: ["6379:6379"]
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    # !! Rename these to the variable names your settings.py really reads !!
+    env:
+      SECRET_KEY: ci-only-not-secret
+      DEBUG: "0"
+      POSTGRES_DB: album_shop
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_HOST: localhost
+      POSTGRES_PORT: "5432"
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/album_shop
+      REDIS_HOST: localhost
+      REDIS_URL: redis://localhost:6379/0
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -18,6 +55,7 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.14"
+          cache: pip
 
       - name: Install dependencies
         run: |
@@ -27,8 +65,11 @@ jobs:
       - name: Django system check
         run: python manage.py check
 
+      - name: Check for missing migrations
+        run: python manage.py makemigrations --check --dry-run
+
       - name: Run tests
-        run: python manage.py test
+        run: python manage.py test --noinput -v 2
 
   build:
     needs: test
