@@ -1,5 +1,7 @@
 /* Login / register page: sliding panel, show-password buttons, password match.
-   (The mobile menu is handled by header.js, which base.html already loads.) */
+   (The mobile menu is handled by header.js, which base.html already loads.)
+   Texts that need translating come from data-* attributes on #auth-card
+   and on the Show/Hide buttons (they are filled in by the template). */
 (function () {
     "use strict";
 
@@ -11,7 +13,11 @@
     var ovRegister = document.getElementById("ov-register");
     if (!card || !overlay || !paneLogin || !paneRegister || !ovLogin || !ovRegister) return;
 
-    var TITLES = { login: "Log in | Jahan", register: "Register | Jahan" };
+    var TITLES = {
+        login: card.getAttribute("data-title-login") || "Log in | Jahan",
+        register: card.getAttribute("data-title-register") || "Register | Jahan"
+    };
+    var MISMATCH = card.getAttribute("data-msg-mismatch") || "The two passwords do not match.";
 
     // Show one of the two pages. Only the visible one can be reached with the keyboard.
     function setMode(mode, moveFocus) {
@@ -72,7 +78,8 @@
             if (!input) return;
             var show = input.type === "password";
             input.type = show ? "text" : "password";
-            this.textContent = show ? "Hide" : "Show";
+            this.textContent = show ? (this.dataset.hideText || "Hide")
+                                    : (this.dataset.showText || "Show");
             this.setAttribute("aria-pressed", String(show));
         });
     });
@@ -82,7 +89,7 @@
     var pass2 = document.getElementById("reg-password2");
     if (pass1 && pass2) {
         var checkMatch = function () {
-            pass2.setCustomValidity(pass2.value && pass1.value !== pass2.value ? "The two passwords do not match." : "");
+            pass2.setCustomValidity(pass2.value && pass1.value !== pass2.value ? MISMATCH : "");
         };
         pass1.addEventListener("input", checkMatch);
         pass2.addEventListener("input", checkMatch);

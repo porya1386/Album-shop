@@ -1,7 +1,7 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static i18n %}
 
-{% block page_title %}<title>Jahan | Album-Shop</title>{% endblock page_title %}
+{% block page_title %}<title>{% trans "Jahan | Album-Shop" %}</title>{% endblock page_title %}
 
 {% block page_style %}
   <link rel="stylesheet" href="{% static 'website/css/home.css' %}">
@@ -14,21 +14,21 @@
   <div class="home">
 
     <div class="wrap hero">
-      <h1>Quiet places, careful work.</h1>
+      <h1>{% trans "Quiet places, careful work." %}</h1>
       <p class="lead">
-        I'm Your Name, a web developer who builds clear, fast websites with Python and Django.
+        {% trans "I'm Your Name, a web developer who builds clear, fast websites with Python and Django." %}
       </p>
       <div class="hero-actions">
-        <a class="btn btn-primary" href="/about/">About me</a>
-        <a class="btn btn-ghost" href="mailto:you@example.com">Get in touch</a>
+        <a class="btn btn-primary" href="{% url 'about' %}">{% trans "About me" %}</a>
+        <a class="btn btn-ghost" href="mailto:you@example.com">{% trans "Get in touch" %}</a>
       </div>
     </div>
 
     {% if products %}
     <section class="gallery" aria-labelledby="gallery-title">
       <div class="wrap gallery-head">
-        <h2 id="gallery-title">Latest paintings</h2>
-        <p>Hover to pause. Click a painting to read more about it.</p>
+        <h2 id="gallery-title">{% trans "Latest paintings" %}</h2>
+        <p>{% trans "Hover to pause. Click a painting to read more about it." %}</p>
       </div>
 
       <div class="marquee">

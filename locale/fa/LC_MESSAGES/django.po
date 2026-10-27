@@ -1,0 +1,539 @@
+# Persian translation for Jahan.
+msgid ""
+msgstr ""
+"Project-Id-Version: Jahan\n"
+"Report-Msgid-Bugs-To: \n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: .\accounts\forms.py:16
+msgid "Please confirm that you are not a robot."
+msgstr "لطفاً تأیید کنید که ربات نیستید."
+
+#: .\accounts\forms.py:41
+msgid "Email"
+msgstr "ایمیل"
+
+#: .\accounts\forms.py:46
+msgid "Enter your email"
+msgstr "ایمیل خود را وارد کنید"
+
+#: .\accounts\forms.py:51
+msgid "Username"
+msgstr "نام کاربری"
+
+#: .\accounts\forms.py:56
+msgid "Choose a username"
+msgstr "یک نام کاربری انتخاب کنید"
+
+#: .\accounts\forms.py:61
+msgid "Password"
+msgstr "گذرواژه"
+
+#: .\accounts\forms.py:70
+msgid "Confirm password"
+msgstr "تکرار گذرواژه"
+
+#: .\accounts\forms.py:91
+msgid "This email is already registered."
+msgstr "این ایمیل قبلاً ثبت شده است."
+
+#: .\core\settings.py:143
+msgid "English"
+msgstr "انگلیسی"
+
+#: .\core\settings.py:144
+msgid "فارسی"
+msgstr "فارسی"
+
+#: .\shop\models.py:11
+msgid "Album Image Title"
+msgstr "عنوان نقاشی"
+
+#: .\shop\models.py:12
+msgid "Enter your album image title"
+msgstr "عنوان نقاشی را وارد کنید"
+
+#: .\shop\models.py:19
+msgid "Enter your album image price"
+msgstr "قیمت نقاشی را وارد کنید"
+
+#: .\shop\models.py:20
+msgid "Album Image Price"
+msgstr "قیمت نقاشی"
+
+#: .\shop\models.py:26
+msgid "Enter the description for your album image"
+msgstr "توضیحات نقاشی را وارد کنید"
+
+#: .\shop\models.py:27
+msgid "Album Image Description"
+msgstr "توضیحات نقاشی"
+
+#: .\shop\models.py:31 .\shop\models.py:85
+msgid "Album Image"
+msgstr "نقاشی"
+
+#: .\shop\models.py:32
+msgid "Upload your image"
+msgstr "تصویر خود را بارگذاری کنید"
+
+#: .\shop\models.py:39
+msgid "Slug"
+msgstr "اسلاگ"
+
+#: .\shop\models.py:45
+msgid "Enter your album image size, e.g. 60 x 90 cm"
+msgstr "اندازه نقاشی را وارد کنید، مثلاً ۶۰ × ۹۰ سانتی‌متر"
+
+#: .\shop\models.py:46
+msgid "Album Image Size"
+msgstr "اندازه نقاشی"
+
+#: .\shop\models.py:51
+msgid "Album Image Creation Date"
+msgstr "تاریخ خلق نقاشی"
+
+#: .\shop\models.py:52
+msgid "Enter the date you created this masterpiece"
+msgstr "تاریخ خلق این شاهکار را وارد کنید"
+
+#: .\shop\models.py:57
+msgid "Created At"
+msgstr "تاریخ ایجاد"
+
+#: .\shop\models.py:62
+msgid "Updated At"
+msgstr "تاریخ به‌روزرسانی"
+
+#: .\shop\models.py:67
+msgid "Available for Sale"
+msgstr "موجود برای فروش"
+
+#: .\shop\models.py:68
+msgid "Indicates whether this album image is available for sale"
+msgstr "مشخص می‌کند که این نقاشی برای فروش موجود است یا نه"
+
+#: .\shop\models.py:74
+msgid "Views"
+msgstr "بازدیدها"
+
+#: .\shop\models.py:81
+msgid "Liked By"
+msgstr "پسندیده‌شده توسط"
+
+#: .\shop\models.py:86
+msgid "Album Images"
+msgstr "نقاشی‌ها"
+
+#: .\shop\models.py:102
+msgid "Product"
+msgstr "محصول"
+
+#: .\shop\models.py:107
+msgid "Gallery Image"
+msgstr "تصویر گالری"
+
+#: .\shop\models.py:113
+msgid "Caption"
+msgstr "توضیح تصویر"
+
+#: .\shop\models.py:118
+msgid "Display Order"
+msgstr "ترتیب نمایش"
+
+#: .\shop\models.py:123
+msgid "Album Image Gallery"
+msgstr "گالری نقاشی"
+
+#: .\shop\models.py:124
+msgid "Album Image Galleries"
+msgstr "گالری‌های نقاشی"
+
+#: .\templates\includes\footer.html:8
+msgid "About"
+msgstr "درباره"
+
+#: .\templates\includes\footer.html:12 .\templates\includes\footer.html:15
+#: .\templates\includes\header.html:11
+msgid "Jahan"
+msgstr "جهان"
+
+#: .\templates\includes\footer.html:18
+msgid "Original paintings, one of each. Every piece is made by hand and sold directly by the artist."
+msgstr "نقاشی‌های اصل، از هر کدام فقط یکی. هر اثر با دست ساخته شده و مستقیم از طرف هنرمند فروخته می‌شود."
+
+#: .\templates\includes\footer.html:26 .\templates\includes\footer.html:27
+msgid "Contact"
+msgstr "تماس"
+
+#: .\templates\includes\footer.html:30
+msgid "Phone"
+msgstr "تلفن"
+
+#: .\templates\includes\footer.html:35
+msgid "Address"
+msgstr "نشانی"
+
+#: .\templates\includes\footer.html:37
+msgid "Street name 123, City"
+msgstr "خیابان نمونه ۱۲۳، شهر"
+
+#: .\templates\includes\footer.html:38
+msgid "Country, 00000"
+msgstr "کشور، ۰۰۰۰۰"
+
+#: .\templates\includes\footer.html:45
+msgid "Social media"
+msgstr "شبکه‌های اجتماعی"
+
+#: .\templates\includes\footer.html:46
+msgid "Follow"
+msgstr "ما را دنبال کنید"
+
+#: .\templates\includes\footer.html:80
+#, python-format
+msgid "&copy; %(current_year)s Jahan. All rights reserved."
+msgstr "&copy; %(current_year)s جهان. تمامی حقوق محفوظ است."
+
+#: .\templates\includes\footer.html:83
+msgid "Developer:"
+msgstr "توسعه‌دهنده:"
+
+#: .\templates\includes\header.html:20
+msgid "Open menu"
+msgstr "باز کردن منو"
+
+#: .\templates\includes\header.html:25
+msgid "Main navigation"
+msgstr "منوی اصلی"
+
+#: .\templates\includes\header.html:29
+msgid "Home"
+msgstr "خانه"
+
+#: .\templates\includes\header.html:34
+msgid "About me"
+msgstr "درباره من"
+
+#: .\templates\includes\header.html:39
+msgid "Products"
+msgstr "محصولات"
+
+#: .\templates\includes\header.html:46 .\templates\includes\header.html:52
+#: .\templates\includes\header.html:54
+msgid "Theme"
+msgstr "تم"
+
+#: .\templates\includes\header.html:55
+msgid "Forest"
+msgstr "جنگل"
+
+#: .\templates\includes\header.html:56
+msgid "Starry Night"
+msgstr "شب پرستاره"
+
+#: .\templates\includes\header.html:57
+msgid "Great Wave"
+msgstr "موج بزرگ"
+
+#: .\templates\includes\header.html:58
+msgid "Water Lilies"
+msgstr "نیلوفرهای آبی"
+
+#: .\templates\includes\header.html:59
+msgid "Poppy Field"
+msgstr "مزرعه شقایق"
+
+#: .\templates\includes\header.html:85 .\templates\includes\header.html:86
+#: .\templates\includes\header.html:95
+msgid "Change password"
+msgstr "تغییر گذرواژه"
+
+#: .\templates\includes\header.html:100
+msgid "Logout"
+msgstr "خروج"
+
+#: .\templates\includes\header.html:103
+msgid "Log in"
+msgstr "ورود"
+
+# --- home.html / about.html (add: python manage.py makemessages will attach locations) ---
+
+msgid "Jahan | Album-Shop"
+msgstr "جهان | آلبوم‌شاپ"
+
+msgid "Quiet places, careful work."
+msgstr "جاهای آرام، کار با دقت."
+
+msgid "I'm Your Name, a web developer who builds clear, fast websites with Python and Django."
+msgstr "من «نام شما» هستم، توسعه‌دهنده وبی که با پایتون و جنگو سایت‌های روشن و سریع می‌سازد."
+
+msgid "Get in touch"
+msgstr "تماس با من"
+
+msgid "Latest paintings"
+msgstr "تازه‌ترین نقاشی‌ها"
+
+msgid "Hover to pause. Click a painting to read more about it."
+msgstr "برای توقف، ماوس را روی تصویر نگه دارید. برای خواندن درباره‌ی هر نقاشی روی آن کلیک کنید."
+
+msgid "About me | Jahan"
+msgstr "درباره من | جهان"
+
+msgid "A web developer who likes slow mornings, tidy code and projects that leave people a little calmer than they found them."
+msgstr "توسعه‌دهنده‌ی وبی که صبح‌های آرام، کد مرتب و پروژه‌هایی را دوست دارد که مردم را کمی آرام‌تر از آنچه بودند رها کنند."
+
+msgid "How I got here"
+msgstr "چطور به اینجا رسیدم"
+
+msgid "How I work"
+msgstr "چطور کار می‌کنم"
+
+msgid "Away from the screen"
+msgstr "دور از صفحه‌ی نمایش"
+
+msgid "Let's talk"
+msgstr "بیایید حرف بزنیم"
+
+msgid "Email me"
+msgstr "ایمیل بزنید"
+
+msgid "See my products"
+msgstr "دیدن محصولات من"
+
+msgid "At a glance"
+msgstr "در یک نگاه"
+
+msgid "Based in"
+msgstr "محل زندگی"
+
+msgid "Your City, Your Country"
+msgstr "شهر شما، کشور شما"
+
+msgid "Works with"
+msgstr "ابزارهای کاری"
+
+msgid "Languages"
+msgstr "زبان‌ها"
+
+msgid "Persian, English"
+msgstr "فارسی، انگلیسی"
+
+msgid "Availability"
+msgstr "آمادگی برای کار"
+
+msgid "Open to new projects"
+msgstr "پذیرای پروژه‌های جدید"
+
+msgid "My name is Your Name, and I build websites and web applications for a living. Most of my work is done with Python and Django, with HTML, CSS and a little JavaScript on the front. I enjoy the whole path of a project: talking through the idea, shaping the data, writing the code, and watching the first real person use it."
+msgstr "نام من «نام شما» است و کارم ساختن وب‌سایت و برنامه‌های وب است. بیشتر کارم با پایتون و جنگو انجام می‌شود و در بخش نمایش از HTML و CSS و کمی جاوااسکریپت استفاده می‌کنم. از کل مسیر یک پروژه لذت می‌برم: گفتگو درباره‌ی ایده، شکل دادن به داده‌ها، نوشتن کد و دیدن اولین کاربر واقعی که از آن استفاده می‌کند."
+
+msgid "I work best with small teams and individual clients who know what they want to achieve but are not sure how to get there. Explaining technical things in plain words is a part of the job I take seriously."
+msgstr "با تیم‌های کوچک و کارفرمایان تکی بهتر کار می‌کنم؛ کسانی که می‌دانند چه می‌خواهند ولی مطمئن نیستند چطور به آن برسند. توضیح دادن موضوعات فنی با زبان ساده بخشی از کار است که جدی می‌گیرم."
+
+msgid "A good website should feel like a quiet room: everything is where you expect it to be."
+msgstr "یک وب‌سایت خوب باید مثل یک اتاق آرام باشد: همه‌چیز همان‌جا که انتظار دارید قرار دارد."
+
+msgid "I started programming because I wanted to build a small tool for myself and could not find one that did exactly what I needed. That first tool was rough, but it worked, and I was hooked. Since then I have studied, taken on freelance projects, worked with companies and learned a lot from mistakes along the way."
+msgstr "برنامه‌نویسی را شروع کردم چون می‌خواستم ابزار کوچکی برای خودم بسازم و ابزاری پیدا نکردم که دقیقاً همان کار را بکند. آن ابزار اول ناپخته بود، اما کار می‌کرد و من شیفته شدم. از آن زمان درس خوانده‌ام، پروژه‌های فریلنس گرفته‌ام، با شرکت‌ها کار کرده‌ام و در این مسیر از اشتباهاتم چیزهای زیادی یاد گرفته‌ام."
+
+msgid "Over the years my focus moved from \"making it work\" to \"making it last\". Code that is simple to read, easy to change and honest about what it does saves everyone time, including future me."
+msgstr "در طول سال‌ها تمرکزم از «کار انداختن» به «ماندگار کردن» رسید. کدی که خواندنش ساده، تغییرش آسان و درباره‌ی کارش صادق باشد وقت همه را حفظ می‌کند، از جمله خودِ آینده‌ی من."
+
+msgid "I like to start small. Before writing much code I make a rough plan, agree on what the first useful version looks like, and build that. After that we improve it step by step. This way you see progress early and can change direction without wasting weeks."
+msgstr "دوست دارم از کوچک شروع کنم. پیش از نوشتن کد زیاد یک طرح کلی می‌کشم، درباره‌ی نخستین نسخه‌ی مفید توافق می‌کنیم و همان را می‌سازم. بعد قدم‌به‌قدم بهترش می‌کنیم. این‌طور زود پیشرفت را می‌بینید و می‌توانید بدون از دست دادن هفته‌ها مسیر را عوض کنید."
+
+msgid "I write down decisions, keep the project tidy and explain what I have done in language that does not need a dictionary. If something is a bad idea, I will tell you, and I will also suggest a better one."
+msgstr "تصمیم‌ها را یادداشت می‌کنم، پروژه را مرتب نگه می‌دارم و کارهایم را با زبانی توضیح می‌دهم که به فرهنگ لغت نیاز نداشته باشد. اگر چیزی ایده‌ی بدی باشد می‌گویم و ایده‌ی بهتری هم پیشنهاد می‌کنم."
+
+msgid "When I am not working I like long walks, landscape paintings, cooking for friends and reading books I probably should have finished last year. This site is a reflection of that: calm colours, plenty of space and a view of the mountains."
+msgstr "وقتی کار نمی‌کنم پیاده‌روی‌های طولانی، نقاشی‌های منظره، آشپزی برای دوستان و خواندن کتاب‌هایی را دوست دارم که احتمالاً باید پارسال تمامشان می‌کردم. این سایت بازتابی از همین‌هاست: رنگ‌های آرام، فضای فراوان و منظره‌ای از کوهستان."
+
+msgid "If you have a project, a question or just want to say hello, I would be happy to hear from you. I usually reply within a couple of days."
+msgstr "اگر پروژه‌ای، پرسشی دارید یا فقط می‌خواهید سلام کنید، خوشحال می‌شوم خبری از شما بشنوم. معمولاً ظرف چند روز پاسخ می‌دهم."
+
+# --- login.html ---
+
+msgid "Login | Jahan"
+msgstr "ورود | جهان"
+
+msgid "Welcome back. Enter your details to continue."
+msgstr "خوش آمدید. برای ادامه اطلاعات خود را وارد کنید."
+
+msgid "The username or password is incorrect. Check both and try again."
+msgstr "نام کاربری یا گذرواژه نادرست است. هر دو را بررسی کنید و دوباره تلاش کنید."
+
+msgid "Repeat password"
+msgstr "تکرار گذرواژه"
+
+msgid "Show"
+msgstr "نمایش"
+
+msgid "Hide"
+msgstr "پنهان"
+
+msgid "Remember me"
+msgstr "مرا به خاطر بسپار"
+
+msgid "Forgot password?"
+msgstr "گذرواژه را فراموش کرده‌اید؟"
+
+msgid "Tick \"I'm not a robot\" to log in."
+msgstr "برای ورود، گزینه‌ی «من ربات نیستم» را تیک بزنید."
+
+msgid "Tick \"I'm not a robot\" to create your account."
+msgstr "برای ساخت حساب، گزینه‌ی «من ربات نیستم» را تیک بزنید."
+
+msgid "New here?"
+msgstr "تازه آمده‌اید؟"
+
+msgid "Register"
+msgstr "ثبت‌نام"
+
+msgid "Create an account"
+msgstr "ایجاد حساب کاربری"
+
+msgid "It takes a minute. You can then follow new paintings and get in touch."
+msgstr "فقط یک دقیقه طول می‌کشد. بعد می‌توانید نقاشی‌های تازه را دنبال کنید و با ما در تماس باشید."
+
+msgid "Create account"
+msgstr "ساخت حساب"
+
+msgid "Already have an account?"
+msgstr "قبلاً حساب ساخته‌اید؟"
+
+msgid "Welcome back"
+msgstr "خوش آمدید"
+
+msgid "Create an account to follow new paintings and get in touch."
+msgstr "برای دنبال کردن نقاشی‌های تازه و ارتباط با ما حساب بسازید."
+
+msgid "Already have an account? Log in to continue."
+msgstr "قبلاً حساب ساخته‌اید؟ برای ادامه وارد شوید."
+
+# --- login.html ---
+
+msgid "Log in | Jahan"
+msgstr "ورود | جهان"
+
+msgid "Register | Jahan"
+msgstr "ثبت‌نام | جهان"
+
+msgid "The two passwords do not match."
+msgstr "دو گذرواژه با هم یکسان نیستند."
+
+# --- products.html / product_details.html / like_stats.html ---
+
+msgid "Products | Jahan"
+msgstr "محصولات | جهان"
+
+msgid "Original paintings, one of each. Choose a painting and press the button to read more about it."
+msgstr "نقاشی‌های اصل، از هر کدام فقط یکی. یک نقاشی را انتخاب کنید و روی دکمه بزنید تا درباره‌اش بیشتر بخوانید."
+
+msgid "Search"
+msgstr "جستجو"
+
+#, python-format
+msgid "%(shown)s of %(total)s paintings"
+msgstr "%(shown)s از %(total)s نقاشی"
+
+#, python-format
+msgid "Remove filter %(label)s %(value)s"
+msgstr "حذف فیلتر %(label)s %(value)s"
+
+msgid "Clear all"
+msgstr "پاک کردن همه"
+
+msgid "Sold"
+msgstr "فروخته شد"
+
+msgid "About this painting"
+msgstr "درباره‌ی این نقاشی"
+
+msgid "No paintings match your search."
+msgstr "نقاشی‌ای با جستجوی شما پیدا نشد."
+
+msgid "Clear filters"
+msgstr "پاک کردن فیلترها"
+
+msgid "No paintings available right now."
+msgstr "فعلاً نقاشی‌ای موجود نیست."
+
+msgid "Breadcrumb"
+msgstr "مسیر صفحه"
+
+#, python-format
+msgid "View %(title)s full size"
+msgstr "مشاهده‌ی %(title)s در اندازه‌ی کامل"
+
+msgid "Click to enlarge"
+msgstr "برای بزرگ‌نمایی کلیک کنید"
+
+msgid "Previous image"
+msgstr "تصویر قبلی"
+
+msgid "Next image"
+msgstr "تصویر بعدی"
+
+msgid "Show main image"
+msgstr "نمایش تصویر اصلی"
+
+#, python-format
+msgid "Show image %(n)s"
+msgstr "نمایش تصویر %(n)s"
+
+msgid "Original painting"
+msgstr "نقاشی اصل"
+
+msgid "Size"
+msgstr "اندازه"
+
+msgid "Year"
+msgstr "سال"
+
+msgid "Available"
+msgstr "موجود"
+
+#, python-format
+msgid "Question about: %(title)s"
+msgstr "پرسش درباره‌ی: %(title)s"
+
+msgid "Ask about this painting"
+msgstr "پرسش درباره‌ی این نقاشی"
+
+msgid "Back to products"
+msgstr "بازگشت به محصولات"
+
+msgid "Copy link"
+msgstr "کپی لینک"
+
+msgid "Link copied"
+msgstr "لینک کپی شد"
+
+#, python-format
+msgid "%(title)s full size"
+msgstr "%(title)s در اندازه‌ی کامل"
+
+msgid "Close"
+msgstr "بستن"
+
+#, python-format
+msgid "Like %(title)s"
+msgstr "پسندیدن %(title)s"
+
+msgid "views"
+msgstr "بازدید"
+
+#, python-format
+msgid "%(counter)s painting"
+msgid_plural "%(counter)s paintings"
+msgstr[0] "%(counter)s نقاشی"
+msgstr[1] "%(counter)s نقاشی"
+
+msgctxt "product"
+msgid "Availability"
+msgstr "وضعیت"

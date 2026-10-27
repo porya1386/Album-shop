@@ -5,7 +5,7 @@ from django.urls import include, path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
-
+from django.conf.urls.i18n import i18n_patterns
 # ---- Swagger ----
 schema_view = get_schema_view(
     openapi.Info(
@@ -21,23 +21,27 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    # Swagger
+    # url-e set_language                      # API ha bedoone prefix
+    path("i18n/", include("django.conf.urls.i18n")),
+]
+
+urlpatterns += i18n_patterns(
+    path("", include("website.urls")),
+    path("shop/", include("shop.urls")),
+    path("accounts/", include("accounts.urls")),
+    path("admin/", admin.site.urls),
+    # prefix_default_language=False   <-- hazf kon (pishfarz True hast)
+)
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)
+# Swagger
+urlpatterns += [
     path("swagger.<format>/",
          schema_view.without_ui(cache_timeout=0), name="schema-json"),
     path("swagger/", schema_view.with_ui("swagger",
          cache_timeout=0), name="schema-swagger-ui"),
     path("redoc/", schema_view.with_ui("redoc",
          cache_timeout=0), name="schema-redoc"),
-
-    # Site
-    path("admin/", admin.site.urls),
-    path("", include("website.urls")),
-    path("dashboard/", include("dashboard.urls")),
-    path("shop/", include("shop.urls")),
-    # login, register, password reset/change
-    path("accounts/", include("accounts.urls")),
 ]
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL,
-                          document_root=settings.MEDIA_ROOT)

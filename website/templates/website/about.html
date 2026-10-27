@@ -1,106 +1,115 @@
 {% extends "base.html" %}
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  {% block page_title %}
-    <title>About me | Jahan</title>
-  {% endblock page_title %}
+{% load static i18n %}
 
-  {% block page_style %}
-    <link rel="stylesheet" href="{% static 'website/css/about.css' %}">
-  {% endblock page_style %}
+{% block page_title %}
+  <title>{% trans "About me | Jahan" %}</title>
+{% endblock page_title %}
 
-</head>
+{% block page_style %}
+  <link rel="stylesheet" href="{% static 'website/css/about.css' %}">
+{% endblock page_style %}
 
-<body>
 {% block page_content %}
-  
-  <main>
-    <div class="wrap">
-      <div class="page-head">
-        <h1>About me</h1>
-        <p class="lead">
-          A web developer who likes slow mornings, tidy code and projects that leave people a little calmer than they found them.
-        </p>
-      </div>
-
-      <div class="about-grid">
-        <article class="panel story">
-
-          <h2>Who I am</h2>
-          <p>
-            My name is Your Name, and I build websites and web applications for a living. Most of my work is done with Python and Django, with HTML, CSS and a little JavaScript on the front. I enjoy the whole path of a project: talking through the idea, shaping the data, writing the code, and watching the first real person use it.
-          </p>
-          <p>
-            I work best with small teams and individual clients who know what they want to achieve but are not sure how to get there. Explaining technical things in plain words is a part of the job I take seriously.
-          </p>
-
-          <p class="pullquote">
-            A good website should feel like a quiet room: everything is where you expect it to be.
-          </p>
-
-          <h2>How I got here</h2>
-          <p>
-            I started programming because I wanted to build a small tool for myself and could not find one that did exactly what I needed. That first tool was rough, but it worked, and I was hooked. Since then I have studied, taken on freelance projects, worked with companies and learned a lot from mistakes along the way.
-          </p>
-          <p>
-            Over the years my focus moved from "making it work" to "making it last". Code that is simple to read, easy to change and honest about what it does saves everyone time, including future me.
-          </p>
-
-          <h2>How I work</h2>
-          <p>
-            I like to start small. Before writing much code I make a rough plan, agree on what the first useful version looks like, and build that. After that we improve it step by step. This way you see progress early and can change direction without wasting weeks.
-          </p>
-          <p>
-            I write down decisions, keep the project tidy and explain what I have done in language that does not need a dictionary. If something is a bad idea, I will tell you, and I will also suggest a better one.
-          </p>
-
-          <h2>Away from the screen</h2>
-          <p>
-            When I am not working I like long walks, landscape paintings, cooking for friends and reading books I probably should have finished last year. This site is a reflection of that: calm colours, plenty of space and a view of the mountains.
-          </p>
-
-          <h2>Let's talk</h2>
-          <p>
-            If you have a project, a question or just want to say hello, I would be happy to hear from you. I usually reply within a couple of days.
-          </p>
-
-          <div class="actions">
-            <a class="btn btn-primary" href="mailto:you@example.com">Email me</a>
-            <a class="btn btn-ghost" href="/products/">See my products</a>
-          </div>
-        </article>
-
-        <aside class="panel facts" aria-label="At a glance">
-          <h2>At a glance</h2>
-          <dl>
-            <dt>Based in</dt>
-            <dd>Your City, Your Country</dd>
-
-            <dt>Works with</dt>
-            <dd>Python, Django, HTML, CSS, JavaScript, PostgreSQL</dd>
-
-            <dt>Languages</dt>
-            <dd>Persian, English</dd>
-
-            <dt>Availability</dt>
-            <dd>Open to new projects</dd>
-
-            <dt>Email</dt>
-            <dd><a href="mailto:you@example.com">you@example.com</a></dd>
-          </dl>
-        </aside>
-      </div>
+<main>
+  <div class="wrap">
+    <div class="page-head">
+      <h1>{% trans "About me" %}</h1>
+      <p class="lead">
+        {% blocktrans trimmed %}
+            A web developer who likes slow mornings, tidy code and projects that leave people a little calmer than they found them.
+          {% endblocktrans %}
+      </p>
     </div>
-  </main>
 
+    <div class="about-grid">
+      <article class="panel story">
 
+        <h2>{% trans "A web developer who likes slow mornings, tidy code and projects that leave people a little calmer than they found them." %}</h2>
+        <p>
+          {% blocktrans trimmed %}
+            My name is Your Name, and I build websites and web applications for a living. Most of my work is done with Python and Django, with HTML, CSS and a little JavaScript on the front. I enjoy the whole path of a project: talking through the idea, shaping the data, writing the code, and watching the first real person use it.
+          {% endblocktrans %}
+        </p>
+        <p>
+          {% blocktrans trimmed %}
+            I work best with small teams and individual clients who know what they want to achieve but are not sure how to get there. Explaining technical things in plain words is a part of the job I take seriously.
+          {% endblocktrans %}
+        </p>
+
+        <p class="pullquote">
+          {% blocktrans trimmed %}
+            A good website should feel like a quiet room: everything is where you expect it to be.
+          {% endblocktrans %}
+        </p>
+
+        <h2>{% trans "How I got here" %}</h2>
+        <p>
+          {% blocktrans trimmed %}
+            I started programming because I wanted to build a small tool for myself and could not find one that did exactly what I needed. That first tool was rough, but it worked, and I was hooked. Since then I have studied, taken on freelance projects, worked with companies and learned a lot from mistakes along the way.
+          {% endblocktrans %}
+        </p>
+        <p>
+          {% blocktrans trimmed %}
+            Over the years my focus moved from "making it work" to "making it last". Code that is simple to read, easy to change and honest about what it does saves everyone time, including future me.
+          {% endblocktrans %}
+        </p>
+
+        <h2>{% trans "How I work" %}</h2>
+        <p>
+          {% blocktrans trimmed %}
+            I like to start small. Before writing much code I make a rough plan, agree on what the first useful version looks like, and build that. After that we improve it step by step. This way you see progress early and can change direction without wasting weeks.
+          {% endblocktrans %}
+        </p>
+        <p>
+          {% blocktrans trimmed %}
+            I write down decisions, keep the project tidy and explain what I have done in language that does not need a dictionary. If something is a bad idea, I will tell you, and I will also suggest a better one.
+          {% endblocktrans %}
+        </p>
+
+        <h2>{% trans "Away from the screen" %}</h2>
+        <p>
+          {% blocktrans trimmed %}
+            When I am not working I like long walks, landscape paintings, cooking for friends and reading books I probably should have finished last year. This site is a reflection of that: calm colours, plenty of space and a view of the mountains.
+          {% endblocktrans %}
+        </p>
+
+        <h2>{% trans "Let's talk" %}</h2>
+        <p>
+          {% blocktrans trimmed %}
+            If you have a project, a question or just want to say hello, I would be happy to hear from you. I usually reply within a couple of days.
+          {% endblocktrans %}
+        </p>
+
+        <div class="actions">
+          <a class="btn btn-primary" href="mailto:you@example.com">{% trans "Email me" %}</a>
+          <a class="btn btn-ghost" href="{% url 'products' %}">{% trans "See my products" %}</a>
+        </div>
+      </article>
+
+      <aside class="panel facts" aria-label="{% trans 'At a glance' %}">
+        <h2>{% trans "At a glance" %}</h2>
+        <dl>
+          <dt>{% trans "Based in" %}</dt>
+          <dd>{% trans "Your City, Your Country" %}</dd>
+
+          <dt>{% trans "Works with" %}</dt>
+          <dd>Python, Django, HTML, CSS, JavaScript, PostgreSQL</dd>
+
+          <dt>{% trans "Languages" %}</dt>
+          <dd>{% trans "Persian, English" %}</dd>
+
+          <dt>{% trans "Availability" %}</dt>
+          <dd>{% trans "Open to new projects" %}</dd>
+
+          <dt>{% trans "Email" %}</dt>
+          <dd><a href="mailto:you@example.com" dir="ltr">you@example.com</a></dd>
+        </dl>
+      </aside>
+    </div>
+  </div>
+</main>
 {% endblock page_content %}
-  {% block page_script %}
-    <script src="{% static 'website/js/about.js' %}"></script>
-  {% endblock page_script %}
-</body>
-</html>
+
+{% block page_script %}
+  <script src="{% static 'website/js/about.js' %}"></script>
+{% endblock page_script %}

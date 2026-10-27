@@ -1,384 +1,525 @@
-    /* ---------- Header ---------- */
+/* ---------- Header ---------- */
 
+.header-inner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    min-height: 72px;
+}
+
+.brand {
+    flex: 0 0 auto;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.15rem, 2vw, 1.4rem);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+/* Desktop navigation */
+
+.site-nav {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: clamp(.8rem, 2vw, 1.75rem);
+}
+
+.site-nav a {
+    display: inline-block;
+    padding: .45rem 0;
+    border-bottom: 2px solid transparent;
+    text-decoration: none;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: border-color .15s, color .15s, background .15s;
+}
+
+.site-nav a:hover,
+.site-nav a[aria-current="page"] {
+    border-bottom-color: var(--gold);
+}
+
+.site-nav .nav-login {
+    padding: .45rem 1rem;
+    border: 1.5px solid var(--ink);
+    border-radius: 999px;
+}
+
+.site-nav .nav-login:hover {
+    background: var(--ink);
+    color: var(--night);
+    border-color: var(--ink);
+}
+
+/* Hamburger button */
+
+.nav-toggle {
+    display: none;
+    position: relative;
+    flex: 0 0 44px;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid color-mix(in srgb, var(--ink) 25%, transparent);
+    border-radius: 10px;
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+}
+
+.nav-toggle span {
+    position: absolute;
+    inset-inline: 10px;
+    height: 2px;
+    border-radius: 2px;
+    background: currentColor;
+    transition: top .2s, transform .2s;
+}
+
+.nav-toggle span:first-child {
+    top: 16px;
+}
+
+.nav-toggle span:last-child {
+    top: 24px;
+}
+
+.nav-toggle[aria-expanded="true"] span:first-child {
+    top: 20px;
+    transform: rotate(45deg);
+}
+
+.nav-toggle[aria-expanded="true"] span:last-child {
+    top: 20px;
+    transform: rotate(-45deg);
+}
+
+.nav-toggle:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+}
+
+/* ---------- Tablet and mobile ---------- */
+
+@media (max-width: 900px) {
     .header-inner {
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 1.5rem;
-        min-height: 72px;
+        min-height: 66px;
+        gap: 1rem;
     }
 
-    .brand {
-        flex: 0 0 auto;
-        font-family: var(--font-display);
-        font-weight: 700;
-        font-size: clamp(1.15rem, 2vw, 1.4rem);
-        text-decoration: none;
-        white-space: nowrap;
+    .nav-toggle {
+        display: block;
+        margin-inline-start: auto;
     }
-
-    /* Desktop navigation */
 
     .site-nav {
+        display: none;
+        position: absolute;
+        top: 100%;
+        inset-inline: 0;
+        z-index: 1001;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+        gap: .25rem;
+        padding: 1rem;
+        background: var(--night);
+        border: 1px solid color-mix(in srgb, var(--ink) 18%, transparent);
+        border-top: 0;
+        border-radius: 0 0 14px 14px;
+        box-shadow: 0 16px 30px rgba(0, 0, 0, .3);
+    }
+
+    .site-nav.is-open {
         display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        gap: clamp(.8rem, 2vw, 1.75rem);
     }
 
     .site-nav a {
-        display: inline-block;
-        padding: .45rem 0;
-        border-bottom: 2px solid transparent;
-        text-decoration: none;
-        font-weight: 500;
-        white-space: nowrap;
-        transition: border-color .15s, color .15s, background .15s;
+        display: block;
+        width: 100%;
+        padding: .8rem;
+        white-space: normal;
+        border: 0;
+        border-radius: 8px;
     }
 
     .site-nav a:hover,
     .site-nav a[aria-current="page"] {
-        border-bottom-color: var(--gold);
+        background: color-mix(in srgb, var(--ink) 7%, transparent);
+        border: 0;
     }
 
     .site-nav .nav-login {
-        padding: .45rem 1rem;
-        border: 1.5px solid var(--ink);
-        border-radius: 999px;
+        margin-top: .35rem;
+        text-align: center;
+        border: 1px solid var(--ink);
+    }
+}
+
+/* Small phones */
+
+@media (max-width: 480px) {
+    .header-inner {
+        min-height: 60px;
     }
 
-    .site-nav .nav-login:hover {
-        background: var(--ink);
-        color: var(--night);
-        border-color: var(--ink);
+    .brand {
+        font-size: 1.15rem;
     }
-
-    /* Hamburger button */
 
     .nav-toggle {
-        display: none;
-        position: relative;
-        flex: 0 0 44px;
-        width: 44px;
-        height: 44px;
-        padding: 0;
-        border: 1px solid rgba(253, 246, 232, .25);
-        border-radius: 10px;
-        background: transparent;
-        color: var(--ink);
-        cursor: pointer;
+        flex-basis: 42px;
+        width: 42px;
+        height: 42px;
     }
 
-    .nav-toggle span {
-        position: absolute;
-        left: 10px;
-        right: 10px;
-        height: 2px;
-        border-radius: 2px;
-        background: currentColor;
-        transition: top .2s, transform .2s;
+    .site-nav {
+        padding: .75rem;
     }
+}
 
-    .nav-toggle span:first-child {
-        top: 16px;
-    }
+/* ---------- Buttons ---------- */
 
-    .nav-toggle span:last-child {
-        top: 24px;
-    }
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    max-width: 100%;
+    padding: .7rem 1.4rem;
+    border: 2px solid var(--gold);
+    border-radius: 999px;
+    font: inherit;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background .15s, color .15s, border-color .15s;
+}
 
-    .nav-toggle[aria-expanded="true"] span:first-child {
-        top: 20px;
-        transform: rotate(45deg);
-    }
+.btn-primary {
+    background: var(--gold);
+    color: var(--night);
+}
 
-    .nav-toggle[aria-expanded="true"] span:last-child {
-        top: 20px;
-        transform: rotate(-45deg);
-    }
+.btn-primary:hover {
+    background: var(--ink);
+    border-color: var(--ink);
+}
 
-    .nav-toggle:focus-visible {
-        outline: 2px solid var(--gold);
-        outline-offset: 3px;
-    }
+.btn-ghost {
+    background: transparent;
+    color: var(--ink);
+    border-color: var(--ink);
+}
 
-    /* ---------- Tablet and mobile ---------- */
+.btn-ghost:hover {
+    background: var(--ink);
+    color: var(--night);
+}
 
-    @media (max-width: 900px) {
-        .header-inner {
-            min-height: 66px;
-            gap: 1rem;
-        }
+.btn:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+}
 
-        .nav-toggle {
-            display: block;
-            margin-left: auto;
-        }
-
-        .site-nav {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            z-index: 1001;
-            flex-direction: column;
-            align-items: stretch;
-            justify-content: flex-start;
-            gap: .25rem;
-            padding: 1rem;
-            background: #0a100c;
-            border: 1px solid rgba(253, 246, 232, .18);
-            border-top: 0;
-            border-radius: 0 0 14px 14px;
-            box-shadow: 0 16px 30px rgba(0, 0, 0, .3);
-        }
-
-        .site-nav.is-open {
-            display: flex;
-        }
-
-        .site-nav a {
-            display: block;
-            width: 100%;
-            padding: .8rem;
-            white-space: normal;
-            border: 0;
-            border-radius: 8px;
-        }
-
-        .site-nav a:hover,
-        .site-nav a[aria-current="page"] {
-            background: rgba(253, 246, 232, .07);
-            border: 0;
-        }
-
-        .site-nav .nav-login {
-            margin-top: .35rem;
-            text-align: center;
-            border: 1px solid var(--ink);
-        }
-    }
-
-    /* Small phones */
-
-    @media (max-width: 480px) {
-        .header-inner {
-            min-height: 60px;
-        }
-
-        .brand {
-            font-size: 1.15rem;
-        }
-
-        .nav-toggle {
-            flex-basis: 42px;
-            width: 42px;
-            height: 42px;
-        }
-
-        .site-nav {
-            padding: .75rem;
-        }
-    }
-
-    /* ---------- Buttons ---------- */
-
+@media (max-width: 480px) {
     .btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: .5rem;
-        max-width: 100%;
-        padding: .7rem 1.4rem;
-        border: 2px solid var(--gold);
-        border-radius: 999px;
-        font: inherit;
-        font-weight: 600;
-        text-align: center;
-        text-decoration: none;
-        cursor: pointer;
-        transition: background .15s, color .15s, border-color .15s;
+        padding: .7rem 1rem;
     }
+}
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    /* transparent glass effect */
+    background: color-mix(in srgb, var(--night) 35%, transparent);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
 
-    .btn-primary {
-        background: var(--gold);
-        color: var(--night);
-    }
+    border-bottom: 1px solid color-mix(in srgb, var(--ink) 18%, transparent);
+}
+/* ---------- Log out button ----------
+Same pill shape and height as the "Log in" link, so the header does not jump
+when the visitor logs in. A soft red appears only on hover. */
 
-    .btn-primary:hover {
-        background: var(--ink);
-        border-color: var(--ink);
-    }
+.logout-form {
+    display: inline-flex;
+    align-items: center;
+    margin: 0;
+}
 
-    .btn-ghost {
-        background: transparent;
-        color: var(--ink);
-        border-color: var(--ink);
-    }
+.logout-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .45rem 1rem;
+    border: 1.5px solid color-mix(in srgb, var(--ink) 45%, transparent);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--ink);
+    font: inherit;
+    font-weight: 500;
+    line-height: inherit;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background .15s, color .15s, border-color .15s;
+}
 
-    .btn-ghost:hover {
-        background: var(--ink);
-        color: var(--night);
-    }
+/* small "exit" arrow, drawn with CSS so the HTML does not change */
+.logout-btn::before {
+    content: "";
+    width: 1em;
+    height: 1em;
+    background: currentColor;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4'/%3E%3Cpath d='M16 17l5-5-5-5'/%3E%3Cpath d='M21 12H9'/%3E%3C/svg%3E") center / contain no-repeat;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4'/%3E%3Cpath d='M16 17l5-5-5-5'/%3E%3Cpath d='M21 12H9'/%3E%3C/svg%3E") center / contain no-repeat;
+}
 
-    .btn:focus-visible {
-        outline: 2px solid var(--gold);
-        outline-offset: 3px;
-    }
+.logout-btn:hover {
+    background: rgba(224, 139, 125, .16);
+    border-color: #e08b7d;
+    color: #ffb4a8;
+}
 
-    @media (max-width: 480px) {
-        .btn {
-            padding: .7rem 1rem;
-        }
-    }
-    .site-header {
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-        width: 100%;
-        /* transparent glass effect */
-        background: rgba(10, 16, 12, 0.35);
-        -webkit-backdrop-filter: blur(12px);
-        backdrop-filter: blur(12px);
+.logout-btn:active {
+    transform: scale(.98);
+}
 
-        border-bottom: 1px solid rgba(253, 246, 232, 0.18);
-    }
-    /* ---------- Log out button ----------
-    Same pill shape and height as the "Log in" link, so the header does not jump
-    when the visitor logs in. A soft red appears only on hover. */
+.logout-btn:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+}
 
+/* same breakpoint as the mobile menu (900px): full width inside the open menu */
+@media (max-width: 900px) {
     .logout-form {
-        display: inline-flex;
-        align-items: center;
-        margin: 0;
+        display: flex;
+        width: 100%;
+        margin-top: .35rem;
     }
 
     .logout-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: .5rem;
-        padding: .45rem 1rem;
-        border: 1.5px solid rgba(253, 246, 232, .45);
-        border-radius: 999px;
-        background: transparent;
-        color: var(--ink);
-        font: inherit;
-        font-weight: 500;
-        line-height: inherit;
-        white-space: nowrap;
-        cursor: pointer;
-        transition: background .15s, color .15s, border-color .15s;
+        width: 100%;
+        justify-content: center;
+        padding: .8rem;
     }
+}
+/* ---------- Change-password key icon (logged-in users) ---------- */
 
-    /* small "exit" arrow, drawn with CSS so the HTML does not change */
-    .logout-btn::before {
-        content: "";
-        width: 1em;
-        height: 1em;
-        background: currentColor;
-        -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4'/%3E%3Cpath d='M16 17l5-5-5-5'/%3E%3Cpath d='M21 12H9'/%3E%3C/svg%3E") center / contain no-repeat;
-                mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4'/%3E%3Cpath d='M16 17l5-5-5-5'/%3E%3Cpath d='M21 12H9'/%3E%3C/svg%3E") center / contain no-repeat;
-    }
+/* desktop: a round icon button, same height as the Log in / Log out pill (34px) */
+.site-nav a.nav-key {
+    display: inline-grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: 1.5px solid color-mix(in srgb, var(--ink) 45%, transparent);
+    border-radius: 50%;
+    color: var(--ink);
+}
 
-    .logout-btn:hover {
-        background: rgba(224, 139, 125, .16);
-        border-color: #e08b7d;
-        color: #ffb4a8;
-    }
+.site-nav a.nav-key:hover,
+.site-nav a.nav-key[aria-current="page"] {
+    border-color: var(--gold);
+    background: color-mix(in srgb, var(--gold) 14%, transparent);
+    color: var(--gold);
+}
 
-    .logout-btn:active {
-        transform: scale(.98);
-    }
+.nav-key-icon {
+    display: block;
+    flex: none;
+    width: 18px;
+    height: 18px;
+}
 
-    .logout-btn:focus-visible {
-        outline: 2px solid var(--gold);
-        outline-offset: 3px;
-    }
+/* the words are only for screen readers on desktop */
+.nav-key-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
 
-    /* same breakpoint as the mobile menu (900px): full width inside the open menu */
-    @media (max-width: 900px) {
-        .logout-form {
-            display: flex;
-            width: 100%;
-            margin-top: .35rem;
-        }
-
-        .logout-btn {
-            width: 100%;
-            justify-content: center;
-            padding: .8rem;
-        }
-    }
-    /* paste at the END of header.css */
-
-    /* ---------- Change-password key icon (logged-in users) ---------- */
-
-    /* desktop: a round icon button, same height as the Log in / Log out pill (34px) */
+/* mobile menu: a normal row with the icon and the words */
+@media (max-width: 900px) {
     .site-nav a.nav-key {
-        display: inline-grid;
-        place-items: center;
-        width: 34px;
-        height: 34px;
-        padding: 0;
-        border: 1.5px solid rgba(253, 246, 232, .45);
-        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: .75rem;
+        width: 100%;
+        height: auto;
+        padding: .8rem;
+        border: 0;
+        border-radius: 8px;
         color: var(--ink);
     }
 
     .site-nav a.nav-key:hover,
     .site-nav a.nav-key[aria-current="page"] {
-        border-color: var(--gold);
-        background: rgba(240, 192, 96, .14);
-        color: var(--gold);
+        border: 0;
+        background: color-mix(in srgb, var(--ink) 7%, transparent);
+        color: var(--ink);
     }
 
-    .nav-key-icon {
-        display: block;
-        flex: none;
-        width: 18px;
-        height: 18px;
-    }
-
-    /* the words are only for screen readers on desktop */
     .nav-key-label {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        overflow: hidden;
-        clip: rect(0 0 0 0);
-        white-space: nowrap;
+        position: static;
+        width: auto;
+        height: auto;
+        overflow: visible;
+        clip: auto;
+        white-space: normal;
+    }
+}
+
+/* ---------- Language switch (EN <-> FA) ---------- */
+
+.lang-form {
+    display: inline-flex;
+    margin: 0;
+}
+
+.site-nav .lang-btn {
+    display: inline-flex;
+    text-decoration: none;
+    align-items: center;
+    gap: .4rem;
+    height: 34px;
+    padding: 0 .75rem;
+    border: 1.5px solid color-mix(in srgb, var(--ink) 45%, transparent);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--ink);
+    font: inherit;
+    font-size: .85rem;
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+    transition: border-color .15s, color .15s, background .15s;
+}
+
+.site-nav .lang-btn:hover {
+    border-color: var(--gold);
+    background: color-mix(in srgb, var(--gold) 14%, transparent);
+    color: var(--gold);
+}
+
+.site-nav .lang-btn:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+}
+
+.lang-icon {
+    display: block;
+    flex: none;
+    width: 18px;
+    height: 18px;
+}
+
+@media (max-width: 900px) {
+    .lang-form {
+        display: flex;
+        width: 100%;
     }
 
-    /* mobile menu: a normal row with the icon and the words */
-    @media (max-width: 900px) {
-        .site-nav a.nav-key {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            gap: .75rem;
-            width: 100%;
-            height: auto;
-            padding: .8rem;
-            border: 0;
-            border-radius: 8px;
-            color: var(--ink);
-        }
-
-        .site-nav a.nav-key:hover,
-        .site-nav a.nav-key[aria-current="page"] {
-            border: 0;
-            background: rgba(253, 246, 232, .07);
-            color: var(--ink);
-        }
-
-        .nav-key-label {
-            position: static;
-            width: auto;
-            height: auto;
-            overflow: visible;
-            clip: auto;
-            white-space: normal;
-        }
+    .site-nav .lang-btn {
+        width: 100%;
+        height: auto;
+        padding: .8rem;
+        border: 0;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 500;
     }
+
+    .site-nav .lang-btn:hover {
+        border: 0;
+        background: color-mix(in srgb, var(--ink) 7%, transparent);
+        color: var(--ink);
+    }
+}
+
+/* ---------- Right-to-left (Persian) ---------- */
+
+html[lang="fa"] body {
+    font-family: "Vazirmatn", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+/* the "exit" arrow points the other way */
+[dir="rtl"] .logout-btn { --flip: -1; }
+
+
+/* ---------- Hover animations for the icon buttons ---------- */
+
+.nav-key-icon,
+.lang-icon,
+.theme-btn-icon {
+    transition: transform .45s cubic-bezier(.34, 1.56, .64, 1);
+}
+
+/* key: swings like it is turning in a lock */
+.site-nav a.nav-key:hover .nav-key-icon,
+.site-nav a.nav-key:focus-visible .nav-key-icon {
+    animation: key-turn .7s ease-in-out;
+    transform-origin: 33% 62%;
+}
+@keyframes key-turn {
+    0%   { transform: rotate(0); }
+    25%  { transform: rotate(-28deg); }
+    55%  { transform: rotate(22deg); }
+    80%  { transform: rotate(-8deg); }
+    100% { transform: rotate(0); }
+}
+
+/* globe: one full spin */
+.site-nav .lang-btn:hover .lang-icon,
+.site-nav .lang-btn:focus-visible .lang-icon {
+    transform: rotate(360deg);
+}
+
+/* palette: tilts and pops */
+.site-nav .theme-btn:hover .theme-btn-icon,
+.site-nav .theme-btn:focus-visible .theme-btn-icon,
+.site-nav .theme-btn[aria-expanded="true"] .theme-btn-icon {
+    transform: rotate(-18deg) scale(1.18);
+}
+
+/* logout: the arrow slides out of the door; the button lifts a little */
+.logout-btn::before {
+    transform: scaleX(var(--flip, 1));
+    transition: transform .25s ease;
+}
+.logout-btn:hover::before,
+.logout-btn:focus-visible::before {
+    animation: logout-out .8s ease-in-out infinite;
+}
+@keyframes logout-out {
+    0%, 100% { transform: translateX(0) scaleX(var(--flip, 1)); }
+    50%      { transform: translateX(calc(4px * var(--flip, 1))) scaleX(var(--flip, 1)); }
+}
+
+/* small press feedback for the round / pill buttons */
+.site-nav a.nav-key,
+.site-nav .lang-btn,
+.site-nav .theme-btn {
+    transition: border-color .15s, color .15s, background .15s, transform .15s;
+}
+.site-nav a.nav-key:hover,
+.site-nav .lang-btn:hover,
+.site-nav .theme-btn:hover { transform: translateY(-1px); }
+.site-nav a.nav-key:active,
+.site-nav .lang-btn:active,
+.site-nav .theme-btn:active { transform: scale(.94); }
+
+@media (prefers-reduced-motion: reduce) {
+    .nav-key-icon, .lang-icon, .theme-btn-icon { transition: none; animation: none !important; }
+    .logout-btn::before { animation: none !important; }
+    .site-nav a.nav-key:hover, .site-nav .lang-btn:hover, .site-nav .theme-btn:hover { transform: none; }
+}

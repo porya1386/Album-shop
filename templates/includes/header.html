@@ -1,5 +1,5 @@
-{% load static %}
-
+{% load static i18n lang_extras %}
+{% get_current_language as LANG %}
 {% with current=request.resolver_match.url_name %}
 <header class="site-header">
     <div class="wrap header-inner">
@@ -8,7 +8,7 @@
             {% if user.is_authenticated %}
                 {{ user.username|title }}
             {% else %}
-                Jahan
+                {% trans "Jahan" %}
             {% endif %}
         </a>
 
@@ -17,55 +17,73 @@
             type="button"
             aria-expanded="false"
             aria-controls="site-nav"
-            aria-label="Open menu">
+            aria-label="{% trans 'Open menu' %}">
             <span></span>
             <span></span>
         </button>
 
-        <nav id="site-nav" class="site-nav" aria-label="Main navigation">
+        <nav id="site-nav" class="site-nav" aria-label="{% trans 'Main navigation' %}">
 
             <a href="{% url 'home' %}"
                {% if current == 'home' %}aria-current="page"{% endif %}>
-                Home
+                {% trans "Home" %}
             </a>
 
             <a href="{% url 'about' %}"
                {% if current == 'about' %}aria-current="page"{% endif %}>
-                About me
+                {% trans "About me" %}
             </a>
 
             <a href="{% url 'products' %}"
                {% if current == 'products' or current == 'product_details' %}aria-current="page"{% endif %}>
-                Products
+                {% trans "Products" %}
             </a>
 
 
             {# ---- theme switcher ---- #}
             <div class="theme-switch" data-theme-switch>
                 <button class="theme-btn" type="button" aria-haspopup="true"
-                        aria-expanded="false" aria-controls="theme-menu" title="Theme">
+                        aria-expanded="false" aria-controls="theme-menu" title="{% trans 'Theme' %}">
                     <svg class="theme-btn-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none"
                          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M12 3a9 9 0 1 0 0 18c1.4 0 2-.9 2-1.8 0-1.3-1-1.6-1-2.7 0-1 .8-1.5 1.8-1.5H17a4 4 0 0 0 4-4c0-4.4-4-8-9-8z"/>
                         <circle cx="7.5" cy="11" r="1"/><circle cx="10.5" cy="7.5" r="1"/><circle cx="15" cy="7.5" r="1"/>
                     </svg>
-                    <span class="theme-btn-label">Theme</span>
+                    <span class="theme-btn-label">{% trans "Theme" %}</span>
                 </button>
-                <ul class="theme-menu" id="theme-menu" role="menu" aria-label="Theme" hidden>
-                    <li role="none"><button type="button" role="menuitemradio" aria-checked="false" data-theme-choice="forest"><span class="swatch"></span>Forest</button></li>
-                    <li role="none"><button type="button" role="menuitemradio" aria-checked="false" data-theme-choice="starry"><span class="swatch"></span>Starry Night</button></li>
-                    <li role="none"><button type="button" role="menuitemradio" aria-checked="false" data-theme-choice="wave"><span class="swatch"></span>Great Wave</button></li>
-                    <li role="none"><button type="button" role="menuitemradio" aria-checked="false" data-theme-choice="lilies"><span class="swatch"></span>Water Lilies</button></li>
-                    <li role="none"><button type="button" role="menuitemradio" aria-checked="false" data-theme-choice="poppy"><span class="swatch"></span>Poppy Field</button></li>
+                <ul class="theme-menu" id="theme-menu" role="menu" aria-label="{% trans 'Theme' %}" hidden>
+                    <li role="none"><button type="button" role="menuitemradio" aria-checked="false" data-theme-choice="forest"><span class="swatch"></span>{% trans "Forest" %}</button></li>
+                    <li role="none"><button type="button" role="menuitemradio" aria-checked="false" data-theme-choice="starry"><span class="swatch"></span>{% trans "Starry Night" %}</button></li>
+                    <li role="none"><button type="button" role="menuitemradio" aria-checked="false" data-theme-choice="wave"><span class="swatch"></span>{% trans "Great Wave" %}</button></li>
+                    <li role="none"><button type="button" role="menuitemradio" aria-checked="false" data-theme-choice="lilies"><span class="swatch"></span>{% trans "Water Lilies" %}</button></li>
+                    <li role="none"><button type="button" role="menuitemradio" aria-checked="false" data-theme-choice="poppy"><span class="swatch"></span>{% trans "Poppy Field" %}</button></li>
                 </ul>
             </div>
+
+
+            {# ---- language switch: one link, shows the OTHER language ---- #}
+            {% if LANG == 'fa' %}
+                <a class="lang-btn" href="{% switch_lang_url 'en' %}" hreflang="en" lang="en"
+                   title="English" aria-label="Switch to English">
+            {% else %}
+                <a class="lang-btn" href="{% switch_lang_url 'fa' %}" hreflang="fa" lang="fa"
+                   title="فارسی" aria-label="تغییر زبان به فارسی">
+            {% endif %}
+                    <svg class="lang-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="9"/>
+                        <path d="M3 12h18"/>
+                        <path d="M12 3a14 14 0 0 1 0 18a14 14 0 0 1 0-18z"/>
+                    </svg>
+                    <span>{% if LANG == 'fa' %}EN{% else %}فا{% endif %}</span>
+                </a>
 
             {% if user.is_authenticated %}
                 {# key icon = change password #}
                 <a class="nav-key"
                    href="{% url 'accounts:password_change' %}"
-                   title="Change password"
-                   aria-label="Change password"
+                   title="{% trans 'Change password' %}"
+                   aria-label="{% trans 'Change password' %}"
                    {% if current == 'password_change' or current == 'password_change_done' %}aria-current="page"{% endif %}>
                     <svg class="nav-key-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"
                          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -74,15 +92,15 @@
                         <path d="M16 7l3 3"/>
                         <path d="M13.5 9.5l2 2"/>
                     </svg>
-                    <span class="nav-key-label">Change password</span>
+                    <span class="nav-key-label">{% trans "Change password" %}</span>
                 </a>
 
                 <form method="post" action="{% url 'accounts:logout' %}" class="logout-form">
                     {% csrf_token %}
-                    <button type="submit" class="logout-btn">Logout</button>
+                    <button type="submit" class="logout-btn">{% trans "Logout" %}</button>
                 </form>
             {% else %}
-                <a href="{% url 'accounts:login' %}" class="nav-login">Log in</a>
+                <a href="{% url 'accounts:login' %}" class="nav-login">{% trans "Log in" %}</a>
             {% endif %}
         </nav>
     </div>

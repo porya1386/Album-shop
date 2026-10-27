@@ -234,3 +234,36 @@
 .forgot-link:hover {
     text-decoration: underline;
 }
+/* ---------- Persian (rtl): keep the slider geometry left-to-right ---------- */
+
+/* The sliding card and its panes always work left-to-right,
+   exactly as they were designed. */
+[dir="rtl"] .auth-card,
+[dir="rtl"] .pane,
+[dir="rtl"] .overlay,
+[dir="rtl"] .overlay-content {
+    direction: ltr;
+}
+
+/* Only the readable text goes back to right-to-left */
+[dir="rtl"] .intro,
+[dir="rtl"] .field label,
+[dir="rtl"] .alert,
+[dir="rtl"] .remember-label,
+[dir="rtl"] .forgot-link,
+[dir="rtl"] .captcha-hint,
+[dir="rtl"] .switch-mobile,
+[dir="rtl"] .overlay-content h2,
+[dir="rtl"] .overlay-content p,
+[dir="rtl"] .pane h1,
+[dir="rtl"] .pane h2 {
+    direction: rtl;
+    text-align: right;
+}
+
+/* email / password / username fields type left-to-right, eye icon stays on the same side */
+[dir="rtl"] .field input,
+[dir="rtl"] .password-wrap {
+    direction: ltr;
+    text-align: left;
+}

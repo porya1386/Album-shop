@@ -1,46 +1,49 @@
-{% load static %}
+{% load static i18n %}
 <footer class="site-footer">
   <div class="wrap">
 
     <div class="footer-grid">
 
       {# --- Brand --- #}
-      <section class="footer-col footer-brand" aria-label="About">
+      <section class="footer-col footer-brand" aria-label="{% trans 'About' %}">
         <div class="footer-brand-head">
           <img class="footer-avatar"
                src="{% static 'images/artist.png' %}"
-               alt="Jahan"
+               alt="{% trans 'Jahan' %}"
                width="60" height="60"
                onerror="this.style.display='none'">
-          <a class="footer-logo" href="/">Jahan</a>
+          <a class="footer-logo" href="{% url 'home' %}">{% trans "Jahan" %}</a>
         </div>
         <p class="footer-about">
-          Original paintings, one of each. Every piece is made by hand
-          and sold directly by the artist.
+          {% blocktrans trimmed %}
+            Original paintings, one of each. Every piece is made by hand
+            and sold directly by the artist.
+          {% endblocktrans %}
         </p>
       </section>
 
       {# --- Contact (CLIENT) --- #}
-      <section class="footer-col" aria-label="Contact">
-        <h2 class="footer-title">Contact</h2>
+      <section class="footer-col" aria-label="{% trans 'Contact' %}">
+        <h2 class="footer-title">{% trans "Contact" %}</h2>
         <ul class="footer-list">
           <li>
-            <span class="footer-label">Phone</span>
-            <a href="tel:+00000000000">+00 000 000 0000</a>
+            <span class="footer-label">{% trans "Phone" %}</span>
+            {# phone numbers always read left-to-right #}
+            <a href="tel:+00000000000" dir="ltr">+00 000 000 0000</a>
           </li>
           <li>
-            <span class="footer-label">Address</span>
+            <span class="footer-label">{% trans "Address" %}</span>
             <address>
-              Street name 123, City<br>
-              Country, 00000
+              {% trans "Street name 123, City" %}<br>
+              {% trans "Country, 00000" %}
             </address>
           </li>
         </ul>
       </section>
 
       {# --- Social (CLIENT) --- #}
-      <section class="footer-col" aria-label="Social media">
-        <h2 class="footer-title">Follow</h2>
+      <section class="footer-col" aria-label="{% trans 'Social media' %}">
+        <h2 class="footer-title">{% trans "Follow" %}</h2>
         <ul class="footer-social">
           <li>
             <a class="social-link social-telegram" href="https://t.me/CLIENT_TELEGRAM" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
@@ -73,11 +76,12 @@
 
     {# --- Bottom bar --- #}
     <div class="footer-bottom">
-      <p>&copy; {% now "Y" %} Jahan. All rights reserved.</p>
+      {% now "Y" as current_year %}
+      <p>{% blocktrans trimmed %}&copy; {{ current_year }} Jahan. All rights reserved.{% endblocktrans %}</p>
 
       <p class="footer-dev">
-        Developer:
-        <a class="social-github" href="https://github.com/porya1386" target="_blank" rel="noopener noreferrer">
+        {% trans "Developer:" %}
+        <a class="social-github" href="https://github.com/porya1386" target="_blank" rel="noopener noreferrer" dir="ltr">
           <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
           github.com/porya1386
         </a>

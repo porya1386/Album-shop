@@ -1,8 +1,7 @@
 {% extends "base.html" %}
-{% load static %}
-
+{% load static i18n %}
 {% block page_title %}
-    <title>Login | Jahan</title>
+    <title>{% trans "Login | Jahan" %}</title>
 {% endblock page_title %}
 
 {% block page_style %}
@@ -15,6 +14,9 @@
         class="auth-card"
         id="auth-card"
         data-mode="{{ mode|default:'login' }}"
+        data-title-login="{% trans 'Log in | Jahan' %}"
+        data-title-register="{% trans 'Register | Jahan' %}"
+        data-msg-mismatch="{% trans 'The two passwords do not match.' %}"
     >
 
         <!-- LOGIN -->
@@ -23,28 +25,30 @@
             id="pane-login"
             aria-labelledby="login-title"
         >
-            <h1 id="login-title">Log in</h1>
+            <h1 id="login-title">{% trans "Log in" %}</h1>
             <p class="intro">
-                Welcome back. Enter your details to continue.
+                {% trans "Welcome back. Enter your details to continue." %}
             </p>
 
-            <form method="post" action="/accounts/" data-captcha-form="login">
+            <form method="post" action="{% url 'accounts:login' %}" data-captcha-form="login">
                 {% csrf_token %}
                 <input type="hidden" name="action" value="login">
 
                 {% if login_form.errors %}
                     <div class="alert" role="alert">
                         {% if login_form.captcha.errors %}
-                            Please confirm that you are not a robot.
+                            {% trans "Please confirm that you are not a robot." %}
                         {% else %}
-                            The username or password is incorrect.
-                            Check both and try again.
+                            {% blocktrans trimmed %}
+                                The username or password is incorrect.
+                                Check both and try again.
+                            {% endblocktrans %}
                         {% endif %}
                     </div>
                 {% endif %}
 
                 <div class="field">
-                    <label for="login-username">Username</label>
+                    <label for="login-username">{% trans "Username" %}</label>
                     <input
                         type="text"
                         id="login-username"
@@ -56,7 +60,7 @@
                 </div>
 
                 <div class="field">
-                    <label for="login-password">Password</label>
+                    <label for="login-password">{% trans "Password" %}</label>
                     <div class="password-wrap">
                         <input
                             type="password"
@@ -70,7 +74,9 @@
                             class="pw-toggle"
                             aria-controls="login-password"
                             aria-pressed="false"
-                        >Show</button>
+                            data-show-text="{% trans 'Show' %}"
+                            data-hide-text="{% trans 'Hide' %}"
+                        >{% trans "Show" %}</button>
                     </div>
                 </div>
 
@@ -81,11 +87,11 @@
                             id="remember-me"
                             name="remember_me"
                         >
-                        Remember me
+                        {% trans "Remember me" %}
                     </label>
 
-                    <a href="/accounts/password-reset/" class="forgot-link">
-                        Forgot password?
+                    <a href="{% url 'accounts:password_reset' %}" class="forgot-link">
+                        {% trans "Forgot password?" %}
                     </a>
                 </div>
 
@@ -100,7 +106,7 @@
                     {{ login_form.captcha }}
                 </div>
                 <p class="captcha-hint" data-captcha-hint hidden>
-                    Tick "I'm not a robot" to log in.
+                    {% blocktrans trimmed %}Tick "I'm not a robot" to log in.{% endblocktrans %}
                 </p>
 
                 <button
@@ -108,14 +114,14 @@
                     class="btn btn-primary btn-block"
                     data-captcha-submit
                 >
-                    Log in
+                    {% trans "Log in" %}
                 </button>
             </form>
 
             <p class="switch-mobile">
-                New here?
+                {% trans "New here?" %}
                 <button type="button" data-switch="register">
-                    Register
+                    {% trans "Register" %}
                 </button>
             </p>
         </section>
@@ -126,13 +132,15 @@
             id="pane-register"
             aria-labelledby="register-title"
         >
-            <h1 id="register-title">Create an account</h1>
+            <h1 id="register-title">{% trans "Create an account" %}</h1>
             <p class="intro">
-                It takes a minute. You can then follow new paintings
-                and get in touch.
+                {% blocktrans trimmed %}
+                    It takes a minute. You can then follow new paintings
+                    and get in touch.
+                {% endblocktrans %}
             </p>
 
-            <form method="post" action="/accounts/" data-captcha-form="register">
+            <form method="post" action="{% url 'accounts:login' %}" data-captcha-form="register">
                 {% csrf_token %}
                 <input type="hidden" name="action" value="register">
 
@@ -149,7 +157,7 @@
                 {% endif %}
 
                 <div class="field">
-                    <label for="reg-username">Username</label>
+                    <label for="reg-username">{% trans "Username" %}</label>
                     <input
                         type="text"
                         id="reg-username"
@@ -161,7 +169,7 @@
                 </div>
 
                 <div class="field">
-                    <label for="reg-email">Email</label>
+                    <label for="reg-email">{% trans "Email" %}</label>
                     <input
                         type="email"
                         id="reg-email"
@@ -173,7 +181,7 @@
                 </div>
 
                 <div class="field">
-                    <label for="reg-password1">Password</label>
+                    <label for="reg-password1">{% trans "Password" %}</label>
                     <div class="password-wrap">
                         <input
                             type="password"
@@ -188,12 +196,14 @@
                             class="pw-toggle"
                             aria-controls="reg-password1"
                             aria-pressed="false"
-                        >Show</button>
+                            data-show-text="{% trans 'Show' %}"
+                            data-hide-text="{% trans 'Hide' %}"
+                        >{% trans "Show" %}</button>
                     </div>
                 </div>
 
                 <div class="field">
-                    <label for="reg-password2">Repeat password</label>
+                    <label for="reg-password2">{% trans "Repeat password" %}</label>
                     <div class="password-wrap">
                         <input
                             type="password"
@@ -208,7 +218,9 @@
                             class="pw-toggle"
                             aria-controls="reg-password2"
                             aria-pressed="false"
-                        >Show</button>
+                            data-show-text="{% trans 'Show' %}"
+                            data-hide-text="{% trans 'Hide' %}"
+                        >{% trans "Show" %}</button>
                     </div>
                 </div>
 
@@ -216,7 +228,7 @@
                     {{ register_form.captcha }}
                 </div>
                 <p class="captcha-hint" data-captcha-hint hidden>
-                    Tick "I'm not a robot" to create your account.
+                    {% blocktrans trimmed %}Tick "I'm not a robot" to create your account.{% endblocktrans %}
                 </p>
 
                 <button
@@ -224,14 +236,14 @@
                     class="btn btn-primary btn-block"
                     data-captcha-submit
                 >
-                    Create account
+                    {% trans "Create account" %}
                 </button>
             </form>
 
             <p class="switch-mobile">
-                Already have an account?
+                {% trans "Already have an account?" %}
                 <button type="button" data-switch="login">
-                    Log in
+                    {% trans "Log in" %}
                 </button>
             </p>
         </section>
@@ -239,23 +251,25 @@
         <!-- SLIDING PANEL -->
         <div class="overlay" id="overlay">
             <div class="overlay-content ov-register" id="ov-register">
-                <h2>New here?</h2>
+                <h2>{% trans "New here?" %}</h2>
                 <p>
-                    Create an account to follow new paintings
-                    and get in touch.
+                    {% blocktrans trimmed %}
+                        Create an account to follow new paintings
+                        and get in touch.
+                    {% endblocktrans %}
                 </p>
                 <button type="button" class="btn btn-ghost">
-                    Register
+                    {% trans "Register" %}
                 </button>
             </div>
 
             <div class="overlay-content ov-login" id="ov-login">
-                <h2>Welcome back</h2>
+                <h2>{% trans "Welcome back" %}</h2>
                 <p>
-                    Already have an account? Log in to continue.
+                    {% trans "Already have an account? Log in to continue." %}
                 </p>
                 <button type="button" class="btn btn-ghost">
-                    Log in
+                    {% trans "Log in" %}
                 </button>
             </div>
         </div>

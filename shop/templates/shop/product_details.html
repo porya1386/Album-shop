@@ -1,22 +1,21 @@
 {% extends "base.html" %}
-{% load static %}
-
+{% load static i18n %}
 {% block page_title %}
-    <title>{{ product.title }} | Jahan</title>
+    <title>{{ product.title }} | {% trans "Jahan" %}</title>
 {% endblock page_title %}
 
 {% block page_style %}
     <link rel="stylesheet" href="{% static 'shop/css/loading.css' %}">
     <link rel="stylesheet" href="{% static 'shop/css/product_details.css' %}">
-    <link rel="stylesheet" href="{% static "shop/css/likes.css" %}">
+    <link rel="stylesheet" href="{% static 'shop/css/likes.css' %}">
 {% endblock page_style %}
 
 {% block page_content %}
 <main class="pd-page">
     <div class="wrap">
 
-        <nav class="pd-crumbs" aria-label="Breadcrumb">
-            <a href="/shop/products/">Products</a>
+        <nav class="pd-crumbs" aria-label="{% trans 'Breadcrumb' %}">
+            <a href="{% url 'products' %}">{% trans "Products" %}</a>
             <span aria-hidden="true">/</span>
             <span aria-current="page">{{ product.title }}</span>
         </nav>
@@ -26,19 +25,20 @@
             <div class="pd-media">
                 {% with extra=product.images.all %}
 
+                {% blocktrans asvar zoom_label with title=product.title %}View {{ title }} full size{% endblocktrans %}
                 <div class="pd-stage">
                     <button type="button" class="pd-frame" id="pd-zoom-open"
-                            aria-label="View {{ product.title }} full size">
+                            aria-label="{{ zoom_label }}">
                         <img id="pd-main-img" src="{{ product.image.url }}" alt="{{ product.title }}">
                         {% if not product.is_active %}
-                            <span class="pd-badge">Sold</span>
+                            <span class="pd-badge">{% trans "Sold" %}</span>
                         {% endif %}
-                        <span class="pd-zoom-hint">Click to enlarge</span>
+                        <span class="pd-zoom-hint">{% trans "Click to enlarge" %}</span>
                     </button>
 
                     {% if extra %}
-                    <button type="button" class="pd-arrow pd-arrow--prev" id="pd-prev" aria-label="Previous image">&#8249;</button>
-                    <button type="button" class="pd-arrow pd-arrow--next" id="pd-next" aria-label="Next image">&#8250;</button>
+                    <button type="button" class="pd-arrow pd-arrow--prev" id="pd-prev" aria-label="{% trans 'Previous image' %}">&#8249;</button>
+                    <button type="button" class="pd-arrow pd-arrow--next" id="pd-next" aria-label="{% trans 'Next image' %}">&#8250;</button>
                     {% endif %}
                 </div>
 
@@ -48,16 +48,17 @@
                         <button type="button" class="pd-thumb is-active"
                                 data-src="{{ product.image.url }}"
                                 data-alt="{{ product.title }}"
-                                aria-label="Show main image">
+                                aria-label="{% trans 'Show main image' %}">
                             <img src="{{ product.image.url }}" alt="">
                         </button>
                     </li>
                     {% for img in extra %}
+                    {% blocktrans asvar thumb_label with n=forloop.counter|add:1 %}Show image {{ n }}{% endblocktrans %}
                     <li>
                         <button type="button" class="pd-thumb"
                                 data-src="{{ img.image.url }}"
                                 data-alt="{{ img.caption|default:product.title }}"
-                                aria-label="Show image {{ forloop.counter|add:1 }}">
+                                aria-label="{{ thumb_label }}">
                             <img src="{{ img.image.url }}" alt="">
                         </button>
                     </li>
@@ -69,7 +70,7 @@
             </div>
 
             <div class="pd-info">
-                <p class="pd-eyebrow">Original painting</p>
+                <p class="pd-eyebrow">{% trans "Original painting" %}</p>
                 <h1>{{ product.title }}</h1>
 
                 <p class="pd-price">${{ product.price|floatformat:"g" }}</p>
@@ -82,25 +83,25 @@
                 <dl class="pd-facts">
                     {% if product.size %}
                     <div>
-                        <dt>Size</dt>
+                        <dt>{% trans "Size" %}</dt>
                         <dd>{{ product.size }}</dd>
                     </div>
                     {% endif %}
 
                     {% if product.year %}
                     <div>
-                        <dt>Year</dt>
+                        <dt>{% trans "Year" %}</dt>
                         <dd>{{ product.year|date:"Y" }}</dd>
                     </div>
                     {% endif %}
 
                     <div>
-                        <dt>Availability</dt>
+                        <dt>{% trans "Availability" context "product" %}</dt>
                         <dd>
                             {% if product.is_active %}
-                                <span class="pd-status pd-status--ok">Available</span>
+                                <span class="pd-status pd-status--ok">{% trans "Available" %}</span>
                             {% else %}
-                                <span class="pd-status pd-status--sold">Sold</span>
+                                <span class="pd-status pd-status--sold">{% trans "Sold" %}</span>
                             {% endif %}
                         </dd>
                     </div>
@@ -108,13 +109,14 @@
 
                 <div class="pd-actions">
                     {% if product.is_active %}
+                        {% blocktrans asvar mail_subject with title=product.title %}Question about: {{ title }}{% endblocktrans %}
                         <a class="btn btn-primary"
-                           href="mailto:?subject=Question%20about%3A%20{{ product.title|urlencode }}">
-                            Ask about this painting
+                           href="mailto:?subject={{ mail_subject|urlencode }}">
+                            {% trans "Ask about this painting" %}
                         </a>
                     {% endif %}
-                    <a class="btn btn-ghost" href="/shop/products/">Back to products</a>
-                    <button type="button" class="btn btn-ghost" id="pd-copy">Copy link</button>
+                    <a class="btn btn-ghost" href="{% url 'products' %}">{% trans "Back to products" %}</a>
+                    <button type="button" class="btn btn-ghost" id="pd-copy" data-copied-text="{% trans 'Link copied' %}">{% trans "Copy link" %}</button>
                 </div>
             </div>
         </article>
@@ -122,8 +124,9 @@
 </main>
 
 {# Full size viewer #}
-<dialog id="pd-zoom" aria-label="{{ product.title }} full size">
-    <button type="button" class="pd-zoom-close" id="pd-zoom-close" aria-label="Close">&times;</button>
+{% blocktrans asvar dialog_label with title=product.title %}{{ title }} full size{% endblocktrans %}
+<dialog id="pd-zoom" aria-label="{{ dialog_label }}">
+    <button type="button" class="pd-zoom-close" id="pd-zoom-close" aria-label="{% trans 'Close' %}">&times;</button>
     <img id="pd-zoom-img" src="{{ product.image.url }}" alt="{{ product.title }}">
 </dialog>
 {% endblock page_content %}
