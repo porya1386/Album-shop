@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     # My apps
     'website',
     'shop',
+    'reviews',
     # installed apps
     'drf_yasg',
     'rest_framework',

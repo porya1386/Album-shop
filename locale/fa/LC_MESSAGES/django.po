@@ -537,3 +537,68 @@ msgstr[1] "%(counter)s نقاشی"
 msgctxt "product"
 msgid "Availability"
 msgstr "وضعیت"
+
+# --- reviews (comments) ---
+
+msgid "painting"
+msgstr "نقاشی"
+
+msgid "user"
+msgstr "کاربر"
+
+msgid "comment"
+msgstr "نظر"
+
+msgid "created at"
+msgstr "تاریخ ثبت"
+
+msgid "comments"
+msgstr "نظرات"
+
+msgid "Comments"
+msgstr "نظرات"
+
+msgid "Your comment"
+msgstr "نظر شما"
+
+msgid "Write your comment..."
+msgstr "نظر خود را بنویسید..."
+
+msgid "Please do not post more than two links."
+msgstr "لطفاً بیشتر از دو لینک نگذارید."
+
+msgid "You are commenting too fast. Please wait a minute."
+msgstr "خیلی سریع نظر می‌دهید. لطفاً کمی صبر کنید."
+
+msgid "Invalid comment."
+msgstr "نظر نامعتبر است."
+
+msgid "Delete this comment?"
+msgstr "این نظر حذف شود؟"
+
+msgid "Post comment"
+msgstr "ثبت نظر"
+
+#, python-format
+msgid "<a href=\"%(login)s?next=%(next)s\">Log in</a> to leave a comment."
+msgstr "برای ثبت نظر <a href=\"%(login)s?next=%(next)s\">وارد شوید</a>."
+
+#, python-format
+msgid "%(ago)s ago"
+msgstr "%(ago)s پیش"
+
+msgid "Delete comment"
+msgstr "حذف نظر"
+
+#, python-format
+msgid "Show all %(total)s comments"
+msgstr "نمایش همه‌ی %(total)s نظر"
+
+msgid "No comments yet. Be the first!"
+msgstr "هنوز نظری ثبت نشده. اولین نفر باشید!"
+
+#, python-format
+msgid "%(counter)s comment"
+msgid_plural "%(counter)s comments"
+msgstr[0] "%(counter)s نظر"
+msgstr[1] "%(counter)s نظر"

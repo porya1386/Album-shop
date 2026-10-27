@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static i18n %}
+{% load static i18n comments_tags %}
 {% block page_title %}
     <title>{{ product.title }} | {% trans "Jahan" %}</title>
 {% endblock page_title %}
@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{% static 'shop/css/loading.css' %}">
     <link rel="stylesheet" href="{% static 'shop/css/product_details.css' %}">
     <link rel="stylesheet" href="{% static 'shop/css/likes.css' %}">
+    <link rel="stylesheet" href="{% static 'reviews/css/comments.css' %}">
 {% endblock page_style %}
 
 {% block page_content %}
@@ -120,6 +121,9 @@
                 </div>
             </div>
         </article>
+
+        {# comments: under the images #}
+        {% comments_section product %}
     </div>
 </main>
 
