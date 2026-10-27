@@ -9,24 +9,36 @@ https://docs.djangoproject.com/en/6.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.1/ref/settings/
 """
-
+from dotenv import load_dotenv
 import os
 from pathlib import Path
 from django.utils.translation import gettext_lazy as _
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+load_dotenv(BASE_DIR / ".env")
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-7-61j^w6tjbuax(nwtj-uhnt87rrh9@)(a(&c*n^pkm%@x7qf#'
+SECRET_KEY = os.environ["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = []
+DEBUG = os.environ.get("DEBUG", "False").lower() in (
+    "true",
+    "1",
+    "yes",
+)
+
+
+ALLOWED_HOSTS = [
+    host.strip()
+    for host in os.environ.get(
+        "ALLOWED_HOSTS", "localhost,127.0.0.1"
+    ).split(",")
+    if host.strip()
+]
 
 LOGIN_REDIRECT_URL = "home"
 # Application definition
@@ -175,9 +187,15 @@ LOGOUT_REDIRECT_URL = "accounts:login"
 
 # Captcha
 
-RECAPTCHA_PUBLIC_KEY = "6LdFQwIuAAAAAMk1CTOlLO--t6uWTNVW-kBSSHcW"
-RECAPTCHA_PRIVATE_KEY = "6LdFQwIuAAAAAMiGCDQH6sE7eYNqVGqrfSAHLiAr"
-SILENCED_SYSTEM_CHECKS = ["django_recaptcha.recaptcha_test_key_error"]
-RECAPTCHA_DOMAIN = "www.recaptcha.net"
+RECAPTCHA_PUBLIC_KEY = os.environ["RECAPTCHA_PUBLIC_KEY"]
+RECAPTCHA_PRIVATE_KEY = os.environ["RECAPTCHA_PRIVATE_KEY"]
+
+RECAPTCHA_DOMAIN = os.environ.get(
+    "RECAPTCHA_DOMAIN", "www.recaptcha.net"
+)
+
+SILENCED_SYSTEM_CHECKS = [
+    "django_recaptcha.recaptcha_test_key_error"
+]
 
 AUTH_USER_MODEL = "accounts.CustomUser"
