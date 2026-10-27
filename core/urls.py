@@ -26,9 +26,9 @@ urlpatterns = [
 ]
 
 urlpatterns += i18n_patterns(
+    path("accounts/", include("accounts.urls")),
     path("", include("website.urls")),
     path("shop/", include("shop.urls")),
-    path("accounts/", include("accounts.urls")),
     path("admin/", admin.site.urls),
     path("comments/", include("reviews.urls")),
     # prefix_default_language=False   <-- hazf kon (pishfarz True hast)

@@ -40,7 +40,6 @@ ALLOWED_HOSTS = [
     if host.strip()
 ]
 
-LOGIN_REDIRECT_URL = "home"
 # Application definition
 
 INSTALLED_APPS = [
@@ -181,7 +180,7 @@ MAILERS = {
 }
 # Login Redirect
 LOGIN_URL = "accounts:login"
-LOGIN_REDIRECT_URL = "shop:products"
+LOGIN_REDIRECT_URL = "products"
 LOGOUT_REDIRECT_URL = "accounts:login"
 
 

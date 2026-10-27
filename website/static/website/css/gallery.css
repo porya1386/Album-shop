@@ -44,8 +44,8 @@
   max-width: 1080px;
   margin: 0 auto;
   container-type: inline-size;
-  --tile-w: 22cqw;
-  --gap: 3cqw;
+  --tile-w: 25cqw;
+  --gap: 2cqw;
 }
 
 /* The scrolling strip must ALWAYS run left-to-right internally, even on the
@@ -116,24 +116,22 @@
   border-radius: 14px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, .45);
 }
+.tile-frame {
+  display: block;
+  padding: 0;
+  background: transparent;
+  border-radius: 22px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .35);
+  overflow: hidden;
+}
+
 .tile-frame img {
   display: block;
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 22px;
   background: #2a3a2e;
-}
-.tile-title {
-  display: block;
-  margin-top: .7rem;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  font-family: var(--font-display);
-  font-size: 1rem;
-  line-height: 1.2;
-  color: var(--ink);
 }
 .tile-price {
   display: block;
@@ -166,16 +164,19 @@
 
 /* ---- Smaller screens: fewer, bigger tiles so they stay readable ---- */
 @media (max-width: 860px) {
-  .marquee { --tile-w: 34cqw; --gap: 4cqw; }
-}
-@media (max-width: 560px) {
-  .marquee { --tile-w: 62cqw; --gap: 6cqw; }
-  .gallery { margin-top: 2.5rem; }
+  .marquee {
+    --tile-w: 38cqw;
+    --gap: 3cqw;
+  }
 }
 
-/* ---- No motion: let people scroll by hand instead ---- */
-@media (prefers-reduced-motion: reduce) {
-  .marquee-track { animation: none; }
-  .marquee-viewport { overflow-x: auto; }
-  .tile { transition: none; }
+@media (max-width: 560px) {
+  .marquee {
+    --tile-w: 68cqw;
+    --gap: 5cqw;
+  }
+
+  .gallery {
+    margin-top: 2.5rem;
+  }
 }
