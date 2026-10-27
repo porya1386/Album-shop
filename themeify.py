@@ -107,3 +107,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+# Yea nobody getting a JOB when ai write code like this in SECENDS 

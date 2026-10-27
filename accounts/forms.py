@@ -1,8 +1,14 @@
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from django.contrib.auth.models import User
+from django.contrib.auth.forms import (
+    AuthenticationForm,
+    UserCreationForm,
+    PasswordResetForm,
+    SetPasswordForm,
+    PasswordChangeForm,
+)
 from django_recaptcha.fields import ReCaptchaField
 from django_recaptcha.widgets import ReCaptchaV2Checkbox
+from .models import CustomUser
 
 
 class RegisterForm(UserCreationForm):
@@ -55,12 +61,12 @@ class RegisterForm(UserCreationForm):
     )
 
     class Meta:
-        model = User
+        model = CustomUser
         fields = ("username", "email", "password1", "password2")
 
     def clean_email(self):
         email = self.cleaned_data["email"].strip()
-        if User.objects.filter(email__iexact=email).exists():
+        if CustomUser.objects.filter(email__iexact=email).exists():
             raise forms.ValidationError("This email is already registered.")
         return email
 
@@ -94,3 +100,42 @@ class LoginForm(AuthenticationForm):
         if "captcha" in self.errors:
             return self.cleaned_data
         return super().clean()
+
+
+class CaptchaPasswordResetForm(PasswordResetForm):
+    captcha = ReCaptchaField(
+        label="",
+        error_messages={
+            "required": "Please confirm that you are not a robot."
+        },
+        widget=ReCaptchaV2Checkbox(attrs={
+            "id": "password-reset-captcha",
+            "data-theme": "dark",
+        }),
+    )
+
+
+class CaptchaSetPasswordForm(SetPasswordForm):
+    captcha = ReCaptchaField(
+        label="",
+        error_messages={
+            "required": "Please confirm that you are not a robot."
+        },
+        widget=ReCaptchaV2Checkbox(attrs={
+            "id": "set-password-captcha",
+            "data-theme": "dark",
+        }),
+    )
+
+
+class CaptchaPasswordChangeForm(PasswordChangeForm):
+    captcha = ReCaptchaField(
+        label="",
+        error_messages={
+            "required": "Please confirm that you are not a robot."
+        },
+        widget=ReCaptchaV2Checkbox(attrs={
+            "id": "password-change-captcha",
+            "data-theme": "dark",
+        }),
+    )

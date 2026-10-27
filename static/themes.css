@@ -228,3 +228,22 @@ html.theme-vt, html.theme-vt * { transition: none !important; }
   html { transition: none; }
   .theme-menu button { transition: none; }
 }
+/* Starry Night */
+html[data-theme="starry"] {
+    --painting: url("../images/themes/starry-night.jpg");
+}
+
+/* Great Wave */
+html[data-theme="wave"] {
+    --painting: url("../images/themes/great-wave.jpg");
+}
+
+/* Water Lilies */
+html[data-theme="lilies"] {
+    --painting: url("../images/themes/water-lilies.jpg");
+}
+
+/* Poppy Field */
+html[data-theme="poppy"] {
+    --painting: url("../images/themes/poppy-field.jpg");
+}

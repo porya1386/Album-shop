@@ -12,7 +12,6 @@ from .models import Album_image
 from .search import parse_terms
 from .serializer import Album_Serializer
 from django.conf import settings
-import calendar
 
 # ---------------------------------------------------------------- helpers
 

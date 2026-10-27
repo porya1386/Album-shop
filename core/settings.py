@@ -177,3 +177,5 @@ RECAPTCHA_PUBLIC_KEY = "6LdFQwIuAAAAAMk1CTOlLO--t6uWTNVW-kBSSHcW"
 RECAPTCHA_PRIVATE_KEY = "6LdFQwIuAAAAAMiGCDQH6sE7eYNqVGqrfSAHLiAr"
 SILENCED_SYSTEM_CHECKS = ["django_recaptcha.recaptcha_test_key_error"]
 RECAPTCHA_DOMAIN = "www.recaptcha.net"
+
+AUTH_USER_MODEL = "accounts.CustomUser"
