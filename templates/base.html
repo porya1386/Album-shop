@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% block page_title %}<title>Base Title</title>{% endblock page_title %}
     {% block page_style %}{% endblock page_style %}
+    <link rel="stylesheet" href="{% static "themes.css" %}">
     <link rel="stylesheet" href="{% static 'footer.css' %}">
     <link rel="stylesheet" href="{% static 'glow.css' %}">
     <link rel="preload" href="{% static 'fonts/fraunces-latin.woff2' %}" as="font" type="font/woff2" crossorigin>
@@ -30,3 +31,18 @@
     <script src="{% static 'js/header.js' %}"></script>
 </body>
 </html>
+{# 1) In <head> of base.html, BEFORE any stylesheet (stops a flash of the wrong theme): #}
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem("jahan-theme");
+      if (t) document.documentElement.setAttribute("data-theme", t);
+    } catch (e) {}
+  })();
+</script>
+
+{# 2) AFTER root.css and header.css (and the other css links): #}
+<link rel="stylesheet" href="{% static 'themes.css' %}">
+
+{# 3) Next to header.js, at the end of <body>: #}
+<script src="{% static 'js/themes.js' %}" defer></script>

@@ -1,6 +1,6 @@
-/* ---------- Mouse glow: a warm light that follows the cursor ----------
+/* ---------- Mouse glow: a light that follows the cursor ----------
    Sits behind the page content (z-index: -1) and never blocks clicks.
------------------------------------------------------------------------- */
+   Colours come from the theme (--glow-1/2/3); the defaults are your old amber. */
 
 .mouse-glow {
   position: fixed;
@@ -14,15 +14,14 @@
   opacity: 0;
   transition: opacity .6s ease;
   will-change: transform;
-  /* bright amber in the middle, coffee brown at the edge, then nothing */
   background: radial-gradient(circle closest-side,
-      rgba(255, 207, 125, .34) 0%,
-      rgba(217, 144, 64, .22) 32%,
-      rgba(128, 76, 32, .11) 62%,
-      rgba(128, 76, 32, 0) 100%);
+      color-mix(in srgb, var(--glow-1, #ffcf7d) 26%, transparent) 0%,
+      color-mix(in srgb, var(--glow-2, #d99040) 17%, transparent) 32%,
+      color-mix(in srgb, var(--glow-3, #804c20) 9%, transparent) 62%,
+      transparent 100%);
 }
 .mouse-glow.is-on { opacity: 1; }
 
 @media (hover: none) {
-  .mouse-glow { display: none; }            /* phones/tablets: nothing to follow */
+  .mouse-glow { display: none; }
 }
