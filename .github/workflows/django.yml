@@ -1,3 +1,4 @@
+
 name: Django CI/CD
 
 on:
@@ -10,8 +11,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    # Same services as your docker-compose (postgres:16 and redis:7).
-    # They are reached on localhost from the runner, not by the compose names.
     services:
       postgres:
         image: postgres:16
@@ -19,33 +18,44 @@ jobs:
           POSTGRES_DB: album_shop
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
-        ports: ["5432:5432"]
+        ports:
+          - 5432:5432
         options: >-
           --health-cmd "pg_isready -U postgres"
           --health-interval 5s
           --health-timeout 5s
           --health-retries 10
+
       redis:
         image: redis:7
-        ports: ["6379:6379"]
+        ports:
+          - 6379:6379
         options: >-
           --health-cmd "redis-cli ping"
           --health-interval 5s
           --health-timeout 5s
           --health-retries 10
 
-    # !! Rename these to the variable names your settings.py really reads !!
     env:
       SECRET_KEY: ci-only-not-secret
-      DEBUG: "0"
+      DEBUG: "False"
+      ALLOWED_HOSTS: localhost,127.0.0.1
+
       POSTGRES_DB: album_shop
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_HOST: localhost
       POSTGRES_PORT: "5432"
+
       DATABASE_URL: postgres://postgres:postgres@localhost:5432/album_shop
       REDIS_HOST: localhost
       REDIS_URL: redis://localhost:6379/0
+
+      # Dummy keys for CI checks and tests.
+      # Do not use these for a deployed website.
+      RECAPTCHA_PUBLIC_KEY: ci-test-site-key
+      RECAPTCHA_PRIVATE_KEY: ci-test-secret-key
+      RECAPTCHA_DOMAIN: www.recaptcha.net
 
     steps:
       - name: Checkout repository
@@ -89,6 +99,8 @@ jobs:
                "*.pyc" \
                "db.sqlite3" \
                ".env" \
+               ".env.*" \
+               "!.env.example" \
                "venv/*" \
                ".venv/*"
 
