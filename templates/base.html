@@ -5,17 +5,37 @@
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}">
 <head>
+    <script>
+        (function () {
+            try {
+                const theme = localStorage.getItem("jahan-theme");
+                const allowed = [
+                    "forest",
+                    "starry",
+                    "wave",
+                    "lilies",
+                    "poppy"
+                ];
+
+                if (allowed.includes(theme)) {
+                    document.documentElement.setAttribute("data-theme", theme);
+                }
+            } catch (e) {
+                // Storage may be unavailable in private browsing.
+            }
+        })();
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% block page_title %}<title>Base Title</title>{% endblock page_title %}
     {% block page_style %}{% endblock page_style %}
+    <link rel="stylesheet" href="{% static 'root.css' %}">
+    <link rel="stylesheet" href="{% static 'header.css' %}">
     <link rel="stylesheet" href="{% static "themes.css" %}">
     <link rel="stylesheet" href="{% static 'footer.css' %}">
     <link rel="stylesheet" href="{% static 'glow.css' %}">
     <link rel="preload" href="{% static 'fonts/fraunces-latin.woff2' %}" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="{% static 'fonts/figtree-latin.woff2' %}" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="{% static 'root.css' %}">
-    <link rel="stylesheet" href="{% static 'header.css' %}">
     <link rel="apple-touch-icon" sizes="180x180"
       href="{% static 'images/apple-touch-icon.png' %}">
     <link rel="icon" type="image/png" sizes="32x32"
@@ -32,20 +52,6 @@
     {% include "includes/footer.html" %}
     <script src="{% static 'js/glow.js' %}"></script>
     <script src="{% static 'js/header.js' %}"></script>
+    <script src="{% static 'js/themes.js' %}" defer></script>
 </body>
 </html>
-{# 1) In <head> of base.html, BEFORE any stylesheet (stops a flash of the wrong theme): #}
-<script>
-  (function () {
-    try {
-      var t = localStorage.getItem("jahan-theme");
-      if (t) document.documentElement.setAttribute("data-theme", t);
-    } catch (e) {}
-  })();
-</script>
-
-{# 2) AFTER root.css and header.css (and the other css links): #}
-<link rel="stylesheet" href="{% static 'themes.css' %}">
-
-{# 3) Next to header.js, at the end of <body>: #}
-<script src="{% static 'js/themes.js' %}" defer></script>

@@ -20,7 +20,6 @@
       --night: #101a14;
       --font-display: "Fraunces", Georgia, serif;
       --font-body: "Figtree", "Segoe UI", system-ui, sans-serif;
-
       /* Same painting as the home page. Replace this URL to change it. */
       --painting: url("/static/website/img/background.jpg");
     }
@@ -29,23 +28,28 @@
     html { scroll-behavior: smooth; }
 
     body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      font-family: var(--font-body);
-      font-size: 1.05rem;
-      line-height: 1.6;
-      color: var(--ink);
-      background-color: var(--night);
-      /* Darker overlay than the home page so long text stays easy to read */
-      background-image:
-        linear-gradient(rgba(10, 16, 12, .6), rgba(10, 16, 12, .72)),
-        var(--painting);
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-    }
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--ink);
+
+    background-color: var(--night);
+    background-image:
+        linear-gradient(
+            rgba(10, 16, 12, .6),
+            rgba(10, 16, 12, .72)
+        ),
+        var(--painting, none);
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
 
     a { color: inherit; }
     p { margin: 0 0 1rem; }

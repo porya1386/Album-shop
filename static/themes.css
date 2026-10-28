@@ -86,14 +86,7 @@ html[data-theme="poppy"] {
 }
 
 /* The painted background (every theme except the default) */
-html[data-theme]:not([data-theme="forest"]) body {
-  background-color: var(--night);
-  background-image: var(--bg-veil), var(--bg-image, none), var(--bg-gradient);
-  background-size: cover, cover, cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-}
+
 @media (max-width: 720px) {
   html[data-theme]:not([data-theme="forest"]) body { background-attachment: scroll; }
 }
@@ -110,27 +103,6 @@ html.theme-vt, html.theme-vt * { transition: none !important; }
 /* ---------------------------------------------------------------- Theme button + menu (header) */
 .theme-switch { position: relative; display: inline-flex; align-items: center; }
 
-.site-nav .theme-btn {
-  display: inline-grid;
-  place-items: center;
-  width: 34px;
-  height: 34px;
-  padding: 0;
-  border: 1.5px solid color-mix(in srgb, var(--ink) 45%, transparent);
-  border-radius: 50%;
-  background: transparent;
-  color: var(--ink);
-  font: inherit;
-  cursor: pointer;
-  transition: border-color .15s, background .15s, color .15s;
-}
-.site-nav .theme-btn:hover,
-.site-nav .theme-btn[aria-expanded="true"] {
-  border-color: var(--gold);
-  background: color-mix(in srgb, var(--gold) 14%, transparent);
-  color: var(--gold);
-}
-.site-nav .theme-btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
 .theme-btn-icon { display: block; width: 18px; height: 18px; flex: none; }
 .theme-btn-label {
   position: absolute; width: 1px; height: 1px; overflow: hidden;
@@ -140,7 +112,7 @@ html.theme-vt, html.theme-vt * { transition: none !important; }
 .theme-menu {
   position: absolute;
   top: calc(100% + 14px);
-  right: 0;
+  inset-inline-end: 0;
   z-index: 1100;
   min-width: 230px;
   margin: 0;
@@ -166,7 +138,7 @@ html.theme-vt, html.theme-vt * { transition: none !important; }
   background: transparent;
   color: var(--ink);
   font: inherit;
-  text-align: left;
+  text-align: start;
   cursor: pointer;
   transition: background .12s;
 }
@@ -175,7 +147,7 @@ html.theme-vt, html.theme-vt * { transition: none !important; }
 .theme-menu button[aria-checked="true"] { background: color-mix(in srgb, var(--gold) 16%, transparent); }
 .theme-menu button[aria-checked="true"]::after {
   content: "";
-  width: 7px; height: 12px; margin-left: auto;
+  width: 7px; height: 12px; margin-inline-start: auto;
   border: solid var(--gold); border-width: 0 2px 2px 0;
   transform: rotate(45deg) translate(-2px, -2px);
 }
@@ -197,23 +169,6 @@ html.theme-vt, html.theme-vt * { transition: none !important; }
 /* mobile menu: a normal row; the list opens inline */
 @media (max-width: 900px) {
   .theme-switch { display: block; width: 100%; }
-  .site-nav .theme-btn {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: .75rem;
-    width: 100%;
-    height: auto;
-    padding: .8rem;
-    border: 0;
-    border-radius: 8px;
-  }
-  .site-nav .theme-btn:hover,
-  .site-nav .theme-btn[aria-expanded="true"] {
-    border: 0;
-    background: color-mix(in srgb, var(--ink) 7%, transparent);
-    color: var(--ink);
-  }
   .theme-btn-label { position: static; width: auto; height: auto; overflow: visible; clip: auto; white-space: normal; }
   .theme-menu {
     position: static;
@@ -228,22 +183,44 @@ html.theme-vt, html.theme-vt * { transition: none !important; }
   html { transition: none; }
   .theme-menu button { transition: none; }
 }
-/* Starry Night */
+
+/* Theme paintings */
+html,
+html[data-theme="forest"] {
+    --painting: url("/static/website/img/background.jpg");
+}
+
 html[data-theme="starry"] {
-    --painting: url("../images/themes/starry-night.jpg");
+    --painting: url("/static/images/themes/starry-night.jpg");
 }
 
-/* Great Wave */
 html[data-theme="wave"] {
-    --painting: url("../images/themes/great-wave.jpg");
+    --painting: url("/static/images/themes/great-wave.jpg");
 }
 
-/* Water Lilies */
 html[data-theme="lilies"] {
-    --painting: url("../images/themes/water-lilies.jpg");
+    --painting: url("/static/images/themes/water-lilies.jpg");
 }
 
-/* Poppy Field */
 html[data-theme="poppy"] {
-    --painting: url("../images/themes/poppy-field.jpg");
+    --painting: url("/static/images/themes/poppy-field.jpg");
+}
+
+/* Theme background: gradient + active painting */
+html[data-theme]:not([data-theme="forest"]) body {
+    background-color: var(--night);
+    background-image:
+        var(--bg-veil),
+        var(--painting, none),
+        var(--bg-gradient);
+    background-size: cover, cover, cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+@media (max-width: 720px) {
+    html[data-theme]:not([data-theme="forest"]) body {
+        background-attachment: scroll;
+    }
 }

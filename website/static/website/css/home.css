@@ -30,7 +30,7 @@
       transition: border-color .15s;
     }
     .site-nav a:hover,
-    .site-nav a[aria-current="page"] { border-color: var(--gold); }
+    .site-nav a[aria-current="page"] { border-color:None; }
     .site-nav .nav-login {
       border: 1.5px solid var(--ink);
       border-radius: 999px;
