@@ -40,11 +40,11 @@
                 <a class="tile-link" href="{% url 'product_details' product.slug %}">
                   <span class="tile-frame">
                     <img src="{{ product.image.url }}"
-                         alt="{{ product.title }}"
+                         alt="{{ product.display_title }}"
                          loading="lazy" decoding="async">
                   </span>
-                  <span class="tile-title">{{ product.title }}</span>
-                  <span class="tile-price">${{ product.price|floatformat:"g" }}</span>
+                  <span class="tile-title">{{ product.display_title }}</span>
+                  <span class="tile-price">{{ product.display_price }}</span>
                 </a>
               </li>
               {% endfor %}
