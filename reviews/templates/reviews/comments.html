@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n static %}
 {% trans "Delete this comment?" as confirm_text %}
 <section class="cm" id="comments" aria-labelledby="comments-title">
 
@@ -9,7 +9,10 @@
 
     {# ---- write a comment ---- #}
     {% if request.user.is_authenticated %}
-    <form class="cm-form" method="post" action="{% url 'reviews:add' product.slug %}">
+    <form class="cm-form" method="post" action="{% url 'reviews:add' product.slug %}" data-emoji-form
+          data-t-recent="{% trans 'Recent' %}" data-t-smileys="{% trans 'Smileys' %}"
+          data-t-gestures="{% trans 'Gestures' %}" data-t-hearts="{% trans 'Hearts' %}"
+          data-t-art="{% trans 'Art' %}" data-t-nature="{% trans 'Nature' %}" data-t-food="{% trans 'Food' %}">
         {% csrf_token %}
         {% if form_error %}
             <p class="cm-error" role="alert">{{ form_error }}</p>
@@ -17,6 +20,12 @@
         <label class="sr-only" for="{{ form.body.id_for_label }}">{% trans "Your comment" %}</label>
         {{ form.body }}
         <div class="cm-form-foot">
+            <div class="cm-emoji">
+                <button type="button" class="cm-emoji-btn" data-emoji-toggle hidden
+                        aria-expanded="false" aria-controls="cm-emoji-panel"
+                        title="{% trans 'Add emoji' %}" aria-label="{% trans 'Add emoji' %}">&#x1F60A;</button>
+                <div class="cm-emoji-panel" id="cm-emoji-panel" data-emoji-panel hidden></div>
+            </div>
             <button type="submit" class="btn btn-primary">{% trans "Post comment" %}</button>
         </div>
     </form>
@@ -70,3 +79,4 @@
     <p class="cm-empty">{% trans "No comments yet. Be the first!" %}</p>
     {% endif %}
 </section>
+{% if request.user.is_authenticated %}<script src="{% static 'reviews/js/emoji.js' %}" defer></script>{% endif %}

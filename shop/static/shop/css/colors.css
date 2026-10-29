@@ -1,0 +1,53 @@
+/* Colour dots on the painting page. Colours come from --c (set in the template). */
+.pd-colors {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .55rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.pd-color {
+    position: relative;
+    display: block;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--c);
+    /* a thin ring so white and black dots are visible on any theme */
+    box-shadow:
+        inset 0 0 0 1px rgba(0, 0, 0, .35),
+        0 0 0 2px color-mix(in srgb, var(--ink) 55%, transparent);
+    transition: transform .2s cubic-bezier(.34, 1.56, .64, 1);
+}
+
+.pd-color:hover { transform: scale(1.18); }
+
+/* the name appears above the dot on hover / focus */
+.pd-color::after {
+    content: attr(data-name);
+    position: absolute;
+    bottom: calc(100% + 8px);
+    inset-inline-start: 50%;
+    padding: .2rem .55rem;
+    border-radius: 8px;
+    background: var(--night);
+    color: var(--ink);
+    font-size: .8rem;
+    line-height: 1.2;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transform: translate(-50%, 4px);
+    transition: opacity .15s, transform .15s;
+}
+[dir="rtl"] .pd-color::after { transform: translate(50%, 4px); }
+.pd-color:hover::after,
+.pd-color:focus-visible::after { opacity: 1; transform: translate(-50%, 0); }
+[dir="rtl"] .pd-color:hover::after,
+[dir="rtl"] .pd-color:focus-visible::after { transform: translate(50%, 0); }
+
+@media (prefers-reduced-motion: reduce) {
+    .pd-color, .pd-color::after { transition: none; }
+}

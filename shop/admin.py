@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.db.models import Count
+from django.utils.translation import gettext_lazy as _
 
 from .models import Album_image, Album_image_gallery
 
@@ -11,10 +12,11 @@ class GalleryInline(admin.TabularInline):
 
 @admin.register(Album_image)
 class Album_image_admin(admin.ModelAdmin):
-    list_display = ['title', 'is_active', 'price', 'like_total', 'views']
+    list_display = ['title', 'title_fa', 'is_active',
+                    'price', 'price_toman', 'like_total', 'views']
     list_filter = ['title', 'price', 'is_active', 'year']
-    search_fields = ['title', 'price', 'is_active', 'year']
-    list_editable = ['price', 'is_active']
+    search_fields = ['title', 'title_fa', 'price', 'is_active', 'year']
+    list_editable = ['price', 'price_toman', 'is_active']
     list_display_links = ['title']
     ordering = ['title']
     inlines = [GalleryInline]
@@ -25,8 +27,8 @@ class Album_image_admin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         # count the likes in ONE query for the whole list
-        return super().get_queryset(request).annotate(_likes=Count('likes'))
+        return super().get_queryset(request).annotate(_likes=Count('likes', distinct=True))
 
-    @admin.display(description='Likes', ordering='_likes')
+    @admin.display(description=_('Likes'), ordering='_likes')
     def like_total(self, obj):
         return obj._likes

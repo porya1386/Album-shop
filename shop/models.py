@@ -1,10 +1,67 @@
+from decimal import Decimal
+
+from django.conf import settings
+from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils.text import slugify
-from django.conf import settings
+from django.utils.translation import get_language
 from django.utils.translation import gettext_lazy as _
+
+PERSIAN_DIGITS = str.maketrans("0123456789", "۰۱۲۳۴۵۶۷۸۹")
+
+# 16 base colours the admin can choose from (up to 4 per painting)
+COLOR_CHOICES = [
+    ("red", _("Red")),
+    ("orange", _("Orange")),
+    ("yellow", _("Yellow")),
+    ("lime", _("Lime")),
+    ("green", _("Green")),
+    ("teal", _("Teal")),
+    ("cyan", _("Cyan")),
+    ("blue", _("Blue")),
+    ("navy", _("Navy")),
+    ("purple", _("Purple")),
+    ("pink", _("Pink")),
+    ("brown", _("Brown")),
+    ("beige", _("Beige")),
+    ("gray", _("Gray")),
+    ("black", _("Black")),
+    ("white", _("White")),
+]
+
+COLOR_HEX = {
+    "red": "#D32F2F", "orange": "#F57C00", "yellow": "#FBC02D", "lime": "#AFB42B",
+    "green": "#388E3C", "teal": "#00897B", "cyan": "#00ACC1", "blue": "#1976D2",
+    "navy": "#1A237E", "purple": "#7B1FA2", "pink": "#EC407A", "brown": "#6D4C41",
+    "beige": "#D7C4A3", "gray": "#757575", "black": "#111111", "white": "#F5F5F5",
+}
 
 
 class Album_image(models.Model):
+    # Persian version (shown only when the site language is Farsi)
+    title_fa = models.CharField(
+        max_length=160,
+        blank=True,
+        verbose_name=_("Persian title"),
+        help_text=_(
+            "Title shown on the Persian site. Leave empty to use the English title."),
+    )
+
+    description_fa = models.TextField(
+        blank=True,
+        verbose_name=_("Persian description"),
+        help_text=_(
+            "Description shown on the Persian site. Leave empty to use the English one."),
+    )
+
+    price_toman = models.PositiveBigIntegerField(
+        null=True,
+        blank=True,
+        verbose_name=_("Price (Toman)"),
+        help_text=_(
+            "Price shown on the Persian site, in Toman. Leave empty to show the normal price."),
+    )
+
     title = models.CharField(
         max_length=160,
         null=True,
@@ -14,11 +71,14 @@ class Album_image(models.Model):
         unique=True,
     )
 
-    price = models.PositiveBigIntegerField(
-        default=0,
+    price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=Decimal("0.00"),
+        validators=[MinValueValidator(Decimal("0"))],
+        blank=False,
         help_text=_("Enter your album image price"),
         verbose_name=_("Album Image Price"),
-        blank=False,
     )
 
     description = models.TextField(
@@ -51,6 +111,16 @@ class Album_image(models.Model):
         verbose_name=_("Album Image Creation Date"),
         help_text=_("Enter the date you created this masterpiece"),
     )
+
+    # up to 4 main colours of the painting (picked in the admin)
+    color_1 = models.CharField(max_length=10, choices=COLOR_CHOICES,
+                               blank=True, verbose_name=_("Colour 1"))
+    color_2 = models.CharField(max_length=10, choices=COLOR_CHOICES,
+                               blank=True, verbose_name=_("Colour 2"))
+    color_3 = models.CharField(max_length=10, choices=COLOR_CHOICES,
+                               blank=True, verbose_name=_("Colour 3"))
+    color_4 = models.CharField(max_length=10, choices=COLOR_CHOICES,
+                               blank=True, verbose_name=_("Colour 4"))
 
     create_at = models.DateTimeField(
         auto_now_add=True,
@@ -87,6 +157,38 @@ class Album_image(models.Model):
 
     def __str__(self):
         return f"{self.title} {self.is_active} {self.price}"
+
+    @staticmethod
+    def _is_fa():
+        return (get_language() or "").startswith("fa")
+
+    @property
+    def display_title(self):
+        return self.title_fa if self._is_fa() and self.title_fa else self.title
+
+    @property
+    def display_description(self):
+        return self.description_fa if self._is_fa() and self.description_fa else self.description
+
+    @property
+    def display_price(self):
+        if self._is_fa() and self.price_toman:
+            return f"{self.price_toman:,}".replace(",", "٬").translate(PERSIAN_DIGITS) + " تومان"
+        text = f"{self.price:,.2f}"
+        if text.endswith(".00"):
+            text = text[:-3]
+        return f"${text}"
+
+    @property
+    def color_list(self):
+        """Chosen colours (no empty ones, no duplicates) as [{"hex": ..., "name": ...}]."""
+        names = dict(COLOR_CHOICES)
+        seen, out = set(), []
+        for code in (self.color_1, self.color_2, self.color_3, self.color_4):
+            if code and code in COLOR_HEX and code not in seen:
+                seen.add(code)
+                out.append({"hex": COLOR_HEX[code], "name": names[code]})
+        return out
 
     def save(self, *args, **kwargs):
         if self.title:

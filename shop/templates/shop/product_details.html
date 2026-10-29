@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static i18n comments_tags %}
 {% block page_title %}
-    <title>{{ product.title }} | {% trans "Jahan" %}</title>
+    <title>{{ product.display_title }} | {% trans "Jahan" %}</title>
 {% endblock page_title %}
 
 {% block page_style %}
@@ -9,6 +9,22 @@
     <link rel="stylesheet" href="{% static 'shop/css/product_details.css' %}">
     <link rel="stylesheet" href="{% static 'shop/css/likes.css' %}">
     <link rel="stylesheet" href="{% static 'reviews/css/comments.css' %}">
+    <link rel="stylesheet" href="{% static 'shop/css/colors.css' %}">
+    <style>
+        .pd-colors { display: flex; gap: .55rem; margin: 0; padding: 0; list-style: none; }
+        .pd-color {
+            position: relative; display: block; width: 26px; height: 26px; border-radius: 50%;
+            background: var(--c);
+            box-shadow: 0 0 0 2px var(--night, #fff), 0 0 0 3px color-mix(in srgb, currentColor 35%, transparent);
+            cursor: help;
+        }
+        .pd-color::after {
+            content: attr(data-name); position: absolute; inset-block-end: calc(100% + 8px); inset-inline-start: 50%;
+            transform: translateX(-50%); padding: .2rem .55rem; border-radius: 6px; white-space: nowrap;
+            font-size: .75rem; background: #000c; color: #fff; opacity: 0; pointer-events: none; transition: opacity .15s;
+        }
+        .pd-color:hover::after, .pd-color:focus-visible::after { opacity: 1; }
+    </style>
 {% endblock page_style %}
 
 {% block page_content %}
@@ -18,7 +34,7 @@
         <nav class="pd-crumbs" aria-label="{% trans 'Breadcrumb' %}">
             <a href="{% url 'products' %}">{% trans "Products" %}</a>
             <span aria-hidden="true">/</span>
-            <span aria-current="page">{{ product.title }}</span>
+            <span aria-current="page">{{ product.display_title }}</span>
         </nav>
 
         <article class="pd {% if not product.is_active %}is-sold{% endif %}">
@@ -26,11 +42,11 @@
             <div class="pd-media">
                 {% with extra=product.images.all %}
 
-                {% blocktrans asvar zoom_label with title=product.title %}View {{ title }} full size{% endblocktrans %}
+                {% blocktrans asvar zoom_label with title=product.display_title %}View {{ title }} full size{% endblocktrans %}
                 <div class="pd-stage">
                     <button type="button" class="pd-frame" id="pd-zoom-open"
                             aria-label="{{ zoom_label }}">
-                        <img id="pd-main-img" src="{{ product.image.url }}" alt="{{ product.title }}">
+                        <img id="pd-main-img" src="{{ product.image.url }}" alt="{{ product.display_title }}">
                         {% if not product.is_active %}
                             <span class="pd-badge">{% trans "Sold" %}</span>
                         {% endif %}
@@ -48,7 +64,7 @@
                     <li>
                         <button type="button" class="pd-thumb is-active"
                                 data-src="{{ product.image.url }}"
-                                data-alt="{{ product.title }}"
+                                data-alt="{{ product.display_title }}"
                                 aria-label="{% trans 'Show main image' %}">
                             <img src="{{ product.image.url }}" alt="">
                         </button>
@@ -58,7 +74,7 @@
                     <li>
                         <button type="button" class="pd-thumb"
                                 data-src="{{ img.image.url }}"
-                                data-alt="{{ img.caption|default:product.title }}"
+                                data-alt="{{ img.caption|default:product.display_title }}"
                                 aria-label="{{ thumb_label }}">
                             <img src="{{ img.image.url }}" alt="">
                         </button>
@@ -72,13 +88,13 @@
 
             <div class="pd-info">
                 <p class="pd-eyebrow">{% trans "Original painting" %}</p>
-                <h1>{{ product.title }}</h1>
+                <h1>{{ product.display_title }}</h1>
 
-                <p class="pd-price">${{ product.price|floatformat:"g" }}</p>
+                <p class="pd-price">{{ product.display_price }}</p>
                 {% include "includes/like_stats.html" %}
 
-                {% if product.description %}
-                    <p class="pd-desc">{{ product.description|linebreaksbr }}</p>
+                {% if product.display_description %}
+                    <p class="pd-desc">{{ product.display_description|linebreaksbr }}</p>
                 {% endif %}
 
                 <dl class="pd-facts">
@@ -96,6 +112,25 @@
                     </div>
                     {% endif %}
 
+                    {# the 4 main colours chosen in the admin #}
+                    {% with colors=product.color_list %}
+                    {% if colors %}
+                    <div>
+                        <dt>{% trans "Main colours" %}</dt>
+                        <dd>
+                            <ul class="pd-colors">
+                                {% for c in colors %}
+                                <li>
+                                    <span class="pd-color" style="--c: {{ c.hex }}" data-name="{{ c.name }}"
+                                          role="img" aria-label="{{ c.name }}" tabindex="0"></span>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </dd>
+                    </div>
+                    {% endif %}
+                    {% endwith %}
+
                     <div>
                         <dt>{% trans "Availability" context "product" %}</dt>
                         <dd>
@@ -110,7 +145,7 @@
 
                 <div class="pd-actions">
                     {% if product.is_active %}
-                        {% blocktrans asvar mail_subject with title=product.title %}Question about: {{ title }}{% endblocktrans %}
+                        {% blocktrans asvar mail_subject with title=product.display_title %}Question about: {{ title }}{% endblocktrans %}
                         <a class="btn btn-primary"
                            href="mailto:?subject={{ mail_subject|urlencode }}">
                             {% trans "Ask about this painting" %}
@@ -128,10 +163,10 @@
 </main>
 
 {# Full size viewer #}
-{% blocktrans asvar dialog_label with title=product.title %}{{ title }} full size{% endblocktrans %}
+{% blocktrans asvar dialog_label with title=product.display_title %}{{ title }} full size{% endblocktrans %}
 <dialog id="pd-zoom" aria-label="{{ dialog_label }}">
     <button type="button" class="pd-zoom-close" id="pd-zoom-close" aria-label="{% trans 'Close' %}">&times;</button>
-    <img id="pd-zoom-img" src="{{ product.image.url }}" alt="{{ product.title }}">
+    <img id="pd-zoom-img" src="{{ product.image.url }}" alt="{{ product.display_title }}">
 </dialog>
 {% endblock page_content %}
 
@@ -139,4 +174,5 @@
     <script src="{% static 'shop/js/loading.js' %}"></script>
     <script src="{% static 'shop/js/product_details.js' %}"></script>
     <script src="{% static 'shop/js/likes.js' %}"></script>
+    <script src="{% static "shop/js/colors.js" %}"></script>
 {% endblock page_script %}

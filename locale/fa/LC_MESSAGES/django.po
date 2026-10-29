@@ -730,3 +730,102 @@ msgstr "بازنشانی گذرواژه در %(site_name)s"
 
 msgid "Admin panel"
 msgstr "پنل مدیریت"
+
+# --- emoji + colours ---
+
+msgid "Recent"
+msgstr "اخیر"
+
+msgid "Smileys"
+msgstr "شکلک‌ها"
+
+msgid "Gestures"
+msgstr "حرکات دست"
+
+msgid "Hearts"
+msgstr "قلب‌ها"
+
+msgid "Art"
+msgstr "هنر"
+
+msgid "Nature"
+msgstr "طبیعت"
+
+msgid "Food"
+msgstr "خوراکی"
+
+msgid "Add emoji"
+msgstr "افزودن ایموجی"
+
+msgid "Code"
+msgstr "کد"
+
+msgid "Colour"
+msgstr "رنگ"
+
+msgid "Colours"
+msgstr "رنگ‌ها"
+
+msgid "Main colours"
+msgstr "رنگ‌های اصلی"
+
+msgid "Choose up to 4 main colours of this painting."
+msgstr "تا ۴ رنگ اصلی این نقاشی را انتخاب کنید."
+
+msgid "Enter a colour like #1976D2."
+msgstr "رنگی مانند #1976D2 وارد کنید."
+
+#, python-format
+msgid "You can choose at most %(n)s colours."
+msgstr "حداکثر %(n)s رنگ می‌توانید انتخاب کنید."
+
+msgid "Likes"
+msgstr "پسندها"
+
+msgid "Red"
+msgstr "قرمز"
+
+msgid "Orange"
+msgstr "نارنجی"
+
+msgid "Yellow"
+msgstr "زرد"
+
+msgid "Lime"
+msgstr "لیمویی"
+
+msgid "Green"
+msgstr "سبز"
+
+msgid "Teal"
+msgstr "سبزآبی"
+
+msgid "Cyan"
+msgstr "فیروزه‌ای"
+
+msgid "Blue"
+msgstr "آبی"
+
+msgid "Navy"
+msgstr "سرمه‌ای"
+
+msgid "Purple"
+msgstr "بنفش"
+
+msgid "Pink"
+msgstr "صورتی"
+
+msgid "Brown"
+msgstr "قهوه‌ای"
+
+msgid "Beige"
+msgstr "بژ"
+
+msgid "Gray"
+msgstr "خاکستری"
+
+msgid "Black"
+msgstr "مشکی"
+
+msgid "White"
+msgstr "سفید"
