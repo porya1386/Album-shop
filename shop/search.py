@@ -1,20 +1,21 @@
-"""Pure-Python helpers for the products search bar (no Django imports,
-so they are easy to test).
 
-The search box accepts several words. Every word must match (AND), and a
-word matches when it is found in the NAME, or equals the PRICE, or equals
-the creation YEAR.   Example:  "sunset 2024"  or  "forest 150"
-"""
+"""Pure-Python helpers for the products search bar."""
+
 import re
 from decimal import Decimal, InvalidOperation
 
-# Persian / Arabic-Indic digits -> ASCII, so "۲۰۲۴" works like "2024"
-_DIGITS = str.maketrans("۰۱۲۳۴۵۶۷۸۹٠١٢٣٤٥٦٧٨٩", "01234567890123456789")
+# Persian and Arabic-Indic digits -> ASCII
+_DIGITS = str.maketrans(
+    "۰۱۲۳۴۵۶۷۸۹٠١٢٣٤٥٦٧٨٩",
+    "01234567890123456789",
+)
 
 YEAR_MIN, YEAR_MAX = 1000, 2999
-MAX_TERMS = 6            # ignore anything after this many words
+MAX_TERMS = 6
 MAX_TERM_LEN = 60
-MAX_NUMBER = Decimal("999999999")   # keeps SQLite/DB integer limits safe
+
+# Maximum signed 64-bit integer, compatible with SQLite integer storage.
+MAX_NUMBER = Decimal("9223372036854775807")
 
 
 def normalize(text):
@@ -22,31 +23,83 @@ def normalize(text):
 
 
 def parse_number(text):
-    """'1,200' / '12.5' / '$40' -> Decimal, otherwise None."""
-    t = normalize(text).lstrip("$€£").replace(",", "")
-    if not re.fullmatch(r"\d+(\.\d+)?", t):
+    """
+    Accept numbers with or without thousands separators.
+
+    Examples:
+    1200000
+    1,200,000
+    ۱۲۰۰۰۰۰
+    ۱٬۲۰۰٬۰۰۰
+    $1,200,000
+    12.5
+    """
+    t = normalize(text).strip()
+
+    # Remove optional currency symbols.
+    t = t.lstrip("$€£").strip()
+
+    # Remove thousands separators and normalize decimal separator.
+    t = (
+        t.replace(",", "")
+         .replace("٬", "")
+         .replace("،", "")
+         .replace("\u00a0", "")
+         .replace("٫", ".")
+    )
+
+    # Correct regex: optional decimal fraction, without **.
+    if not re.fullmatch(r"\d+(?:\.\d+)?", t):
         return None
+
     try:
         value = Decimal(t)
     except InvalidOperation:
         return None
-    return value if value <= MAX_NUMBER else None
+
+    if not value.is_finite() or value > MAX_NUMBER:
+        return None
+
+    return value
 
 
 def parse_terms(q):
-    """Split the search text into term dicts:
-    {'text': 'forest', 'number': None, 'year': None}
-    'number' is set when the word is numeric (can be a price),
-    'year' is set when it also looks like a 4-digit year."""
+    """
+    Split search text into terms.
+    Every term must match a searchable field.
+    """
     terms = []
+
     for word in normalize(q).split():
         word = word[:MAX_TERM_LEN]
         number = parse_number(word)
+
+        # Detect a four-digit year.
+        year_text = (
+            word.lstrip("$€£")
+                .replace(",", "")
+                .replace("٬", "")
+                .replace("،", "")
+                .strip()
+        )
+
         year = None
-        if number is not None and number == number.to_integral_value():
-            if YEAR_MIN <= int(number) <= YEAR_MAX and len(word.lstrip("$€£")) == 4:
-                year = int(number)
-        terms.append({"text": word, "number": number, "year": year})
+        if (
+            number is not None
+            and number == number.to_integral_value()
+            and YEAR_MIN <= int(number) <= YEAR_MAX
+            and year_text.isdigit()
+            and len(year_text) == 4
+        ):
+            year = int(number)
+
+        terms.append({
+            "text": word,
+            "number": number,
+            "year": year,
+        })
+
         if len(terms) >= MAX_TERMS:
             break
+
     return terms

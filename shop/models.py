@@ -104,6 +104,7 @@ class Album_image(models.Model):
         null=True,
         help_text=_("Enter your album image size, e.g. 60 x 90 cm"),
         verbose_name=_("Album Image Size"),
+        max_length=160,
     )
 
     year = models.DateField(

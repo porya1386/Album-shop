@@ -68,18 +68,18 @@
                         </a>
 
                         <div class="product-info">
-                            <h2>{{ product.title }}</h2>
+                            <h2>{{ product.display_title }}</h2>
                             <p class="meta">
                                 {{ product.size|default:"" }}{% if product.size and product.year %} &middot; {% endif %}{{ product.year|default:"" }}
                             </p>
                             {% if product.description %}
-                                <p class="excerpt">{{ product.description|truncatewords:14 }}</p>
+                                <p class="excerpt">{{ product.display_description|truncatewords:14 }}</p>
                             {% endif %}
 
                             {% include "includes/like_stats.html" with product=product small=True %}
 
                             <div class="product-foot">
-                                <span class="price">${{ product.price|floatformat:"g" }}</span>
+                                <span class="price">{{ product.display_price }}</span>
                                 <a class="btn btn-ghost" href="{% url 'product_details' product.slug %}">{% trans "About this painting" %}</a>
                             </div>
                         </div>

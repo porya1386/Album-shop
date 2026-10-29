@@ -11,10 +11,10 @@ urlpatterns = [
 
 
 # APIs
-urlpatterns += [
+# urlpatterns += [
 
-    path('product/api/', Product_api.as_view(), name='product_api'),
-    path('product/api/<int:pk>', Product_details_api.as_view(),
-         name='product_api_details'),
+#     path('product/api/', Product_api.as_view(), name='product_api'),
+#     path('product/api/<int:pk>', Product_details_api.as_view(),
+#          name='product_api_details'),
 
-]
+# ]

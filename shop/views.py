@@ -1,169 +1,287 @@
+
 from django.db.models import Count, Exists, F, OuterRef, Q, Value, BooleanField
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render, resolve_url
-from django.urls import reverse
 from django.views.decorators.http import require_POST, require_safe
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.contrib.auth.decorators import login_required
+from django.conf import settings
+
 from .forms import ProductFilterForm
 from .models import Album_image
 from .search import parse_terms
 from .serializer import Album_Serializer
-from django.conf import settings
-from django.utils.translation import gettext as _
+#from rest_framework.permissions import AllowAny, IsAdminUser
+
 # ---------------------------------------------------------------- helpers
 
 
 def _search_q(terms):
-    """Every word must match the title, price, year or month."""
+    """Search English and Persian titles/descriptions, price and year."""
     q = Q()
 
     for term in terms:
-        match = Q(title__icontains=term["text"])
+        text = term["text"]
 
+        # Search English and Persian content.
+        match = (
+            Q(title__icontains=text)
+            | Q(title_fa__icontains=text)
+            | Q(description__icontains=text)
+            | Q(description_fa__icontains=text)
+        )
+
+        # Search both dollar prices and Toman prices.
         if term["number"] is not None:
-            match |= Q(price=term["number"])
+            match |= (
+                Q(price=term["number"])
+                | Q(price_toman=term["number"])
+            )
 
+        # Search creation year.
         if term["year"] is not None:
             match |= Q(year__year=term["year"])
 
+        # Apply month if the parser provides one.
         if term.get("month") is not None:
             match &= Q(year__month=term["month"])
 
+        # Every search term must match.
         q &= match
 
     return q
 
 
 def _count_view(request, product):
-    """Count a view once per browser session (a refresh does not add another one)."""
+    """Count a view once per browser session."""
     seen = request.session.get("seen_products", [])
+
     if product.pk in seen:
         return
-    Album_image.objects.filter(pk=product.pk).update(views=F("views") + 1)
+
+    Album_image.objects.filter(pk=product.pk).update(
+        views=F("views") + 1
+    )
+
     product.views += 1
     request.session["seen_products"] = [*seen, product.pk]
 
 
 # ------------------------------------------------------------------ pages
 
+
 @require_safe
 def products(request):
     form = ProductFilterForm(request.GET or None)
-    terms = parse_terms(form.cleaned_data.get("q")) if form.is_valid() else []
 
-    # is the current user liking each painting? (one query, no loop in Python)
+    terms = (
+        parse_terms(form.cleaned_data.get("q"))
+        if form.is_valid()
+        else []
+    )
+
+    # Check whether the current user liked each painting.
     if request.user.is_authenticated:
-        liked = Exists(request.user.liked_paintings.filter(pk=OuterRef("pk")))
+        liked = Exists(
+            request.user.liked_paintings.filter(
+                pk=OuterRef("pk")
+            )
+        )
     else:
         liked = Value(False, output_field=BooleanField())
 
     queryset = (
         Album_image.objects
         .filter(_search_q(terms))
-        .annotate(like_count=Count("likes"), liked=liked)
-        .order_by("-views", "id")          # most viewed first
+        .annotate(
+            like_count=Count("likes"),
+            liked=liked,
+        )
+        .order_by("-views", "id")
     )
 
+    # Create an individual chip for every search term.
     chips = []
+
     if terms:
-        remaining = request.GET.copy()
-        remaining.pop("q", None)
-        chips.append({
-            "label": "Search",
-            "value": form.cleaned_data["q"],
-            "remove": f"?{remaining.urlencode()}",
-        })
+        raw_query = form.cleaned_data.get("q") or ""
+        words = raw_query.split()[:len(terms)]
 
-    return render(request, "shop/products.html", {
-        "products": queryset,
-        "form": form,
-        "chips": chips,
-        "searching": bool(terms),
-        "result_count": queryset.count(),
-        "total_count": Album_image.objects.count(),
-    })
+        for index, word in enumerate(words):
+            # Keep all existing query parameters.
+            remaining = request.GET.copy()
+
+            # Remove only the selected search term.
+            remaining_words = (
+                words[:index] + words[index + 1:]
+            )
+
+            if remaining_words:
+                remaining["q"] = " ".join(remaining_words)
+            else:
+                remaining.pop("q", None)
+
+            query_string = remaining.urlencode()
+
+            # Return to the products page if no parameters remain.
+            remove_url = (
+                f"?{query_string}"
+                if query_string
+                else request.path
+            )
+
+            # IMPORTANT: This must be inside the for loop.
+            chips.append({
+                "label": "Search",
+                "value": word,
+                "remove": remove_url,
+            })
+
+    return render(
+        request,
+        "shop/products.html",
+        {
+            "products": queryset,
+            "form": form,
+            "chips": chips,
+            "searching": bool(terms),
+            "result_count": queryset.count(),
+            "total_count": Album_image.objects.count(),
+        },
+    )
 
 
-@login_required()
+@login_required
 @require_safe
 def product_details(request, slug):
     product = get_object_or_404(
-        Album_image.objects.prefetch_related(
-            "images").annotate(like_count=Count("likes")),
+        Album_image.objects
+        .prefetch_related("images")
+        .annotate(like_count=Count("likes")),
         slug=slug,
     )
+
     _count_view(request, product)
-    product.liked = (
-        request.user.is_authenticated
-        and product.likes.filter(pk=request.user.pk).exists()
+
+    product.liked = product.likes.filter(
+        pk=request.user.pk
+    ).exists()
+
+    return render(
+        request,
+        "shop/product_details.html",
+        {"product": product},
     )
-    return render(request, "shop/product_details.html", {"product": product})
 
 
 @require_POST
 def toggle_like(request, slug):
-    """Called by likes.js: like if not liked yet, unlike if already liked."""
+    """Like a painting or remove the existing like."""
     if not request.user.is_authenticated:
         return JsonResponse(
-            {"error": "login_required",
-                "login_url": resolve_url(settings.LOGIN_URL)},
+            {
+                "error": "login_required",
+                "login_url": resolve_url(settings.LOGIN_URL),
+            },
             status=401,
         )
 
     product = get_object_or_404(Album_image, slug=slug)
-    liked = not product.likes.filter(pk=request.user.pk).exists()
+
+    liked = not product.likes.filter(
+        pk=request.user.pk
+    ).exists()
+
     if liked:
         product.likes.add(request.user)
     else:
         product.likes.remove(request.user)
-    return JsonResponse({"liked": liked, "count": product.likes.count()})
+
+    return JsonResponse({
+        "liked": liked,
+        "count": product.likes.count(),
+    })
 
 
 # -------------------------------------------------------------------- API
 
-class Product_api(APIView):
 
-    def get(self, request):
-        data = Album_image.objects.order_by("-views", "id")
-        return Response({"data": Album_Serializer(data, many=True).data})
+# class Product_api(APIView):
 
-    def post(self, request):
-        serializer = Album_Serializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(
-                {"message": "Created New Product", "data": serializer.data},
-                status=status.HTTP_201_CREATED,
-            )
-        return Response(
-            {"message": "Could not create the product", "errors": serializer.errors},
-            status=status.HTTP_400_BAD_REQUEST,
-        )
+#     def get(self, request):
+#         data = Album_image.objects.order_by("-views", "id")
+
+#         return Response({
+#             "data": Album_Serializer(data, many=True).data
+#         })
+
+#     def post(self, request):
+#         serializer = Album_Serializer(data=request.data)
+
+#         if serializer.is_valid():
+#             serializer.save()
+
+#             return Response(
+#                 {
+#                     "message": "Created New Product",
+#                     "data": serializer.data,
+#                 },
+#                 status=status.HTTP_201_CREATED,
+#             )
+
+#         return Response(
+#             {
+#                 "message": "Could not create the product",
+#                 "errors": serializer.errors,
+#             },
+#             status=status.HTTP_400_BAD_REQUEST,
+#         )
 
 
-class Product_details_api(APIView):
+# class Product_details_api(APIView):
+    
+#     def get(self, request, pk):
+#         product = get_object_or_404(Album_image, pk=pk)
 
-    def get(self, request, pk):
-        product = get_object_or_404(Album_image, pk=pk)
-        return Response({"data": Album_Serializer(product).data})
+#         return Response({
+#             "data": Album_Serializer(product).data
+#         })
 
-    def put(self, request, pk):
-        product = get_object_or_404(Album_image, pk=pk)
-        serializer = Album_Serializer(product, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(
-                {"message": "Update Accepted", "data": serializer.data},
-                status=status.HTTP_202_ACCEPTED,
-            )
-        return Response(
-            {"message": "Update failed", "errors": serializer.errors},
-            status=status.HTTP_400_BAD_REQUEST,
-        )
+#     def put(self, request, pk):
+#         product = get_object_or_404(Album_image, pk=pk)
 
-    def delete(self, request, pk):
-        get_object_or_404(Album_image, pk=pk).delete()
-        return Response({"message": "Deleted"}, status=status.HTTP_204_NO_CONTENT)
+#         serializer = Album_Serializer(
+#             product,
+#             data=request.data,
+#             partial=True,
+#         )
+
+#         if serializer.is_valid():
+#             serializer.save()
+
+#             return Response(
+#                 {
+#                     "message": "Update Accepted",
+#                     "data": serializer.data,
+#                 },
+#                 status=status.HTTP_202_ACCEPTED,
+#             )
+
+#         return Response(
+#             {
+#                 "message": "Update failed",
+#                 "errors": serializer.errors,
+#             },
+#             status=status.HTTP_400_BAD_REQUEST,
+#         )
+
+#     def delete(self, request, pk):
+#         product = get_object_or_404(Album_image, pk=pk)
+#         product.delete()
+
+#         return Response(
+#             {"message": "Deleted"},
+#             status=status.HTTP_204_NO_CONTENT,
+#         )

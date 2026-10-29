@@ -3,7 +3,7 @@ from django.contrib.auth import login, logout
 from django.shortcuts import redirect, render, resolve_url
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.http import require_http_methods, require_POST
-
+from django_ratelimit.decorators import ratelimit
 from .forms import LoginForm, RegisterForm
 
 
@@ -21,7 +21,21 @@ def _after_login():
     # language prefix (/en/ or /fa/) is added automatically.
     return resolve_url(settings.LOGIN_REDIRECT_URL)
 
+ # NO CACH YET need to install redis
 
+
+@ratelimit(
+    key="ip",
+    rate="10/m",
+    method="POST",
+    block=True,
+)
+@ratelimit(
+    key="ip",
+    rate="40/h",
+    method="POST",
+    block=True,
+)
 @require_http_methods(["GET", "HEAD", "POST"])
 def auth_view(request):
     # unbound: no errors on a fresh page

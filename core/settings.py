@@ -97,35 +97,79 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # I will connect my database to hamravesh.ir
 # Postgres
 
+# --------------------------------------------------
+# Environment
+# --------------------------------------------------
+
+SECRET_KEY = os.environ["SECRET_KEY"]
+
+DEBUG = os.environ.get("DEBUG", "False").lower() in {
+    "1", "true", "yes"
+}
+
+ALLOWED_HOSTS = [
+    host.strip()
+    for host in os.environ.get(
+        "ALLOWED_HOSTS", "localhost,127.0.0.1"
+    ).split(",")
+    if host.strip()
+]
+
+# --------------------------------------------------
+# PostgreSQL
+# --------------------------------------------------
+
 # DATABASES = {
 #     "default": {
 #         "ENGINE": "django.db.backends.postgresql",
-#         "NAME": os.environ.get("POSTGRES_DB", "django_test_db"),
-#         "USER": os.environ.get("POSTGRES_USER", "django_admin"),
-#         "PASSWORD": os.environ.get(
-#             "POSTGRES_PASSWORD",
-#             "test_password_123",
-#         ),
+#         "NAME": os.environ.get("POSTGRES_DB", "album_shop_db"),
+#         "USER": os.environ.get("POSTGRES_USER", "porya"),
+#         "PASSWORD": os.environ["POSTGRES_PASSWORD"],
 #         "HOST": os.environ.get("POSTGRES_HOST", "127.0.0.1"),
 #         "PORT": os.environ.get("POSTGRES_PORT", "5432"),
+#         "CONN_MAX_AGE": 60,
 #     }
 # }
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# --------------------------------------------------
+# Google reCAPTCHA
+# --------------------------------------------------
+
+RECAPTCHA_PUBLIC_KEY = os.environ["RECAPTCHA_PUBLIC_KEY"]
+RECAPTCHA_PRIVATE_KEY = os.environ["RECAPTCHA_PRIVATE_KEY"]
+RECAPTCHA_DOMAIN = os.environ.get(
+    "RECAPTCHA_DOMAIN", "www.recaptcha.net"
+)
+
+# --------------------------------------------------
+# Redis / Rate limiting
+# --------------------------------------------------
+
+# REDIS_URL = os.environ.get(
+#     "REDIS_URL", "redis://127.0.0.1:6379/1"
+# )
+
 # CACHES = {
 #     "default": {
 #         "BACKEND": "django.core.cache.backends.redis.RedisCache",
-#         "LOCATION": os.environ.get(
-#             "REDIS_URL",
-#             "redis://127.0.0.1:6379/1",
-#         ),
-#         "TIMEOUT": 300,
-#     }
+#         "LOCATION": REDIS_URL,
+#     },
+#     "ratelimit": {
+#         "BACKEND": "django.core.cache.backends.redis.RedisCache",
+#         "LOCATION": REDIS_URL,
+#         "KEY_PREFIX": "album-shop-ratelimit",
+#     },
 # }
+
+# RATELIMIT_USE_CACHE = "ratelimit"
+
+# RATELIMIT_USE_CACHE = "ratelimit"
 
 # Password validation
 # https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators
@@ -185,13 +229,6 @@ LOGOUT_REDIRECT_URL = "accounts:login"
 
 
 # Captcha
-
-RECAPTCHA_PUBLIC_KEY = os.environ["RECAPTCHA_PUBLIC_KEY"]
-RECAPTCHA_PRIVATE_KEY = os.environ["RECAPTCHA_PRIVATE_KEY"]
-
-RECAPTCHA_DOMAIN = os.environ.get(
-    "RECAPTCHA_DOMAIN", "www.recaptcha.net"
-)
 
 SILENCED_SYSTEM_CHECKS = [
     "django_recaptcha.recaptcha_test_key_error"
