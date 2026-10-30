@@ -1,0 +1,74 @@
+/* Tabs "Paintings | Sculptures" on the products page.
+   Save as:  shop/static/shop/css/collections.css */
+.collection-tabs {
+    display: inline-flex;
+    gap: .25rem;
+    padding: .25rem;
+    margin: 0 0 1.25rem;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, currentColor 18%, transparent);
+    background: color-mix(in srgb, currentColor 5%, transparent);
+}
+
+.collection-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .5rem 1.15rem;
+    border-radius: 999px;
+    font-weight: 600;
+    text-decoration: none;
+    color: inherit;
+    opacity: .75;
+    transition: background-color .2s, opacity .2s, color .2s;
+}
+
+.collection-tab:hover,
+.collection-tab:focus-visible { opacity: 1; background: color-mix(in srgb, currentColor 10%, transparent); }
+
+.collection-tab.is-active {
+    opacity: 1;
+    background: var(--gold, #c9a227);
+    color: var(--night, #111);
+}
+
+.collection-count {
+    min-width: 1.5em;
+    padding: 0 .4em;
+    border-radius: 999px;
+    font-size: .75rem;
+    line-height: 1.5rem;
+    text-align: center;
+    background: color-mix(in srgb, currentColor 14%, transparent);
+}
+
+@media (max-width: 480px) {
+    .collection-tabs { display: flex; }
+    .collection-tab { flex: 1; justify-content: center; padding-inline: .6rem; }
+}
+
+/* ---- material icon (sculptures) ---- */
+.pd-material {
+    display: inline-flex;
+    align-items: center;
+    gap: .6rem;
+}
+
+.pd-material .mat-chip {
+    display: inline-grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid color-mix(in srgb, currentColor 30%, transparent);
+    background: color-mix(in srgb, var(--gold, #c9a227) 14%, transparent);
+    color: var(--gold, #c9a227);
+}
+
+/* small version inside the product cards */
+.product .meta .mat-icon {
+    width: 1.1em;
+    height: 1.1em;
+    vertical-align: -.2em;
+    margin-inline-end: .3rem;
+}

@@ -37,7 +37,33 @@ COLOR_HEX = {
 }
 
 
-class Album_image(models.Model):
+class LocalizedMixin:
+    """display_title / display_description / display_price for paintings AND sculptures.
+    In Farsi the *_fa fields are used when they are filled, otherwise the English ones."""
+
+    @staticmethod
+    def _is_fa():
+        return (get_language() or "").startswith("fa")
+
+    @property
+    def display_title(self):
+        return self.title_fa if self._is_fa() and self.title_fa else self.title
+
+    @property
+    def display_description(self):
+        return self.description_fa if self._is_fa() and self.description_fa else self.description
+
+    @property
+    def display_price(self):
+        if self._is_fa() and self.price_toman:
+            return f"{self.price_toman:,}".replace(",", "٬").translate(PERSIAN_DIGITS) + " تومان"
+        text = f"{self.price:,.2f}"
+        if text.endswith(".00"):
+            text = text[:-3]
+        return f"${text}"
+
+
+class Album_image(LocalizedMixin, models.Model):
     # Persian version (shown only when the site language is Farsi)
     title_fa = models.CharField(
         max_length=160,
@@ -104,7 +130,6 @@ class Album_image(models.Model):
         null=True,
         help_text=_("Enter your album image size, e.g. 60 x 90 cm"),
         verbose_name=_("Album Image Size"),
-        max_length=160,
     )
 
     year = models.DateField(
@@ -159,27 +184,6 @@ class Album_image(models.Model):
     def __str__(self):
         return f"{self.title} {self.is_active} {self.price}"
 
-    @staticmethod
-    def _is_fa():
-        return (get_language() or "").startswith("fa")
-
-    @property
-    def display_title(self):
-        return self.title_fa if self._is_fa() and self.title_fa else self.title
-
-    @property
-    def display_description(self):
-        return self.description_fa if self._is_fa() and self.description_fa else self.description
-
-    @property
-    def display_price(self):
-        if self._is_fa() and self.price_toman:
-            return f"{self.price_toman:,}".replace(",", "٬").translate(PERSIAN_DIGITS) + " تومان"
-        text = f"{self.price:,.2f}"
-        if text.endswith(".00"):
-            text = text[:-3]
-        return f"${text}"
-
     @property
     def color_list(self):
         """Chosen colours (no empty ones, no duplicates) as [{"hex": ..., "name": ...}]."""
@@ -228,3 +232,164 @@ class Album_image_gallery(models.Model):
 
     def __str__(self):
         return f"{self.product.title} #{self.order}"
+
+
+MATERIAL_CHOICES = [
+    ("bronze", _("Bronze")),
+    ("marble", _("Marble")),
+    ("stone", _("Stone")),
+    ("wood", _("Wood")),
+    ("ceramic", _("Ceramic")),
+    ("metal", _("Metal")),
+    ("glass", _("Glass")),
+    ("resin", _("Resin")),
+    ("mixed", _("Mixed media")),
+    ("other", _("Other")),
+]
+
+
+class Sculpture(LocalizedMixin, models.Model):
+    """A sculpture. It has its own list (Products page -> Sculptures tab) and its own details page."""
+
+    title = models.CharField(
+        max_length=160,
+        unique=True,
+        verbose_name=_("Sculpture Title"),
+        help_text=_("Enter your sculpture title"),
+    )
+
+    title_fa = models.CharField(
+        max_length=160,
+        blank=True,
+        verbose_name=_("Persian title"),
+        help_text=_(
+            "Title shown on the Persian site. Leave empty to use the English title."),
+    )
+
+    slug = models.SlugField(blank=True, verbose_name=_("Slug"))
+
+    price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=Decimal("0.00"),
+        validators=[MinValueValidator(Decimal("0"))],
+        help_text=_("Enter your sculpture price"),
+        verbose_name=_("Sculpture Price"),
+    )
+
+    price_toman = models.PositiveBigIntegerField(
+        null=True,
+        blank=True,
+        verbose_name=_("Price (Toman)"),
+        help_text=_(
+            "Price shown on the Persian site, in Toman. Leave empty to show the normal price."),
+    )
+
+    description = models.TextField(
+        blank=True,
+        help_text=_("Enter the description for your sculpture"),
+        verbose_name=_("Sculpture Description"),
+    )
+
+    description_fa = models.TextField(
+        blank=True,
+        verbose_name=_("Persian description"),
+        help_text=_(
+            "Description shown on the Persian site. Leave empty to use the English one."),
+    )
+
+    image = models.ImageField(
+        verbose_name=_("Sculpture Image"),
+        help_text=_("Upload your image"),
+        upload_to="shop/sculpture",
+    )
+
+    material = models.CharField(
+        max_length=10,
+        choices=MATERIAL_CHOICES,
+        blank=True,
+        verbose_name=_("Material"),
+    )
+
+    size = models.CharField(
+        max_length=80,
+        blank=True,
+        verbose_name=_("Sculpture Size"),
+        help_text=_("Enter the size, e.g. H 40 x W 20 x D 15 cm"),
+    )
+
+    weight_kg = models.DecimalField(
+        max_digits=7,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        validators=[MinValueValidator(Decimal("0"))],
+        verbose_name=_("Weight (kg)"),
+    )
+
+    year = models.PositiveSmallIntegerField(
+        null=True,
+        blank=True,
+        verbose_name=_("Year"),
+        help_text=_("The year you made it, e.g. 2024"),
+    )
+
+    is_active = models.BooleanField(
+        default=True,
+        verbose_name=_("Available for Sale"),
+        help_text=_("Indicates whether this sculpture is available for sale"),
+    )
+
+    views = models.PositiveIntegerField(
+        default=0, editable=False, verbose_name=_("Views"))
+
+    likes = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        related_name="liked_sculptures",
+        blank=True,
+        verbose_name=_("Liked By"),
+    )
+
+    create_at = models.DateTimeField(
+        auto_now_add=True, verbose_name=_("Created At"))
+    update_at = models.DateTimeField(
+        auto_now=True, verbose_name=_("Updated At"))
+
+    class Meta:
+        verbose_name = _("Sculpture")
+        verbose_name_plural = _("Sculptures")
+
+    def __str__(self):
+        return f"{self.title} {self.is_active} {self.price}"
+
+    @property
+    def material_label(self):
+        return dict(MATERIAL_CHOICES).get(self.material, "")
+
+    def save(self, *args, **kwargs):
+        if self.title:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
+
+
+class Sculpture_gallery(models.Model):
+    sculpture = models.ForeignKey(
+        Sculpture,
+        on_delete=models.CASCADE,
+        related_name="images",
+        verbose_name=_("Sculpture"),
+    )
+    image = models.ImageField(
+        upload_to="shop/sculpture_gallery", verbose_name=_("Gallery Image"))
+    caption = models.CharField(
+        max_length=160, blank=True, verbose_name=_("Caption"))
+    order = models.PositiveSmallIntegerField(
+        default=0, verbose_name=_("Display Order"))
+
+    class Meta:
+        ordering = ["order", "id"]
+        verbose_name = _("Sculpture Gallery")
+        verbose_name_plural = _("Sculpture Galleries")
+
+    def __str__(self):
+        return f"{self.sculpture.title} #{self.order}"

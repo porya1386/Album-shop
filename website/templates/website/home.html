@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static i18n %}
+{% load static i18n shop_tags %}
 
 {% block page_title %}<title>{% trans "Jahan | Album-Shop" %}</title>{% endblock page_title %}
 
@@ -53,6 +53,42 @@
         </div>
 
         {# Blurred, fading edges on the left and right #}
+        <span class="edge edge--left" aria-hidden="true"></span>
+        <span class="edge edge--right" aria-hidden="true"></span>
+      </div>
+    </section>
+    {% endif %}
+
+    {# ---------------- sculptures: same marquee, same animation ---------------- #}
+    {% latest_sculptures as sculptures %}
+    {% if sculptures %}
+    <section class="gallery" aria-labelledby="sculpture-gallery-title">
+      <div class="wrap gallery-head">
+        <h2 id="sculpture-gallery-title">{% trans "Latest sculptures" %}</h2>
+        <p>{% trans "Hover to pause. Click a sculpture to read more about it." %}</p>
+      </div>
+
+      <div class="marquee">
+        <div class="marquee-viewport" id="sculpture-marquee-viewport">
+          <div class="marquee-track" id="sculpture-marquee-track">
+            <ul class="marquee-group" id="sculpture-marquee-group">
+              {% for sculpture in sculptures %}
+              <li class="tile">
+                <a class="tile-link" href="{% url 'sculpture_details' sculpture.slug %}">
+                  <span class="tile-frame">
+                    <img src="{{ sculpture.image.url }}"
+                         alt="{{ sculpture.display_title }}"
+                         loading="lazy" decoding="async">
+                  </span>
+                  <span class="tile-title">{{ sculpture.display_title }}</span>
+                  <span class="tile-price">{{ sculpture.display_price }}</span>
+                </a>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+
         <span class="edge edge--left" aria-hidden="true"></span>
         <span class="edge edge--right" aria-hidden="true"></span>
       </div>

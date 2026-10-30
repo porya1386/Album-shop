@@ -1,4 +1,3 @@
-
 from django.db.models import Count, Exists, F, OuterRef, Q, Value, BooleanField
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render, resolve_url
@@ -10,10 +9,10 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 
 from .forms import ProductFilterForm
-from .models import Album_image
+from .models import Album_image, Sculpture
 from .search import parse_terms
 from .serializer import Album_Serializer
-#from rest_framework.permissions import AllowAny, IsAdminUser
+# from rest_framework.permissions import AllowAny, IsAdminUser
 
 # ---------------------------------------------------------------- helpers
 
@@ -54,6 +53,36 @@ def _search_q(terms):
     return q
 
 
+def _sculpture_search_q(terms):
+    """Same idea for sculptures. Their `year` is a plain number (2024), not a date."""
+    q = Q()
+
+    for term in terms:
+        text = term["text"]
+
+        match = (
+            Q(title__icontains=text)
+            | Q(title_fa__icontains=text)
+            | Q(description__icontains=text)
+            | Q(description_fa__icontains=text)
+            | Q(material__icontains=text)      # "bronze", "marble", ...
+            | Q(size__icontains=text)
+        )
+
+        if term["number"] is not None:
+            match |= (
+                Q(price=term["number"])
+                | Q(price_toman=term["number"])
+            )
+
+        if term["year"] is not None:
+            match |= Q(year=term["year"])
+
+        q &= match
+
+    return q
+
+
 def _count_view(request, product):
     """Count a view once per browser session."""
     seen = request.session.get("seen_products", [])
@@ -72,8 +101,16 @@ def _count_view(request, product):
 # ------------------------------------------------------------------ pages
 
 
+COLLECTIONS = ("paintings", "sculptures")
+
+
 @require_safe
 def products(request):
+    # ?collection=sculptures -> sculptures; anything else -> paintings (default)
+    collection = request.GET.get("collection", "paintings")
+    if collection not in COLLECTIONS:
+        collection = "paintings"
+
     form = ProductFilterForm(request.GET or None)
 
     terms = (
@@ -82,25 +119,49 @@ def products(request):
         else []
     )
 
-    # Check whether the current user liked each painting.
-    if request.user.is_authenticated:
-        liked = Exists(
-            request.user.liked_paintings.filter(
-                pk=OuterRef("pk")
+    if collection == "sculptures":
+        # Check whether the current user liked each sculpture.
+        if request.user.is_authenticated:
+            liked = Exists(
+                request.user.liked_sculptures.filter(
+                    pk=OuterRef("pk")
+                )
             )
+        else:
+            liked = Value(False, output_field=BooleanField())
+
+        queryset = (
+            Sculpture.objects
+            .filter(_sculpture_search_q(terms))
+            .annotate(
+                like_count=Count("likes"),
+                liked=liked,
+            )
+            .order_by("-views", "id")
         )
     else:
-        liked = Value(False, output_field=BooleanField())
+        # Check whether the current user liked each painting.
+        if request.user.is_authenticated:
+            liked = Exists(
+                request.user.liked_paintings.filter(
+                    pk=OuterRef("pk")
+                )
+            )
+        else:
+            liked = Value(False, output_field=BooleanField())
 
-    queryset = (
-        Album_image.objects
-        .filter(_search_q(terms))
-        .annotate(
-            like_count=Count("likes"),
-            liked=liked,
+        queryset = (
+            Album_image.objects
+            .filter(_search_q(terms))
+            .annotate(
+                like_count=Count("likes"),
+                liked=liked,
+            )
+            .order_by("-views", "id")
         )
-        .order_by("-views", "id")
-    )
+
+    paintings_count = Album_image.objects.count()
+    sculptures_count = Sculpture.objects.count()
 
     # Create an individual chip for every search term.
     chips = []
@@ -143,12 +204,17 @@ def products(request):
         request,
         "shop/products.html",
         {
+            "collection": collection,
             "products": queryset,
             "form": form,
             "chips": chips,
             "searching": bool(terms),
             "result_count": queryset.count(),
-            "total_count": Album_image.objects.count(),
+            "total_count": (
+                sculptures_count if collection == "sculptures" else paintings_count
+            ),
+            "paintings_count": paintings_count,
+            "sculptures_count": sculptures_count,
         },
     )
 
@@ -174,6 +240,67 @@ def product_details(request, slug):
         "shop/product_details.html",
         {"product": product},
     )
+
+
+# same rule as product_details; remove this line to make sculptures public
+@login_required
+@require_safe
+def sculpture_details(request, slug):
+    sculpture = get_object_or_404(
+        Sculpture.objects
+        .prefetch_related("images")
+        .annotate(like_count=Count("likes")),
+        slug=slug,
+    )
+
+    # Count a view once per browser session.
+    seen = request.session.get("seen_sculptures", [])
+
+    if sculpture.pk not in seen:
+        Sculpture.objects.filter(pk=sculpture.pk).update(
+            views=F("views") + 1
+        )
+        sculpture.views += 1
+        request.session["seen_sculptures"] = [*seen, sculpture.pk]
+
+    sculpture.liked = sculpture.likes.filter(
+        pk=request.user.pk
+    ).exists()
+
+    return render(
+        request,
+        "shop/sculpture_details.html",
+        {"sculpture": sculpture},
+    )
+
+
+@require_POST
+def toggle_sculpture_like(request, slug):
+    """Like a sculpture or remove the existing like."""
+    if not request.user.is_authenticated:
+        return JsonResponse(
+            {
+                "error": "login_required",
+                "login_url": resolve_url(settings.LOGIN_URL),
+            },
+            status=401,
+        )
+
+    sculpture = get_object_or_404(Sculpture, slug=slug)
+
+    liked = not sculpture.likes.filter(
+        pk=request.user.pk
+    ).exists()
+
+    if liked:
+        sculpture.likes.add(request.user)
+    else:
+        sculpture.likes.remove(request.user)
+
+    return JsonResponse({
+        "liked": liked,
+        "count": sculpture.likes.count(),
+    })
 
 
 @require_POST
@@ -241,7 +368,7 @@ def toggle_like(request, slug):
 
 
 # class Product_details_api(APIView):
-    
+
 #     def get(self, request, pk):
 #         product = get_object_or_404(Album_image, pk=pk)
 

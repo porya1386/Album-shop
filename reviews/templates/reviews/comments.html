@@ -1,6 +1,6 @@
 {% load i18n static %}
-{% trans "Delete this comment?" as confirm_text %}
-<section class="cm" id="comments" aria-labelledby="comments-title">
+<section class="cm" id="comments" aria-labelledby="comments-title" data-empty="{% trans 'No comments yet. Be the first!' %}"
+         data-error="{% trans 'Something went wrong. Please try again.' %}">
 
     <h2 id="comments-title" class="cm-title">
         {% trans "Comments" %}
@@ -9,7 +9,7 @@
 
     {# ---- write a comment ---- #}
     {% if request.user.is_authenticated %}
-    <form class="cm-form" method="post" action="{% url 'reviews:add' product.slug %}" data-emoji-form
+    <form class="cm-form" method="post" action="{% if is_sculpture %}{% url 'reviews:add_sculpture' target.slug %}{% else %}{% url 'reviews:add' target.slug %}{% endif %}" data-emoji-form
           data-t-recent="{% trans 'Recent' %}" data-t-smileys="{% trans 'Smileys' %}"
           data-t-gestures="{% trans 'Gestures' %}" data-t-hearts="{% trans 'Hearts' %}"
           data-t-art="{% trans 'Art' %}" data-t-nature="{% trans 'Nature' %}" data-t-food="{% trans 'Food' %}">
@@ -40,32 +40,7 @@
     {% if comments %}
     <ul class="cm-list">
         {% for c in comments %}
-        <li class="cm-item" id="comment-{{ c.pk }}">
-            <div class="cm-avatar" aria-hidden="true">{{ c.user.username|slice:":1"|upper }}</div>
-            <div class="cm-main">
-                <div class="cm-head">
-                    <strong class="cm-author">{{ c.user.username }}</strong>
-                    <time class="cm-time" datetime="{{ c.created_at|date:'c' }}">
-                        {% blocktrans with ago=c.created_at|timesince %}{{ ago }} ago{% endblocktrans %}
-                    </time>
-
-                    {% if can_moderate or c.user_id == request.user.id %}
-                    <form class="cm-delete" method="post" action="{% url 'reviews:delete' c.pk %}"
-                          onsubmit="return confirm('{{ confirm_text|escapejs }}');">
-                        {% csrf_token %}
-                        <button type="submit" class="cm-delete-btn"
-                                aria-label="{% trans 'Delete comment' %}" title="{% trans 'Delete comment' %}">
-                            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none"
-                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M6 6l1 14h10l1-14"/><path d="M10 11v6"/><path d="M14 11v6"/>
-                            </svg>
-                        </button>
-                    </form>
-                    {% endif %}
-                </div>
-                <p class="cm-body" dir="auto">{{ c.body|linebreaksbr }}</p>
-            </div>
-        </li>
+        {% include "reviews/_comment.html" %}
         {% endfor %}
     </ul>
 
@@ -79,4 +54,5 @@
     <p class="cm-empty">{% trans "No comments yet. Be the first!" %}</p>
     {% endif %}
 </section>
-{% if request.user.is_authenticated %}<script src="{% static 'reviews/js/emoji.js' %}" defer></script>{% endif %}
+{% if request.user.is_authenticated %}<script src="{% static 'reviews/js/emoji.js' %}" defer></script>
+<script src="{% static 'reviews/js/comments.js' %}" defer></script>{% endif %}

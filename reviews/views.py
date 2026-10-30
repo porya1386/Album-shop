@@ -1,13 +1,15 @@
 from datetime import timedelta
 
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect
+from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 
-from shop.models import Album_image
+from shop.models import Album_image, Sculpture
 
 from .forms import CommentForm
 from .models import Comment
@@ -18,8 +20,14 @@ RATE_WINDOW = timedelta(minutes=1)
 FLASH_KEY = "comment_flash"
 
 
-def _product_url(product):
-    return reverse("product_details", args=[product.slug]) + "#comments"
+def _target_url(target):
+    name = "sculpture_details" if isinstance(
+        target, Sculpture) else "product_details"
+    return reverse(name, args=[target.slug]) + "#comments"
+
+
+def _is_ajax(request):
+    return request.headers.get("x-requested-with") == "XMLHttpRequest"
 
 
 def can_delete(user, comment):
@@ -29,10 +37,8 @@ def can_delete(user, comment):
     return comment.user_id == user.id or user.has_perm("reviews.delete_comment")
 
 
-@login_required
-@require_POST
-def add_comment(request, slug):
-    product = get_object_or_404(Album_image, slug=slug)
+def _post_comment(request, target, field):
+    """Shared by paintings (field='product') and sculptures (field='sculpture')."""
     form = CommentForm(request.POST)
     error = None
 
@@ -44,31 +50,66 @@ def add_comment(request, slug):
             error = _("You are commenting too fast. Please wait a minute.")
         else:
             comment = form.save(commit=False)
-            comment.product = product
+            setattr(comment, field, target)
             comment.user = request.user
             comment.save()
-            return redirect(_product_url(product).replace("#comments", f"#comment-{comment.pk}"))
+            if _is_ajax(request):
+                # the page adds this one comment by itself: no reload
+                html = render_to_string(
+                    "reviews/_comment.html",
+                    {
+                        "c": comment,
+                        "can_moderate": request.user.has_perm("reviews.delete_comment"),
+                    },
+                    request=request,
+                )
+                return JsonResponse({
+                    "ok": True,
+                    "html": html,
+                    "count": target.comments.count(),
+                })
+            return redirect(_target_url(target).replace("#comments", f"#comment-{comment.pk}"))
     else:
         error = " ".join(str(e) for e in form.errors.get(
             "body", [])) or _("Invalid comment.")
 
-    # Show the error (and keep the typed text) on the product page
+    if _is_ajax(request):
+        return JsonResponse({"ok": False, "error": str(error)}, status=400)
+
+    # Show the error (and keep the typed text) on the details page
     request.session[FLASH_KEY] = {
-        "product": product.slug,
+        "target": f"{field}:{target.slug}",
         "body": request.POST.get("body", "")[:1000],
         "error": str(error),
     }
-    return redirect(_product_url(product))
+    return redirect(_target_url(target))
+
+
+@login_required
+@require_POST
+def add_comment(request, slug):
+    product = get_object_or_404(Album_image, slug=slug)
+    return _post_comment(request, product, "product")
+
+
+@login_required
+@require_POST
+def add_sculpture_comment(request, slug):
+    sculpture = get_object_or_404(Sculpture, slug=slug)
+    return _post_comment(request, sculpture, "sculpture")
 
 
 @login_required
 @require_POST
 def delete_comment(request, pk):
     comment = get_object_or_404(
-        Comment.objects.select_related("product"), pk=pk)
+        Comment.objects.select_related("product", "sculpture"), pk=pk)
+    target = comment.target
     if not can_delete(request.user, comment):
-        # 404, not 403: do not reveal that the comment exists
-        return redirect(_product_url(comment.product))
-    product = comment.product
+        if _is_ajax(request):
+            return JsonResponse({"ok": False}, status=403)
+        return redirect(_target_url(target))
     comment.delete()
-    return redirect(_product_url(product))
+    if _is_ajax(request):
+        return JsonResponse({"ok": True, "count": target.comments.count()})
+    return redirect(_target_url(target))

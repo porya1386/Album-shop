@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{% static 'shop/css/likes.css' %}">
     <link rel="stylesheet" href="{% static 'shop/css/filters.css' %}">
     <link rel="stylesheet" href="{% static 'shop/css/loading.css' %}">
+    <link rel="stylesheet" href="{% static 'shop/css/collections.css' %}">
 {% endblock page_style %}
 
 {% block page_content %}
@@ -17,14 +18,35 @@
         <div class="page-head">
             <h1>{% trans "Products" %}</h1>
             <p class="lead">
-                {% blocktrans trimmed %}
-                    Original paintings, one of each. Choose a painting and press the button to read more about it.
-                {% endblocktrans %}
+                {% if collection == "sculptures" %}
+                    {% blocktrans trimmed %}
+                        Original sculptures, one of each. Choose a sculpture and press the button to read more about it.
+                    {% endblocktrans %}
+                {% else %}
+                    {% blocktrans trimmed %}
+                        Original paintings, one of each. Choose a painting and press the button to read more about it.
+                    {% endblocktrans %}
+                {% endif %}
             </p>
         </div>
 
+        {# The two collections: paintings (default) and sculptures #}
+        <nav class="collection-tabs" aria-label="{% trans 'Collections' %}">
+            <a class="collection-tab{% if collection != 'sculptures' %} is-active{% endif %}"
+               href="{% url 'products' %}"
+               {% if collection != 'sculptures' %}aria-current="page"{% endif %}>
+                {% trans "Paintings" %} <span class="collection-count">{{ paintings_count }}</span>
+            </a>
+            <a class="collection-tab{% if collection == 'sculptures' %} is-active{% endif %}"
+               href="{% url 'products' %}?collection=sculptures"
+               {% if collection == 'sculptures' %}aria-current="page"{% endif %}>
+                {% trans "Sculptures" %} <span class="collection-count">{{ sculptures_count }}</span>
+            </a>
+        </nav>
+
         {# Search by name, price or year #}
         <form method="get" id="filter-form" class="search-bar" role="search" action="{% url 'products' %}">
+            {% if collection == "sculptures" %}<input type="hidden" name="collection" value="sculptures">{% endif %}
             <svg class="search-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
                 <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/>
                 <path d="M20 20l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
@@ -41,27 +63,73 @@
         {% endif %}
 
         <div class="results">
-                <div class="results-bar">
-                    <p class="result-count" aria-live="polite">
+            <div class="results-bar">
+                <p class="result-count" aria-live="polite">
+                    {% if collection == "sculptures" %}
+                        {% if searching %}{% blocktrans with shown=result_count total=total_count %}{{ shown }} of {{ total }} sculptures{% endblocktrans %}{% else %}{% blocktrans count counter=total_count %}{{ counter }} sculpture{% plural %}{{ counter }} sculptures{% endblocktrans %}{% endif %}
+                    {% else %}
                         {% if searching %}{% blocktrans with shown=result_count total=total_count %}{{ shown }} of {{ total }} paintings{% endblocktrans %}{% else %}{% blocktrans count counter=total_count %}{{ counter }} painting{% plural %}{{ counter }} paintings{% endblocktrans %}{% endif %}
-                    </p>
-                </div>
+                    {% endif %}
+                </p>
+            </div>
 
-                {% if chips %}
-                <ul class="chips">
-                    {% for c in chips %}
-                    {% blocktrans asvar remove_label with label=c.label value=c.value %}Remove filter {{ label }} {{ value }}{% endblocktrans %}
-                    <li><a class="chip" href="{{ c.remove }}" aria-label="{{ remove_label }}">{{ c.label }}: {{ c.value }} <span aria-hidden="true">&times;</span></a></li>
+            {% if chips %}
+            <ul class="chips">
+                {% for c in chips %}
+                {% blocktrans asvar remove_label with label=c.label value=c.value %}Remove filter {{ label }} {{ value }}{% endblocktrans %}
+                <li><a class="chip" href="{{ c.remove }}" aria-label="{{ remove_label }}">{{ c.label }}: {{ c.value }} <span aria-hidden="true">&times;</span></a></li>
+                {% endfor %}
+                <li><a class="chip chip-clear" href="{% url 'products' %}{% if collection == 'sculptures' %}?collection=sculptures{% endif %}">{% trans "Clear all" %}</a></li>
+            </ul>
+            {% endif %}
+
+            <div class="grid" id="grid">
+
+                {% if collection == "sculptures" %}
+                {# ---------------- sculptures ---------------- #}
+                    {% for sculpture in products %}
+                    <article class="product{% if not sculpture.is_active %} is-sold{% endif %}">
+                        <a class="frame" href="{% url 'sculpture_details' sculpture.slug %}">
+                            <img src="{{ sculpture.image.url }}" alt="{{ sculpture.display_title }}" loading="lazy">
+                            {% if not sculpture.is_active %}
+                                <span class="badge-sold">{% trans "Sold" %}</span>
+                            {% endif %}
+                        </a>
+
+                        <div class="product-info">
+                            <h2>{{ sculpture.display_title }}</h2>
+                            <p class="meta">
+                                {% if sculpture.material %}{% include "includes/material_icon.html" with material=sculpture.material %}{% endif %}{{ sculpture.material_label }}{% if sculpture.material_label and sculpture.size %} &middot; {% endif %}{{ sculpture.size }}
+                            </p>
+                            {% if sculpture.display_description %}
+                                <p class="excerpt">{{ sculpture.display_description|truncatewords:14 }}</p>
+                            {% endif %}
+
+                            {% include "includes/like_stats.html" with product=sculpture is_sculpture=True small=True %}
+
+                            <div class="product-foot">
+                                <span class="price">{{ sculpture.display_price }}</span>
+                                <a class="btn btn-ghost" href="{% url 'sculpture_details' sculpture.slug %}">{% trans "About this sculpture" %}</a>
+                            </div>
+                        </div>
+                    </article>
+                    {% empty %}
+                    <div class="empty">
+                        {% if searching %}
+                            <p>{% trans "No sculptures match your search." %}</p>
+                            <a class="btn btn-ghost" href="{% url 'products' %}?collection=sculptures">{% trans "Clear filters" %}</a>
+                        {% else %}
+                            <p>{% trans "No sculptures available right now." %}</p>
+                        {% endif %}
+                    </div>
                     {% endfor %}
-                    <li><a class="chip chip-clear" href="{% url 'products' %}">{% trans "Clear all" %}</a></li>
-                </ul>
-                {% endif %}
 
-                <div class="grid" id="grid">
+                {% else %}
+                {# ---------------- paintings (default) ---------------- #}
                     {% for product in products %}
                     <article class="product{% if not product.is_active %} is-sold{% endif %}">
                         <a class="frame" href="{% url 'product_details' product.slug %}">
-                            <img src="{{ product.image.url }}" alt="{{ product.title }}" loading="lazy">
+                            <img src="{{ product.image.url }}" alt="{{ product.display_title }}" loading="lazy">
                             {% if not product.is_active %}
                                 <span class="badge-sold">{% trans "Sold" %}</span>
                             {% endif %}
@@ -70,9 +138,9 @@
                         <div class="product-info">
                             <h2>{{ product.display_title }}</h2>
                             <p class="meta">
-                                {{ product.size|default:"" }}{% if product.size and product.year %} &middot; {% endif %}{{ product.year|default:"" }}
+                                {{ product.size|default:"" }}{% if product.size and product.year %} &middot; {% endif %}{{ product.year|date:"Y" }}
                             </p>
-                            {% if product.description %}
+                            {% if product.display_description %}
                                 <p class="excerpt">{{ product.display_description|truncatewords:14 }}</p>
                             {% endif %}
 
@@ -94,8 +162,10 @@
                         {% endif %}
                     </div>
                     {% endfor %}
-                </div>
+                {% endif %}
+
             </div>
+        </div>
     </div>
 </main>
 {% endblock page_content %}

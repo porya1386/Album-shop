@@ -1,78 +1,89 @@
-(function () {
-    "use strict";
+/* Home page marquees (paintings + sculptures).
+   Save as:  website/static/website/js/gallery.js   (replaces the old file)
 
-    const viewport = document.getElementById("marquee-viewport");
-    const track = document.getElementById("marquee-track");
-    const group = document.getElementById("marquee-group");
-    if (!viewport || !track || !group || group.children.length === 0) return;
+   Works for EVERY  .marquee  on the page: it clones the list until the track is
+   long enough, then sets --shift (width of one list) and --dur (speed) for the CSS animation. */
+(() => {
+  "use strict";
 
-    const SPEED = 45;                       // pixels per second (lower = slower)
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const SPEED = 65;                 // pixels per second (bigger = faster)
+  const MIN_DURATION = 14;          // seconds, so a short list is never too fast
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-    function removeClones() {
-        track.querySelectorAll("[data-clone]").forEach(function (el) { el.remove(); });
+  function build(marquee) {
+    const viewport = marquee.querySelector(".marquee-viewport");
+    const track = marquee.querySelector(".marquee-track");
+    const group = marquee.querySelector(".marquee-group");
+    if (!viewport || !track || !group) return;
+
+    // remove the clones from a previous run (resize)
+    track.querySelectorAll("[data-clone]").forEach((node) => node.remove());
+
+    const groupWidth = group.getBoundingClientRect().width;
+    const viewWidth = viewport.clientWidth;
+    if (!groupWidth || !viewWidth) return;
+
+    // user prefers no motion: no clones, no animation, the row can be scrolled by hand
+    if (reduced.matches) {
+      track.style.animation = "none";
+      viewport.style.overflowX = "auto";
+      return;
+    }
+    track.style.animation = "";
+    viewport.style.overflowX = "";
+
+    // one list + enough copies to always cover the viewport while it moves by one list
+    const copies = Math.ceil(viewWidth / groupWidth);
+    for (let i = 0; i < copies; i += 1) {
+      const clone = group.cloneNode(true);
+      clone.removeAttribute("id");
+      clone.setAttribute("aria-hidden", "true");
+      clone.setAttribute("data-clone", "");
+      clone.querySelectorAll("a").forEach((a) => a.setAttribute("tabindex", "-1"));
+      track.appendChild(clone);
     }
 
-    // Repeat the list until it is wider than the screen, then slide by exactly
-    // one list-width: when the animation restarts it looks identical = no jump.
-    function build() {
-        removeClones();
-        if (reduceMotion.matches) return;           // CSS turns the animation off
+    track.style.setProperty("--shift", `${groupWidth}px`);
+    track.style.setProperty("--dur", `${Math.max(MIN_DURATION, groupWidth / SPEED)}s`);
+  }
 
-        const groupWidth = group.getBoundingClientRect().width;
-        const viewWidth = viewport.clientWidth;
-        if (!groupWidth || !viewWidth) return;
+  function init() {
+    const marquees = document.querySelectorAll(".marquee");
 
-        const total = Math.ceil(viewWidth / groupWidth) + 1;   // groups incl. the original
-        for (let i = 1; i < total; i++) {
-            const copy = group.cloneNode(true);
-            copy.removeAttribute("id");
-            copy.setAttribute("aria-hidden", "true");
-            copy.setAttribute("data-clone", "");
-            copy.querySelectorAll("a").forEach(function (a) { a.tabIndex = -1; });
-            track.appendChild(copy);
-        }
+    marquees.forEach((marquee) => {
+      build(marquee);
 
-        track.style.setProperty("--shift", groupWidth + "px");
-        track.style.setProperty("--dur", (groupWidth / SPEED) + "s");
-    }
+      // rebuild when the width changes (rotate phone, resize window)
+      let lastWidth = marquee.clientWidth;
+      let timer = 0;
+      if ("ResizeObserver" in window) {
+        new ResizeObserver(() => {
+          if (marquee.clientWidth === lastWidth) return;
+          lastWidth = marquee.clientWidth;
+          clearTimeout(timer);
+          timer = setTimeout(() => build(marquee), 150);
+        }).observe(marquee);
+      }
 
-    // Rebuild when the width changes (resize / rotate phone)
-    let lastWidth = -1;
-    let timer = 0;
-    function onResize() {
-        const w = viewport.clientWidth;
-        if (Math.abs(w - lastWidth) < 1) return;
-        lastWidth = w;
-        clearTimeout(timer);
-        timer = setTimeout(build, 150);
-    }
-
-    build();
-    lastWidth = viewport.clientWidth;
-
-    if (typeof ResizeObserver === "function") {
-        new ResizeObserver(onResize).observe(viewport);
-    } else {
-        window.addEventListener("resize", onResize);
-    }
-    if (typeof reduceMotion.addEventListener === "function") {
-        reduceMotion.addEventListener("change", build);
-    }
-
-    // Coming back with the Back button can restore the page from the browser's
-    // back/forward cache: drop the mouse-click focus and restart the animation.
-    window.addEventListener("pageshow", function (e) {
-        if (!e.persisted) return;
-
-        const active = document.activeElement;
-        if (active && viewport.contains(active) && !active.matches(":focus-visible")) {
-            active.blur();
-        }
-
-        build();
-        track.style.animation = "none";
-        void track.offsetWidth;               // force a reflow so the restart sticks
-        track.style.animation = "";
+      // do not animate while it is off screen
+      if ("IntersectionObserver" in window) {
+        const track = marquee.querySelector(".marquee-track");
+        new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            track.style.animationPlayState = entry.isIntersecting ? "" : "paused";
+          });
+        }).observe(marquee);
+      }
     });
+
+    reduced.addEventListener?.("change", () => marquees.forEach(build));
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+  // images/fonts can change nothing in the width, but a late load is a cheap safety net
+  window.addEventListener("load", () => document.querySelectorAll(".marquee").forEach(build));
 })();

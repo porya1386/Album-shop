@@ -1,12 +1,16 @@
 from django.urls import path
-from .views import *
+from . import views
 
 # Product urls
 urlpatterns = [
-    path('products/', products, name='products'),
+    path('products/', views.products, name='products'),
     path('product_details/<slug:slug>/',
-         product_details, name='product_details'),
-    path('products/<slug:slug>/like/', toggle_like, name='toggle_like'),
+         views.product_details, name='product_details'),
+    path("sculptures/<slug:slug>/",
+         views.sculpture_details, name="sculpture_details"),
+    path("sculptures/<slug:slug>/like/",
+         views.toggle_sculpture_like, name="toggle_sculpture_like"),
+    path('products/<slug:slug>/like/', views.toggle_like, name='toggle_like'),
 ]
 
 

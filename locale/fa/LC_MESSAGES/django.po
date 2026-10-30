@@ -516,33 +516,28 @@ msgid "White"
 msgstr "سفید"
 
 #: .\shop\models.py:45
-#, fuzzy
-#| msgid "Persian, English"
 msgid "Persian title"
-msgstr "فارسی، انگلیسی"
+msgstr "عنوان فارسی"
 
 #: .\shop\models.py:47
 msgid "Title shown on the Persian site. Leave empty to use the English title."
-msgstr ""
+msgstr "عنوانی که در سایت فارسی نمایش داده می‌شود. اگر خالی باشد عنوان انگلیسی نمایش داده می‌شود."
 
 #: .\shop\models.py:52
 msgid "Persian description"
-msgstr ""
+msgstr "توضیحات فارسی"
 
 #: .\shop\models.py:54
-msgid ""
-"Description shown on the Persian site. Leave empty to use the English one."
-msgstr ""
+msgid "Description shown on the Persian site. Leave empty to use the English one."
+msgstr "توضیحاتی که در سایت فارسی نمایش داده می‌شود. اگر خالی باشد توضیحات انگلیسی نمایش داده می‌شود."
 
 #: .\shop\models.py:60
 msgid "Price (Toman)"
-msgstr ""
+msgstr "قیمت (تومان)"
 
 #: .\shop\models.py:62
-msgid ""
-"Price shown on the Persian site, in Toman. Leave empty to show the normal "
-"price."
-msgstr ""
+msgid "Price shown on the Persian site, in Toman. Leave empty to show the normal price."
+msgstr "قیمتی که در سایت فارسی به تومان نمایش داده می‌شود. اگر خالی باشد قیمت دلاری نمایش داده می‌شود."
 
 #: .\shop\models.py:68
 msgid "Album Image Title"
@@ -597,28 +592,20 @@ msgid "Enter the date you created this masterpiece"
 msgstr "تاریخ خلق این شاهکار را وارد کنید"
 
 #: .\shop\models.py:118
-#, fuzzy
-#| msgid "Colour"
 msgid "Colour 1"
-msgstr "رنگ"
+msgstr "رنگ ۱"
 
 #: .\shop\models.py:120
-#, fuzzy
-#| msgid "Colour"
 msgid "Colour 2"
-msgstr "رنگ"
+msgstr "رنگ ۲"
 
 #: .\shop\models.py:122
-#, fuzzy
-#| msgid "Colour"
 msgid "Colour 3"
-msgstr "رنگ"
+msgstr "رنگ ۳"
 
 #: .\shop\models.py:124
-#, fuzzy
-#| msgid "Colour"
 msgid "Colour 4"
-msgstr "رنگ"
+msgstr "رنگ ۴"
 
 #: .\shop\models.py:128
 msgid "Created At"
@@ -1125,6 +1112,136 @@ msgstr ""
 "برای توقف، ماوس را روی تصویر نگه دارید. برای خواندن درباره‌ی هر نقاشی روی آن "
 "کلیک کنید."
 
+msgid "Collections"
+msgstr "مجموعه‌ها"
+
+msgid "Paintings"
+msgstr "نقاشی‌ها"
+
+msgid "Sculptures"
+msgstr "مجسمه‌ها"
+
+msgid "Original sculptures, one of each. Choose a sculpture and press the button to read more about it."
+msgstr "مجسمه‌های اصل، از هر کدام فقط یکی. یک مجسمه را انتخاب کنید و روی دکمه بزنید تا درباره‌اش بیشتر بخوانید."
+
+#, python-format
+msgid "%(shown)s of %(total)s sculptures"
+msgstr "%(shown)s از %(total)s مجسمه"
+
+#, python-format
+msgid "%(counter)s sculpture"
+msgid_plural "%(counter)s sculptures"
+msgstr[0] "%(counter)s مجسمه"
+msgstr[1] "%(counter)s مجسمه"
+
+msgid "About this sculpture"
+msgstr "درباره‌ی این مجسمه"
+
+msgid "No sculptures match your search."
+msgstr "مجسمه‌ای با جستجوی شما پیدا نشد."
+
+msgid "No sculptures available right now."
+msgstr "فعلاً مجسمه‌ای موجود نیست."
+
+msgid "Original sculpture"
+msgstr "مجسمه اصل"
+
+msgid "Material"
+msgstr "جنس"
+
+msgid "Weight"
+msgstr "وزن"
+
+msgid "kg"
+msgstr "کیلوگرم"
+
+msgid "Ask about this sculpture"
+msgstr "پرسش درباره‌ی این مجسمه"
+
+msgid "Back to sculptures"
+msgstr "بازگشت به مجسمه‌ها"
+
+msgid "Sculpture"
+msgstr "مجسمه"
+
+msgid "Sculpture Title"
+msgstr "عنوان مجسمه"
+
+msgid "Enter your sculpture title"
+msgstr "عنوان مجسمه را وارد کنید"
+
+msgid "Sculpture Price"
+msgstr "قیمت مجسمه (دلار)"
+
+msgid "Enter your sculpture price"
+msgstr "قیمت مجسمه را وارد کنید"
+
+msgid "Sculpture Description"
+msgstr "توضیحات مجسمه"
+
+msgid "Enter the description for your sculpture"
+msgstr "توضیحات مجسمه را وارد کنید"
+
+msgid "Sculpture Image"
+msgstr "تصویر مجسمه"
+
+msgid "Sculpture Size"
+msgstr "اندازه مجسمه"
+
+msgid "Enter the size, e.g. H 40 x W 20 x D 15 cm"
+msgstr "اندازه را وارد کنید، مثلاً ارتفاع ۴۰ در عرض ۲۰ در عمق ۱۵ سانتی‌متر"
+
+msgid "Weight (kg)"
+msgstr "وزن (کیلوگرم)"
+
+msgid "The year you made it, e.g. 2024"
+msgstr "سالی که ساخته‌اید، مثلاً ۱۴۰۳ یا ۲۰۲۴"
+
+msgid "Indicates whether this sculpture is available for sale"
+msgstr "مشخص می‌کند این مجسمه برای فروش موجود است یا نه"
+
+msgid "Sculpture Gallery"
+msgstr "گالری مجسمه"
+
+msgid "Sculpture Galleries"
+msgstr "گالری‌های مجسمه"
+
+msgid "Bronze"
+msgstr "برنز"
+
+msgid "Marble"
+msgstr "مرمر"
+
+msgid "Stone"
+msgstr "سنگ"
+
+msgid "Wood"
+msgstr "چوب"
+
+msgid "Ceramic"
+msgstr "سرامیک"
+
+msgid "Metal"
+msgstr "فلز"
+
+msgid "Glass"
+msgstr "شیشه"
+
+msgid "Resin"
+msgstr "رزین"
+
+msgid "Mixed media"
+msgstr "ترکیبی"
+
+msgid "Other"
+msgstr "دیگر"
+
+msgid "sculpture"
+msgstr "مجسمه"
+
+msgid "Choose either a painting or a sculpture (not both, not none)."
+msgstr "یا یک نقاشی انتخاب کنید یا یک مجسمه (نه هر دو، نه هیچ‌کدام)."
+
 #, python-format
 #~ msgid "Like %(title)s"
 #~ msgstr "پسندیدن %(title)s"
@@ -1189,3 +1306,19 @@ msgstr ""
 #, python-format
 #~ msgid "You can choose at most %(n)s colours."
 #~ msgstr "حداکثر %(n)s رنگ می‌توانید انتخاب کنید."
+# Add to the END of the normal entries of locale/fa/LC_MESSAGES/django.po
+# (before the lines that start with "#~"), then: django-admin compilemessages + restart.
+
+msgid "Latest sculptures"
+msgstr "تازه‌ترین مجسمه‌ها"
+
+msgid "Hover to pause. Click a sculpture to read more about it."
+msgstr "برای توقف، ماوس را روی تصویر نگه دارید. برای خواندن درباره‌ی هر مجسمه روی آن کلیک کنید."
+# Add to the normal entries of locale/fa/LC_MESSAGES/django.po (before the "#~" lines),
+# then: django-admin compilemessages + restart.
+
+msgid "just now"
+msgstr "هم‌اکنون"
+
+msgid "Something went wrong. Please try again."
+msgstr "مشکلی پیش آمد. لطفاً دوباره تلاش کنید."

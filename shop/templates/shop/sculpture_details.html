@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% load static i18n comments_tags %}
+{% block page_title %}
+    <title>{{ sculpture.display_title }} | {% trans "Jahan" %}</title>
+{% endblock page_title %}
+
+{% block page_style %}
+    <link rel="stylesheet" href="{% static 'shop/css/loading.css' %}">
+    <link rel="stylesheet" href="{% static 'shop/css/product_details.css' %}">
+    <link rel="stylesheet" href="{% static 'shop/css/likes.css' %}">
+    <link rel="stylesheet" href="{% static 'reviews/css/comments.css' %}">
+    <link rel="stylesheet" href="{% static 'shop/css/collections.css' %}">
+{% endblock page_style %}
+
+{% block page_content %}
+<main class="pd-page">
+    <div class="wrap">
+
+        <nav class="pd-crumbs" aria-label="{% trans 'Breadcrumb' %}">
+            <a href="{% url 'products' %}">{% trans "Products" %}</a>
+            <span aria-hidden="true">/</span>
+            <a href="{% url 'products' %}?collection=sculptures">{% trans "Sculptures" %}</a>
+            <span aria-hidden="true">/</span>
+            <span aria-current="page">{{ sculpture.display_title }}</span>
+        </nav>
+
+        <article class="pd {% if not sculpture.is_active %}is-sold{% endif %}">
+
+            <div class="pd-media">
+                {% with extra=sculpture.images.all %}
+
+                {% blocktrans asvar zoom_label with title=sculpture.display_title %}View {{ title }} full size{% endblocktrans %}
+                <div class="pd-stage">
+                    <button type="button" class="pd-frame" id="pd-zoom-open"
+                            aria-label="{{ zoom_label }}">
+                        <img id="pd-main-img" src="{{ sculpture.image.url }}" alt="{{ sculpture.display_title }}">
+                        {% if not sculpture.is_active %}
+                            <span class="pd-badge">{% trans "Sold" %}</span>
+                        {% endif %}
+                        <span class="pd-zoom-hint">{% trans "Click to enlarge" %}</span>
+                    </button>
+
+                    {% if extra %}
+                    <button type="button" class="pd-arrow pd-arrow--prev" id="pd-prev" aria-label="{% trans 'Previous image' %}">&#8249;</button>
+                    <button type="button" class="pd-arrow pd-arrow--next" id="pd-next" aria-label="{% trans 'Next image' %}">&#8250;</button>
+                    {% endif %}
+                </div>
+
+                {% if extra %}
+                <ul class="pd-thumbs" id="pd-thumbs">
+                    <li>
+                        <button type="button" class="pd-thumb is-active"
+                                data-src="{{ sculpture.image.url }}"
+                                data-alt="{{ sculpture.display_title }}"
+                                aria-label="{% trans 'Show main image' %}">
+                            <img src="{{ sculpture.image.url }}" alt="">
+                        </button>
+                    </li>
+                    {% for img in extra %}
+                    {% blocktrans asvar thumb_label with n=forloop.counter|add:1 %}Show image {{ n }}{% endblocktrans %}
+                    <li>
+                        <button type="button" class="pd-thumb"
+                                data-src="{{ img.image.url }}"
+                                data-alt="{{ img.caption|default:sculpture.display_title }}"
+                                aria-label="{{ thumb_label }}">
+                            <img src="{{ img.image.url }}" alt="">
+                        </button>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+
+                {% endwith %}
+            </div>
+
+            <div class="pd-info">
+                <p class="pd-eyebrow">{% trans "Original sculpture" %}</p>
+                <h1>{{ sculpture.display_title }}</h1>
+
+                <p class="pd-price">{{ sculpture.display_price }}</p>
+                {% include "includes/like_stats.html" with product=sculpture is_sculpture=True %}
+
+                {% if sculpture.display_description %}
+                    <p class="pd-desc">{{ sculpture.display_description|linebreaksbr }}</p>
+                {% endif %}
+
+                <dl class="pd-facts">
+                    {% if sculpture.material_label %}
+                    <div>
+                        <dt>{% trans "Material" %}</dt>
+                        <dd>
+                            <span class="pd-material" title="{{ sculpture.material_label }}">
+                                <span class="mat-chip">{% include "includes/material_icon.html" with material=sculpture.material %}</span>
+                                <span>{{ sculpture.material_label }}</span>
+                            </span>
+                        </dd>
+                    </div>
+                    {% endif %}
+
+                    {% if sculpture.size %}
+                    <div>
+                        <dt>{% trans "Size" %}</dt>
+                        <dd>{{ sculpture.size }}</dd>
+                    </div>
+                    {% endif %}
+
+                    {% if sculpture.weight_kg %}
+                    <div>
+                        <dt>{% trans "Weight" %}</dt>
+                        <dd>{{ sculpture.weight_kg|floatformat:"-2" }} {% trans "kg" %}</dd>
+                    </div>
+                    {% endif %}
+
+                    {% if sculpture.year %}
+                    <div>
+                        <dt>{% trans "Year" %}</dt>
+                        <dd>{{ sculpture.year|stringformat:"d" }}</dd>
+                    </div>
+                    {% endif %}
+
+                    <div>
+                        <dt>{% trans "Availability" context "product" %}</dt>
+                        <dd>
+                            {% if sculpture.is_active %}
+                                <span class="pd-status pd-status--ok">{% trans "Available" %}</span>
+                            {% else %}
+                                <span class="pd-status pd-status--sold">{% trans "Sold" %}</span>
+                            {% endif %}
+                        </dd>
+                    </div>
+                </dl>
+
+                <div class="pd-actions">
+                    {% if sculpture.is_active %}
+                        {% blocktrans asvar mail_subject with title=sculpture.display_title %}Question about: {{ title }}{% endblocktrans %}
+                        <a class="btn btn-primary"
+                           href="mailto:?subject={{ mail_subject|urlencode }}">
+                            {% trans "Ask about this sculpture" %}
+                        </a>
+                    {% endif %}
+                    <a class="btn btn-ghost" href="{% url 'products' %}?collection=sculptures">{% trans "Back to sculptures" %}</a>
+                    <button type="button" class="btn btn-ghost" id="pd-copy" data-copied-text="{% trans 'Link copied' %}">{% trans "Copy link" %}</button>
+                </div>
+            </div>
+        </article>
+
+        {# comments: under the images #}
+        {% comments_section sculpture %}
+    </div>
+</main>
+
+{# Full size viewer #}
+{% blocktrans asvar dialog_label with title=sculpture.display_title %}{{ title }} full size{% endblocktrans %}
+<dialog id="pd-zoom" aria-label="{{ dialog_label }}">
+    <button type="button" class="pd-zoom-close" id="pd-zoom-close" aria-label="{% trans 'Close' %}">&times;</button>
+    <img id="pd-zoom-img" src="{{ sculpture.image.url }}" alt="{{ sculpture.display_title }}">
+</dialog>
+{% endblock page_content %}
+
+{% block page_script %}
+    <script src="{% static 'shop/js/loading.js' %}"></script>
+    <script src="{% static 'shop/js/product_details.js' %}"></script>
+    <script src="{% static 'shop/js/likes.js' %}"></script>
+{% endblock page_script %}

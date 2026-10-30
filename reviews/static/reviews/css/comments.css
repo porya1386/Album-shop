@@ -304,3 +304,21 @@
     .cm-emoji-panel { animation: none; }
     .cm-emoji-btn, .cm-emoji-item { transition: none; }
 }
+
+/* ---- comments added / removed without reloading ---- */
+@keyframes cm-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.cm-item.is-new { animation: cm-in .35s ease-out; }
+
+.cm-item { transition: opacity .2s, transform .2s; }
+.cm-item.is-removing { opacity: 0; transform: translateX(12px); }
+
+.cm-form button[type="submit"]:disabled { opacity: .6; cursor: progress; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cm-item.is-new { animation: none; }
+  .cm-item { transition: none; }
+}
