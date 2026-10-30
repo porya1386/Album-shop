@@ -11,7 +11,6 @@ from django.conf import settings
 from .forms import ProductFilterForm
 from .models import Album_image, Sculpture
 from .search import parse_terms
-from .serializer import Album_Serializer
 # from rest_framework.permissions import AllowAny, IsAdminUser
 
 # ---------------------------------------------------------------- helpers

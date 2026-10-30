@@ -1,6 +1,8 @@
 /* Tabs "Paintings | Sculptures" on the products page.
    Save as:  shop/static/shop/css/collections.css */
 .collection-tabs {
+    position: relative;
+    isolation: isolate;
     display: inline-flex;
     gap: .25rem;
     padding: .25rem;
@@ -71,4 +73,58 @@
     height: 1.1em;
     vertical-align: -.2em;
     margin-inline-end: .3rem;
+}
+
+/* ---- slide between Paintings and Sculptures ---- */
+@keyframes slide-in-from-right {
+  from { opacity: 0; transform: translateX(48px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes slide-in-from-left {
+  from { opacity: 0; transform: translateX(-48px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* the new page: its list slides in (data-slide is set by the tiny script in <head>) */
+html[data-slide="from-right"] .results { animation: slide-in-from-right .4s cubic-bezier(.2, .7, .2, 1) both; }
+html[data-slide="from-left"]  .results { animation: slide-in-from-left  .4s cubic-bezier(.2, .7, .2, 1) both; }
+
+/* the old page: its list slides out before the new page opens */
+.results.is-leaving-left,
+.results.is-leaving-right { transition: transform .22s ease-in, opacity .22s ease-in; opacity: 0; }
+.results.is-leaving-left  { transform: translateX(-48px); }
+.results.is-leaving-right { transform: translateX(48px); }
+
+/* no sideways scrollbar while it moves */
+html[data-slide], html:has(.results.is-leaving-left), html:has(.results.is-leaving-right) { overflow-x: hidden; }
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-slide] .results { animation: none; }
+}
+
+/* ---- the highlight slides from one tab to the other (collections.js adds .collection-pill) ---- */
+.collection-pill {
+    position: absolute;
+    top: .25rem;
+    bottom: .25rem;
+    left: 0;
+    width: var(--w, 0);
+    transform: translateX(var(--x, 0));
+    border-radius: 999px;
+    background: var(--gold, #c9a227);
+    z-index: -1;
+    pointer-events: none;
+}
+
+.collection-tabs.is-ready .collection-pill {
+    transition: transform .32s cubic-bezier(.4, 0, .2, 1), width .32s cubic-bezier(.4, 0, .2, 1);
+}
+
+/* with the pill, the tab itself has no background (without JavaScript it keeps its own) */
+.collection-tabs.has-pill .collection-tab.is-active { background: transparent; }
+.collection-tab { position: relative; transition: background-color .2s, opacity .2s, color .3s; }
+
+@media (prefers-reduced-motion: reduce) {
+    .collection-tabs.is-ready .collection-pill { transition: none; }
 }

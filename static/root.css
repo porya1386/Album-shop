@@ -1,96 +1,206 @@
+
 @font-face {
-  font-family: "Fraunces";
-  font-style: normal;
-  font-weight: 500 700;
-  font-display: swap;
-  src: url("fonts/fraunces-latin.woff2") format("woff2");
+    font-family: "Fraunces";
+    font-style: normal;
+    font-weight: 500 700;
+    font-display: swap;
+    src: url("fonts/fraunces-latin.woff2") format("woff2");
 }
+
 @font-face {
-  font-family: "Figtree";
-  font-style: normal;
-  font-weight: 400 600;
-  font-display: swap;
-  src: url("fonts/figtree-latin.woff2") format("woff2");
+    font-family: "Figtree";
+    font-style: normal;
+    font-weight: 400 600;
+    font-display: swap;
+    src: url("fonts/figtree-latin.woff2") format("woff2");
 }
+
+/* ==============================
+   ROOT VARIABLES
+============================== */
 
 :root {
-      --ink: #fdf6e8;
-      --ink-soft: rgba(253, 246, 232, .82);
-      --gold: #f2c261;
-      --night: #101a14;
-      --font-display: "Fraunces", Georgia, serif;
-      --font-body: "Figtree", "Segoe UI", system-ui, sans-serif;
-      /* Same painting as the home page. Replace this URL to change it. */
-      --painting: url("/static/website/img/background.jpg");
-    }
+    --ink: #fdf6e8;
+    --ink-soft: rgba(253, 246, 232, .82);
+    --gold: #f2c261;
+    --night: #101a14;
 
-    *, *::before, *::after { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    --font-display: "Fraunces", Georgia, serif;
+    --font-body: "Figtree", "Segoe UI", system-ui, sans-serif;
 
-    body {
+    /* Desktop background */
+    --painting: url("/static/website/img/background.jpg");
+
+    /* Mobile background */
+    --painting-mobile: url("/static/website/img/background-mobile.jpg");
+}
+
+/* ==============================
+   GLOBAL
+============================== */
+
+*, 
+*::before, 
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
     margin: 0;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+
     font-family: var(--font-body);
     font-size: 1.05rem;
     line-height: 1.6;
-    color: var(--ink);
 
+    color: var(--ink);
     background-color: var(--night);
+
     background-image:
         linear-gradient(
-            rgba(10, 16, 12, .6),
+            rgba(10, 16, 12, .60),
             rgba(10, 16, 12, .72)
         ),
-        var(--painting, none);
+        var(--painting);
 
     background-size: cover;
-    background-position: center;
+    background-position: center center;
     background-repeat: no-repeat;
     background-attachment: fixed;
-  }
+}
 
-    a { color: inherit; }
-    p { margin: 0 0 1rem; }
+a {
+    color: inherit;
+}
 
-    :focus-visible {
-      outline: 3px solid var(--gold);
-      outline-offset: 3px;
-      border-radius: 4px;
+p {
+    margin: 0 0 1rem;
+}
+
+:focus-visible {
+    outline: 3px solid var(--gold);
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+.wrap {
+    width: min(100% - 2.5rem, 1080px);
+    margin-inline: auto;
+}
+
+/* ==============================
+   RESPONSIVE - TABLET & MOBILE
+============================== */
+
+@media (max-width: 760px) {
+
+    body {
+        background-image:
+            linear-gradient(
+                rgba(10, 16, 12, .55),
+                rgba(10, 16, 12, .72)
+            ),
+            var(--painting-mobile, var(--painting));
+
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-attachment: scroll;
     }
 
-    .wrap { width: min(100% - 2.5rem, 1080px); margin-inline: auto; }
+    main {
+        padding: 2rem 0 3rem;
+    }
 
- /* ---------- Responsive ---------- */
-    @media (max-width: 760px) {
-      body { background-attachment: scroll; }
-      main { padding: 2rem 0 3rem; }
+    .auth-card {
+        display: block;
+        min-height: 0;
+    }
 
-      .auth-card { display: block; min-height: 0; }
-      .overlay { display: none; }
-      .pane { padding: 2rem 1.5rem; }
-      .auth-card[data-mode="login"]    .pane-register,
-      .auth-card[data-mode="register"] .pane-login { display: none; }
-      .switch-mobile { display: block; }
+    .overlay {
+        display: none;
+    }
 
-      .nav-toggle { display: block; }
-      .site-nav {
+    .pane {
+        padding: 2rem 1.5rem;
+    }
+
+    .auth-card[data-mode="login"] .pane-register,
+    .auth-card[data-mode="register"] .pane-login {
+        display: none;
+    }
+
+    .switch-mobile {
+        display: block;
+    }
+
+    /* Mobile navigation */
+
+    .nav-toggle {
+        display: block;
+    }
+
+    .site-nav {
         display: none;
         position: absolute;
         top: 100%;
         left: 0;
         right: 0;
+
         flex-direction: column;
         align-items: flex-start;
         gap: 1rem;
+
         padding: 1.25rem 1.25rem 1.5rem;
-        background: rgba(10, 16, 12, .92);
+
+        background: rgba(10, 16, 12, .95);
         border-bottom: 1px solid rgba(253, 246, 232, .18);
-      }
-      .site-nav.is-open { display: flex; }
     }
 
-    @media (prefers-reduced-motion: reduce) {
-      * { transition: none !important; scroll-behavior: auto !important; }
+    .site-nav.is-open {
+        display: flex;
     }
+
+    .wrap {
+        width: min(100% - 2rem, 1080px);
+    }
+}
+
+/* ==============================
+   SMALL MOBILE
+============================== */
+
+@media (max-width: 400px) {
+
+    body {
+        font-size: 1rem;
+    }
+
+    .pane {
+        padding: 1.5rem 1.1rem;
+    }
+
+    .wrap {
+        width: calc(100% - 1.5rem);
+    }
+}
+
+/* ==============================
+   REDUCED MOTION
+============================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        transition: none !important;
+        scroll-behavior: auto !important;
+    }
+}

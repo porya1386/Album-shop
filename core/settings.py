@@ -20,25 +20,25 @@ load_dotenv(BASE_DIR / ".env")
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ["SECRET_KEY"]
+# # SECURITY WARNING: keep the secret key used in production secret!
+# SECRET_KEY = os.environ["SECRET_KEY"]
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = os.environ.get("DEBUG", "False").lower() in (
-    "true",
-    "1",
-    "yes",
-)
+# DEBUG = os.environ.get("DEBUG", "False").lower() in (
+#     "true",
+#     "1",
+#     "yes",
+# )
 
 
-ALLOWED_HOSTS = [
-    host.strip()
-    for host in os.environ.get(
-        "ALLOWED_HOSTS", "localhost,127.0.0.1"
-    ).split(",")
-    if host.strip()
-]
+# ALLOWED_HOSTS = [
+#     host.strip()
+#     for host in os.environ.get(
+#         "ALLOWED_HOSTS", "localhost,127.0.0.1"
+#     ).split(",")
+#     if host.strip()
+# ]
 
 # Application definition
 
@@ -107,14 +107,14 @@ DEBUG = os.environ.get("DEBUG", "False").lower() in {
     "1", "true", "yes"
 }
 
-ALLOWED_HOSTS = [
-    host.strip()
-    for host in os.environ.get(
-        "ALLOWED_HOSTS", "localhost,127.0.0.1"
-    ).split(",")
-    if host.strip()
-]
-
+# ALLOWED_HOSTS = [
+#     host.strip()
+#     for host in os.environ.get(
+#         "ALLOWED_HOSTS", "localhost,127.0.0.1"
+#     ).split(",")
+#     if host.strip()
+# ]
+ALLOWED_HOSTS = ['192.168.1.5', '127.0.0.1', 'localhost']
 # --------------------------------------------------
 # PostgreSQL
 # --------------------------------------------------

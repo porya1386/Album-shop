@@ -20,7 +20,7 @@ urlpatterns = [
     # Forgot password: request reset email
     path(
         "password-reset/",
-        auth_views.PasswordResetView.as_view(
+        views.LimitedPasswordResetView.as_view(
             form_class=CaptchaPasswordResetForm,
             template_name="accounts/password_reset_form.html",
             email_template_name="accounts/password_reset_email.html",
@@ -62,7 +62,7 @@ urlpatterns = [
     # Change password for logged-in users
     path(
         "password-change/",
-        auth_views.PasswordChangeView.as_view(
+        views.LimitedPasswordChangeView.as_view(
             form_class=CaptchaPasswordChangeForm,
             template_name="accounts/password_change_form.html",
             success_url=reverse_lazy(

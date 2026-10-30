@@ -1,3 +1,5 @@
+from django.contrib.auth import views as auth_views
+from django.utils.decorators import method_decorator
 from django.conf import settings
 from django.contrib.auth import login, logout
 from django.shortcuts import redirect, render, resolve_url
@@ -75,3 +77,18 @@ def auth_view(request):
 def logout_view(request):
     logout(request)
     return redirect(resolve_url(settings.LOGOUT_REDIRECT_URL))
+
+
+def _email_key(group, request):
+    return (request.POST.get("email") or "").strip().lower()
+
+
+@method_decorator(ratelimit(key="ip", rate="5/h", method="POST", block=True), name="dispatch")
+@method_decorator(ratelimit(key=_email_key, rate="3/h", method="POST", block=True), name="dispatch")
+class LimitedPasswordResetView(auth_views.PasswordResetView):
+    pass
+
+
+@method_decorator(ratelimit(key="user_or_ip", rate="5/m", method="POST", block=True), name="dispatch")
+class LimitedPasswordChangeView(auth_views.PasswordChangeView):
+    pass
