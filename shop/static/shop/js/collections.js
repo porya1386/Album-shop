@@ -70,35 +70,86 @@
   if (!results || !tabs.length) return;
 
   tabs.forEach((tab) => {
-    tab.addEventListener("click", (event) => {
-      if (event.defaultPrevented || event.button !== 0) return;
-      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-      if (tab.classList.contains("is-active") || reduced.matches) return;
+  tab.addEventListener("click", async (event) => {
+    if (event.defaultPrevented || event.button !== 0) return;
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    if (tab.classList.contains("is-active") || reduced.matches) return;
 
-      const current = document.querySelector(".collection-tab.is-active");
-      if (!current) return;
+    event.preventDefault();
 
-      event.preventDefault();
+    const current = nav.querySelector(".collection-tab.is-active");
+    if (!current) return;
 
-      // is the new tab on the right of the current one?
-      const toRight = SAME_DIRECTION_IN_RTL
-        ? [...tabs].indexOf(tab) > [...tabs].indexOf(current)
-        : tab.getBoundingClientRect().left > current.getBoundingClientRect().left;
+    const toRight =
+      tab.getBoundingClientRect().left >
+      current.getBoundingClientRect().left;
 
-      const slideList = SLIDE_LIST && !smallScreen.matches;
+    // Move the active tab highlight
+    current.classList.remove("is-active");
+    tab.classList.add("is-active");
+    placePill(tab);
 
-      if (slideList) {
-        try {
-          sessionStorage.setItem("collection-slide", `${toRight ? "from-right" : "from-left"}|${Date.now()}`);
-        } catch (err) { /* private mode: the page just opens without the slide-in */ }
+    // Animate old products out
+    const slideList = SLIDE_LIST && !smallScreen.matches;
+
+    if (slideList) {
+      results.classList.add(
+        toRight ? "is-leaving-left" : "is-leaving-right"
+      );
+    }
+
+    try {
+      // Wait for exit animation
+      await new Promise(resolve => setTimeout(resolve, OUT_MS));
+
+      const response = await fetch(tab.href, {
+        method: "GET",
+        headers: {
+          "X-Requested-With": "XMLHttpRequest"
+        },
+        credentials: "same-origin"
+      });
+
+      if (!response.ok) {
+        throw new Error("Could not load collection");
       }
 
-      // the highlight slides to the clicked tab, and the list slides out
-      current.classList.remove("is-active");
-      tab.classList.add("is-active");
+      const html = await response.text();
+
+      // Parse returned HTML
+      const parser = new DOMParser();
+      const newDocument = parser.parseFromString(html, "text/html");
+      const newResults = newDocument.querySelector(".results");
+
+      if (!newResults) {
+        throw new Error("Results element not found");
+      }
+
+      // Replace only product results
+      results.innerHTML = newResults.innerHTML;
+
+      // Update browser URL without reloading
+      history.pushState({}, "", tab.href);
+
+      // Remove old animation classes
+      results.classList.remove(
+        "is-leaving-left",
+        "is-leaving-right"
+      );
+
+      // Update active tab
+      tabs.forEach(t => {
+        t.classList.toggle("is-active", t.href === tab.href);
+      });
+
       placePill(tab);
-      if (slideList) results.classList.add(toRight ? "is-leaving-left" : "is-leaving-right");
-      setTimeout(() => { window.location.href = tab.href; }, OUT_MS);
-    });
+
+    } catch (error) {
+      console.error(error);
+
+      // Fallback if fetch fails
+      window.location.href = tab.href;
+    }
   });
+});
 })();
