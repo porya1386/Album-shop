@@ -6,6 +6,9 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 from django.conf.urls.i18n import i18n_patterns
+from django.urls import re_path
+from django.views.static import serve
+
 # ---- Swagger ----
 schema_view = get_schema_view(
     openapi.Info(
@@ -46,3 +49,9 @@ urlpatterns += [
     path("redoc/", schema_view.with_ui("redoc",
          cache_timeout=0), name="schema-redoc"),
 ]
+
+if not settings.DEBUG and not getattr(settings, "AWS_STORAGE_BUCKET_NAME", ""):
+    urlpatterns += [
+        re_path(r"^media/(?P<path>.*)$", serve,
+                {"document_root": settings.MEDIA_ROOT}),
+    ]

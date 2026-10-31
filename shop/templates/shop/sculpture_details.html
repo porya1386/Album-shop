@@ -59,12 +59,22 @@
                     {% for img in extra %}
                     {% blocktrans asvar thumb_label with n=forloop.counter|add:1 %}Show image {{ n }}{% endblocktrans %}
                     <li>
+                        {% if img.video %}
+                        <button type="button" class="pd-thumb pd-thumb--video"
+                                data-video="{{ img.video.url }}"
+                                data-alt="{{ img.caption|default:sculpture.display_title }}"
+                                aria-label="{% trans 'Play video' %}">
+                            <video src="{{ img.video.url }}#t=0.1" muted playsinline preload="metadata"
+                                   tabindex="-1" aria-hidden="true"></video>
+                        </button>
+                        {% else %}
                         <button type="button" class="pd-thumb"
                                 data-src="{{ img.image.url }}"
                                 data-alt="{{ img.caption|default:sculpture.display_title }}"
                                 aria-label="{{ thumb_label }}">
                             <img src="{{ img.image.url }}" alt="">
                         </button>
+                        {% endif %}
                     </li>
                     {% endfor %}
                 </ul>
@@ -158,6 +168,7 @@
 {% endblock page_content %}
 
 {% block page_script %}
+    <script src="{% static 'shop/js/gallery_media.js' %}" defer></script>
     <script src="{% static 'shop/js/loading.js' %}"></script>
     <script src="{% static 'shop/js/product_details.js' %}"></script>
     <script src="{% static 'shop/js/likes.js' %}"></script>

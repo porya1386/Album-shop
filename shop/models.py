@@ -1,13 +1,27 @@
 from decimal import Decimal
 
 from django.conf import settings
-from django.core.validators import MinValueValidator
+from django.core.exceptions import ValidationError
+from django.core.validators import FileExtensionValidator, MinValueValidator
 from django.db import models
 from django.utils.text import slugify
 from django.utils.translation import get_language
 from django.utils.translation import gettext_lazy as _
 
 PERSIAN_DIGITS = str.maketrans("0123456789", "۰۱۲۳۴۵۶۷۸۹")
+
+# ---- video upload rules (change MAX_VIDEO_MB if you want a bigger limit) ----
+MAX_VIDEO_MB = 100
+VIDEO_EXTENSIONS = ["mp4", "webm", "mov", "m4v"]
+
+
+def validate_video_size(file):
+    if file.size > MAX_VIDEO_MB * 1024 * 1024:
+        raise ValidationError(
+            _("The video is too big. The maximum size is %(mb)s MB."),
+            params={"mb": MAX_VIDEO_MB},
+        )
+
 
 # 16 base colours the admin can choose from (up to 4 per painting)
 COLOR_CHOICES = [
@@ -211,7 +225,17 @@ class Album_image_gallery(models.Model):
 
     image = models.ImageField(
         upload_to="shop/album_gallery",
+        blank=True,
         verbose_name=_("Gallery Image"),
+    )
+
+    video = models.FileField(
+        upload_to="shop/album_gallery_video",
+        blank=True,
+        validators=[FileExtensionValidator(
+            VIDEO_EXTENSIONS), validate_video_size],
+        verbose_name=_("Video"),
+        help_text=_("Upload an image OR a video (MP4 or WebM, up to 100 MB)."),
     )
 
     caption = models.CharField(
@@ -229,6 +253,16 @@ class Album_image_gallery(models.Model):
         ordering = ["order", "id"]
         verbose_name = _("Album Image Gallery")
         verbose_name_plural = _("Album Image Galleries")
+
+    def clean(self):
+        # exactly one of image / video
+        if bool(self.image) == bool(self.video):
+            raise ValidationError(
+                _("Upload either an image or a video (not both, not empty)."))
+
+    @property
+    def is_video(self):
+        return bool(self.video)
 
     def __str__(self):
         return f"{self.product.title} #{self.order}"
@@ -380,7 +414,16 @@ class Sculpture_gallery(models.Model):
         verbose_name=_("Sculpture"),
     )
     image = models.ImageField(
-        upload_to="shop/sculpture_gallery", verbose_name=_("Gallery Image"))
+        upload_to="shop/sculpture_gallery", blank=True,
+        verbose_name=_("Gallery Image"))
+    video = models.FileField(
+        upload_to="shop/sculpture_gallery_video",
+        blank=True,
+        validators=[FileExtensionValidator(
+            VIDEO_EXTENSIONS), validate_video_size],
+        verbose_name=_("Video"),
+        help_text=_("Upload an image OR a video (MP4 or WebM, up to 100 MB)."),
+    )
     caption = models.CharField(
         max_length=160, blank=True, verbose_name=_("Caption"))
     order = models.PositiveSmallIntegerField(
@@ -390,6 +433,16 @@ class Sculpture_gallery(models.Model):
         ordering = ["order", "id"]
         verbose_name = _("Sculpture Gallery")
         verbose_name_plural = _("Sculpture Galleries")
+
+    def clean(self):
+        # exactly one of image / video
+        if bool(self.image) == bool(self.video):
+            raise ValidationError(
+                _("Upload either an image or a video (not both, not empty)."))
+
+    @property
+    def is_video(self):
+        return bool(self.video)
 
     def __str__(self):
         return f"{self.sculpture.title} #{self.order}"
