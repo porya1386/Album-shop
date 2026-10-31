@@ -10,6 +10,9 @@
   const OUT_MS = 320;                       // the pill slides this long (CSS .collection-pill), then the page opens
   // false: only the highlight on the tabs slides (the list just appears)
   const SLIDE_LIST = true;
+  // On phones and tablets the list does not slide: moving a wide element sideways makes the mobile
+  // browser zoom out / re-layout the page. (The highlight on the tabs still slides everywhere.)
+  const smallScreen = window.matchMedia("(max-width: 900px), (pointer: coarse)");
   // false: follow the real position of the tabs (in Farsi/RTL the direction is mirrored, like the tabs)
   // true : always Paintings -> Sculptures = right to left, Sculptures -> Paintings = left to right
   const SAME_DIRECTION_IN_RTL = false;
@@ -82,7 +85,9 @@
         ? [...tabs].indexOf(tab) > [...tabs].indexOf(current)
         : tab.getBoundingClientRect().left > current.getBoundingClientRect().left;
 
-      if (SLIDE_LIST) {
+      const slideList = SLIDE_LIST && !smallScreen.matches;
+
+      if (slideList) {
         try {
           sessionStorage.setItem("collection-slide", `${toRight ? "from-right" : "from-left"}|${Date.now()}`);
         } catch (err) { /* private mode: the page just opens without the slide-in */ }
@@ -92,7 +97,7 @@
       current.classList.remove("is-active");
       tab.classList.add("is-active");
       placePill(tab);
-      if (SLIDE_LIST) results.classList.add(toRight ? "is-leaving-left" : "is-leaving-right");
+      if (slideList) results.classList.add(toRight ? "is-leaving-left" : "is-leaving-right");
       setTimeout(() => { window.location.href = tab.href; }, OUT_MS);
     });
   });

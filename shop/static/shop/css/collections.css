@@ -34,6 +34,18 @@
     color: var(--night, #111);
 }
 
+/* tab icons (painting frame / sculpture bust) take the text colour */
+.collection-icon {
+    flex: none;
+    width: 1.15em;
+    height: 1.15em;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
 .collection-count {
     min-width: 1.5em;
     padding: 0 .4em;
@@ -96,8 +108,8 @@ html[data-slide="from-left"]  .results { animation: slide-in-from-left  .4s cubi
 .results.is-leaving-left  { transform: translateX(-48px); }
 .results.is-leaving-right { transform: translateX(48px); }
 
-/* no sideways scrollbar while it moves */
-html[data-slide], html:has(.results.is-leaving-left), html:has(.results.is-leaving-right) { overflow-x: hidden; }
+/* what slides sideways must never make the PAGE wider (that makes phones zoom out) */
+.wrap:has(> .results) { overflow-x: clip; overflow-clip-margin: 24px; }
 
 @media (prefers-reduced-motion: reduce) {
   html[data-slide] .results { animation: none; }

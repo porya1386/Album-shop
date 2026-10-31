@@ -1,0 +1,79 @@
+/* ============================================================================
+   Sharp, stable page background for phones / tablets / desktop.
+   Save next to themes.css (same folder) and load it AFTER themes.css and root.css:
+       <link rel="stylesheet" href="{% static 'backgrounds.css' %}">
+
+   What it fixes
+   1. The painting was the <body> background with `background-attachment: fixed`.
+      Phones handle that badly (the picture is enlarged, jumps when the address bar hides,
+      and the whole page repaints while you scroll = "scratchy"). Now the painting is its own
+      fixed layer (body::before), which is smooth and always the size of the screen.
+   2. A phone on its side is ~2340 px wide, but the old 1080 px picture was stretched over it.
+      Now there are two pictures per theme: a wide one (landscape: phones on their side, tablets,
+      laptops) and a tall one (phones held upright). Make them with make_backgrounds.py.
+
+   The old `body { background... }` rules in root.css / themes.css are switched off by the
+   first two rules below. You can delete them later (README tells which).
+   ============================================================================ */
+
+/* ---- 1) the colour comes from <html>, the body is see-through ---- */
+html { background-color: var(--night, #0a100c); }
+body {
+  background: transparent !important;
+  background-attachment: scroll !important;
+}
+
+/* ---- 2) which pictures each theme uses (files made by make_backgrounds.py) ---- */
+:root,
+html[data-theme="forest"] {
+  --bg-land: url("images/themes/forest-land.webp");
+  --bg-port: url("images/themes/forest-port.webp");
+}
+html[data-theme="starry"] {
+  --bg-land: url("images/themes/starry-night-land.webp");
+  --bg-port: url("images/themes/starry-night-port.webp");
+}
+html[data-theme="wave"] {
+  --bg-land: url("images/themes/great-wave-land.webp");
+  --bg-port: url("images/themes/great-wave-port.webp");
+}
+html[data-theme="lilies"] {
+  --bg-land: url("images/themes/water-lilies-land.webp");
+  --bg-port: url("images/themes/water-lilies-port.webp");
+}
+html[data-theme="poppy"] {
+  --bg-land: url("images/themes/poppy-field-land.webp");
+  --bg-port: url("images/themes/poppy-field-port.webp");
+}
+
+/* ---- 3) the painting layer ---- */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100lvh;                 /* the biggest screen height: does not jump when the address bar hides */
+  z-index: -1;
+  pointer-events: none;
+
+  --bg-art: var(--bg-land);
+  background-image:
+    var(--bg-veil, linear-gradient(rgba(10, 16, 12, .55), rgba(10, 16, 12, .72))),
+    var(--bg-art),
+    var(--bg-gradient, none);
+  background-size: cover, cover, cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* a phone held upright gets the tall picture */
+@media (orientation: portrait) {
+  body::before { --bg-art: var(--bg-port, var(--bg-land)); }
+}
+
+/* the tall picture is made for phone screens; on a big portrait screen (tablet, monitor) use the wide one */
+@media (orientation: portrait) and (min-width: 900px) {
+  body::before { --bg-art: var(--bg-land); }
+}
