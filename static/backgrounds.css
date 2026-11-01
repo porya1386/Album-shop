@@ -47,7 +47,8 @@ html[data-theme="poppy"] {
 }
 
 /* ---- 3) the painting layer ---- */
-body::before {
+body::before,
+.theme-reveal {
   content: "";
   position: fixed;
   top: 0;
@@ -70,10 +71,33 @@ body::before {
 
 /* a phone held upright gets the tall picture */
 @media (orientation: portrait) {
-  body::before { --bg-art: var(--bg-port, var(--bg-land)); }
+  body::before,
+  .theme-reveal { --bg-art: var(--bg-port, var(--bg-land)); }
 }
 
 /* the tall picture is made for phone screens; on a big portrait screen (tablet, monitor) use the wide one */
 @media (orientation: portrait) and (min-width: 900px) {
-  body::before { --bg-art: var(--bg-land); }
+  body::before,
+  .theme-reveal { --bg-art: var(--bg-land); }
+}
+
+
+/* ---- 4) theme change animation (themes.js) ----
+   While the theme changes, a copy of the OLD painting (.theme-reveal) lies over the new one and
+   a round hole grows out of the place you clicked. Nothing is captured as a picture, so
+   the blur of the header, menus and cards stays exactly the same during the animation. */
+@property --reveal-r {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+.theme-reveal {
+  background-color: var(--night, #0a100c);   /* the colour of the old theme (set by themes.js) */
+  --reveal-x: 50%;
+  --reveal-y: 50%;
+  -webkit-mask-image: radial-gradient(circle at var(--reveal-x) var(--reveal-y),
+                      transparent var(--reveal-r), #000 calc(var(--reveal-r) + 2px));
+          mask-image: radial-gradient(circle at var(--reveal-x) var(--reveal-y),
+                      transparent var(--reveal-r), #000 calc(var(--reveal-r) + 2px));
 }

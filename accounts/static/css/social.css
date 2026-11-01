@@ -1,0 +1,97 @@
+/* Buttons "Continue with Google / GitHub" on the login page.
+   Save as:  static/css/social.css   and add to login.html  {% block page_style %}  after login.css:
+       <link rel="stylesheet" href="{% static 'css/social.css' %}">
+
+   Colours come from the theme (--gold, --ink), so it follows all 5 themes. */
+
+.social-login { margin: 1.1rem 0 1rem; }
+
+.social-title {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  margin: 0 0 .7rem;
+  font-size: .85rem;
+  color: var(--ink-soft, inherit);
+}
+
+.social-title::before,
+.social-title::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: color-mix(in srgb, currentColor 25%, transparent);
+}
+
+.social-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .6rem;
+}
+
+.social-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .55rem;
+  min-height: 44px;
+  padding: .6rem .8rem;
+  border: 1px solid color-mix(in srgb, currentColor 28%, transparent);
+  border-radius: 12px;
+  background: color-mix(in srgb, currentColor 6%, transparent);
+  color: inherit;
+  font: inherit;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color .2s, background-color .2s, transform .2s;
+}
+
+.social-btn:hover {
+  border-color: var(--gold, currentColor);
+  background: color-mix(in srgb, var(--gold, currentColor) 14%, transparent);
+  transform: translateY(-1px);
+}
+
+.social-btn:active { transform: translateY(0); }
+
+.social-btn:focus-visible {
+  outline: 3px solid var(--gold, currentColor);
+  outline-offset: 2px;
+}
+
+/* Icons come from Font Awesome (fa-brands fa-google / fa-github). */
+.social-icon {
+  flex: none;
+  width: 1.25em;
+  font-size: 1.15rem;
+  line-height: 1;
+  text-align: center;
+}
+
+/* Google: the four Google colours painted on the Font Awesome glyph
+   (top red, right blue, bottom green, left yellow). */
+.social-btn--google .social-icon {
+  background: conic-gradient(from -45deg,
+              #ea4335 0 25%, #4285f4 0 50%, #34a853 0 75%, #fbbc05 0);
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+          color: transparent;
+}
+
+/* GitHub: black / white. It takes the text colour of the theme, so it is white on dark themes
+   and black on light ones. To force one colour, put a value here, e.g.  color: #fff;  */
+.social-btn--github .social-icon {
+  color: currentColor;
+}
+
+@media (max-width: 420px) {
+  .social-buttons { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .social-btn { transition: none; }
+  .social-btn:hover { transform: none; }
+}

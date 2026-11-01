@@ -1331,3 +1331,15 @@ msgstr "خوش آمدید، %(name)s!"
 
 msgid "Notifications"
 msgstr "اعلان‌ها"
+
+# Add to the normal entries of locale/fa/LC_MESSAGES/django.po (before the "#~" lines),
+# then: django-admin compilemessages + restart.
+
+msgid "or log in with"
+msgstr "یا وارد شوید با"
+
+msgid "Continue with Google"
+msgstr "ادامه با گوگل"
+
+msgid "Continue with GitHub"
+msgstr "ادامه با گیت‌هاب"

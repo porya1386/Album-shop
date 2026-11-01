@@ -1,5 +1,4 @@
-
-# Production image for Jahan art shop (Django + Gunicorn)
+# Production image for the Jahan art shop (Django + gunicorn)
 FROM python:3.14-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
@@ -8,10 +7,9 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
-# System dependencies
+# libpq5 = needed by psycopg; gettext = makes the Farsi translation (.mo); curl = health check
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-       libpq5 curl gettext \
+    && apt-get install -y --no-install-recommends libpq5 gettext curl \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
@@ -19,7 +17,7 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-# Prepare entrypoint and permissions
+# sed removes Windows line endings (CRLF) so the script runs on Linux
 RUN sed -i 's/\r$//' /app/entrypoint.sh \
     && chmod +x /app/entrypoint.sh \
     && useradd -m app \
@@ -29,5 +27,4 @@ RUN sed -i 's/\r$//' /app/entrypoint.sh \
 USER app
 
 EXPOSE 8000
-
 ENTRYPOINT ["/app/entrypoint.sh"]

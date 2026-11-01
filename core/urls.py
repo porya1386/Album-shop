@@ -23,12 +23,16 @@ schema_view = get_schema_view(
     permission_classes=(permissions.IsAuthenticated,),
 )
 
+
 urlpatterns = [
+    path("oauth/", include("allauth.urls")),
     # url-e set_language                      # API ha bedoone prefix
     path("i18n/", include("django.conf.urls.i18n")),
+
 ]
 
 urlpatterns += i18n_patterns(
+    path("oauth/", include("allauth.urls")),
     path("accounts/", include("accounts.urls")),
     path("", include("website.urls")),
     path("shop/", include("shop.urls")),

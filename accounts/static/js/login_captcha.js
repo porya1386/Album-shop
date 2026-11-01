@@ -20,7 +20,7 @@
     Array.prototype.forEach.call(forms, function (form) {
         var name = form.getAttribute("data-captcha-form");
         var button = form.querySelector("[data-captcha-submit]") ||
-                     form.querySelector("button[type='submit']");
+                     form.querySelector("button[type='submit']:not([form])");
         var hint = form.querySelector("[data-captcha-hint]");
         if (!name || !button) return;
 

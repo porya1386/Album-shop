@@ -1,0 +1,15 @@
+{% comment %}
+  Save as:  accounts/templates/accounts/_social_forms.html
+  Dar login.html, BEROON az </form>-e login (bad az </form> va ghabl az <p class="switch-mobile">):
+      {% include "accounts/_social_forms.html" %}
+  Do form-e khali-e POST ke dokme-haye bala behesh vasl hastan (form-e takht-e form ghabel-e to-dar-to nist).
+{% endcomment %}
+{% load socialaccount %}
+<form id="social-form-google" method="post"
+      action="{% provider_login_url 'google' process='login' %}{% if next %}&amp;next={{ next|urlencode }}{% endif %}" hidden>
+    {% csrf_token %}
+</form>
+<form id="social-form-github" method="post"
+      action="{% provider_login_url 'github' process='login' %}{% if next %}&amp;next={{ next|urlencode }}{% endif %}" hidden>
+    {% csrf_token %}
+</form>

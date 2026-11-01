@@ -6,6 +6,9 @@
 
 {% block page_style %}
     <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    {# Font Awesome (icons of the Google / GitHub buttons). Self-hosted: static/vendor/fontawesome/ #}
+    <link rel="stylesheet" href="{% static 'vendor/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/social.css' %}">
 {% endblock page_style %}
 
 {% block page_content %}
@@ -30,7 +33,7 @@
                 {% trans "Welcome back. Enter your details to continue." %}
             </p>
 
-            <form method="post" action="{% url 'accounts:login' %}" data-captcha-form="login">
+            <form method="post" action="{% url 'accounts:login' %}"{% if show_captcha %} data-captcha-form="login"{% endif %}>
                 {% csrf_token %}
                 <input type="hidden" name="action" value="login">
 
@@ -101,22 +104,30 @@
                     value="{{ next|default:'' }}"
                 >
 
-                {# reCAPTCHA: it must be INSIDE the login form to be sent with it #}
+                {# Google / GitHub buttons (they submit the 2 small forms below the login form) #}
+                {% include "accounts/_social_buttons.html" %}
+
+                {# reCAPTCHA: only after 3 wrong tries. It must be INSIDE the login form #}
+                {% if show_captcha %}
                 <div class="captcha-group">
                     {{ login_form.captcha }}
                 </div>
                 <p class="captcha-hint" data-captcha-hint hidden>
                     {% blocktrans trimmed %}Tick "I'm not a robot" to log in.{% endblocktrans %}
                 </p>
+                {% endif %}
 
                 <button
                     type="submit"
                     class="btn btn-primary btn-block"
-                    data-captcha-submit
+                    {% if show_captcha %}data-captcha-submit{% endif %}
                 >
                     {% trans "Log in" %}
                 </button>
             </form>
+
+            {# 2 empty POST forms for the Google / GitHub buttons (not inside the login form) #}
+            {% include "accounts/_social_forms.html" %}
 
             <p class="switch-mobile">
                 {% trans "New here?" %}
@@ -140,7 +151,7 @@
                 {% endblocktrans %}
             </p>
 
-            <form method="post" action="{% url 'accounts:login' %}" data-captcha-form="register">
+            <form method="post" action="{% url 'accounts:login' %}"{% if show_register_captcha %} data-captcha-form="register"{% endif %}>
                 {% csrf_token %}
                 <input type="hidden" name="action" value="register">
 
@@ -224,17 +235,19 @@
                     </div>
                 </div>
 
+                {% if show_register_captcha %}
                 <div class="captcha-group">
                     {{ register_form.captcha }}
                 </div>
                 <p class="captcha-hint" data-captcha-hint hidden>
                     {% blocktrans trimmed %}Tick "I'm not a robot" to create your account.{% endblocktrans %}
                 </p>
+                {% endif %}
 
                 <button
                     type="submit"
                     class="btn btn-primary btn-block"
-                    data-captcha-submit
+                    {% if show_register_captcha %}data-captcha-submit{% endif %}
                 >
                     {% trans "Create account" %}
                 </button>

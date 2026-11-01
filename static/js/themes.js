@@ -1,6 +1,6 @@
 /* Theme switcher: opens the menu, changes <html data-theme>, remembers the choice.
-   The new theme grows out of the place you clicked (View Transitions API);
-   other browsers just fade the colours. */
+   The new theme grows out of the place you clicked (a round hole in the old painting).
+   Load backgrounds.css too: it has the .theme-reveal rules. */
 (function () {
     "use strict";
 
@@ -13,6 +13,8 @@
     var menu = box.querySelector(".theme-menu");
     var items = Array.prototype.slice.call(menu.querySelectorAll("[data-theme-choice]"));
     var names = items.map(function (i) { return i.getAttribute("data-theme-choice"); });
+    // the variables that make the painting of the OLD theme (copied to the overlay)
+    var COPY_VARS = ["--night", "--bg-land", "--bg-port", "--bg-veil", "--bg-gradient"];
     var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     function current() {
@@ -42,28 +44,41 @@
 
         if (reduceMotion) { apply(); return; }
 
-        if (typeof document.startViewTransition === "function") {
-            var radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
-            root.classList.add("theme-vt");
-            var transition = document.startViewTransition(apply);
-            transition.ready.then(function () {
-                root.animate(
-                    { clipPath: ["circle(0px at " + x + "px " + y + "px)", "circle(" + radius + "px at " + x + "px " + y + "px)"] },
-                    { duration: 750, easing: "cubic-bezier(.65, 0, .35, 1)", pseudoElement: "::view-transition-new(root)" }
-                );
-            }).catch(function () { /* animation not possible: the theme still changes */ });
-            transition.finished.then(function () {
-                root.classList.remove("theme-vt");
-            }, function () {
-                root.classList.remove("theme-vt");
-            });
-            return;
-        }
+        // The colours fade (class theme-fade, see themes.css). The old painting stays on top for a
+        // moment and a round hole grows out of the place you clicked, showing the new painting.
+        // (No View Transitions on purpose: they turn the page into a picture, and the blur of the
+        // header and cards gets weaker until the animation ends.)
+        var cs = getComputedStyle(root);
+        var overlay = document.createElement("div");
+        overlay.className = "theme-reveal";
+        overlay.setAttribute("aria-hidden", "true");
+        COPY_VARS.forEach(function (name) {
+            var value = cs.getPropertyValue(name);
+            if (value && value.trim()) overlay.style.setProperty(name, value.trim());
+        });
+        overlay.style.setProperty("--reveal-x", x + "px");
+        overlay.style.setProperty("--reveal-y", y + "px");
+        document.body.appendChild(overlay);
 
-        // no View Transitions: colours fade by themselves (CSS), the picture fades here
+        root.classList.add("theme-fade");
         apply();
-        if (document.body.animate) {
-            document.body.animate({ opacity: [0.35, 1] }, { duration: 450, easing: "ease-out" });
+
+        var radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y)) + 4;
+        var done = function () {
+            overlay.remove();
+            root.classList.remove("theme-fade");
+        };
+
+        if (overlay.animate && window.CSS && CSS.supports && CSS.supports("mask-image", "radial-gradient(circle, red, blue)")) {
+            var run = overlay.animate(
+                { "--reveal-r": ["0px", radius + "px"] },
+                { duration: 750, easing: "cubic-bezier(.65, 0, .35, 1)" }
+            );
+            run.finished.then(done, done);
+        } else if (overlay.animate) {
+            overlay.animate({ opacity: [1, 0] }, { duration: 500, easing: "ease-out" }).finished.then(done, done);
+        } else {
+            setTimeout(done, 600);
         }
     }
 

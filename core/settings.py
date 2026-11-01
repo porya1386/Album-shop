@@ -46,6 +46,12 @@ INSTALLED_APPS = [
     'rest_framework',
     'widget_tweaks',
     "django_recaptcha",
+    # login with Google / GitHub
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.google",
+    "allauth.socialaccount.providers.github",
 ]
 
 MIDDLEWARE = [
@@ -58,6 +64,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'allauth.account.middleware.AccountMiddleware',   # django-allauth
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
@@ -227,6 +234,49 @@ if not DEBUG:
         "SECURE_SSL_REDIRECT", default=False, cast=bool)
     # raise it AFTER https works
     SECURE_HSTS_SECONDS = config("SECURE_HSTS_SECONDS", default=0, cast=int)
+
+# --------------------------------------------------
+# Login with Google / GitHub (django-allauth)
+# --------------------------------------------------
+AUTHENTICATION_BACKENDS = [
+    # username + password (as before)
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",    # Google / GitHub
+]
+
+# Keys come from .env (PC) or the Hamravesh panel (server). Empty = the button just fails.
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "APP": {
+            "client_id": config("GOOGLE_CLIENT_ID", default=""),
+            "secret": config("GOOGLE_CLIENT_SECRET", default=""),
+            "key": "",
+        },
+        "SCOPE": ["profile", "email"],
+        "AUTH_PARAMS": {"access_type": "online"},
+    },
+    "github": {
+        "APP": {
+            "client_id": config("GITHUB_CLIENT_ID", default=""),
+            "secret": config("GITHUB_CLIENT_SECRET", default=""),
+            "key": "",
+        },
+        "SCOPE": ["user:email"],          # to get the verified email
+    },
+}
+
+# new user: account is created, no extra form
+SOCIALACCOUNT_AUTO_SIGNUP = True
+# login only with POST (the buttons are POST forms)
+SOCIALACCOUNT_LOGIN_ON_GET = False
+SOCIALACCOUNT_EMAIL_AUTHENTICATION = False
+SOCIALACCOUNT_STORE_TOKENS = False
+# we do not send verification mails (yet)
+ACCOUNT_EMAIL_VERIFICATION = "none"
+# used to build the callback address
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = "http" if DEBUG else "https"
+# behind Hamravesh's proxy
+ALLAUTH_TRUSTED_PROXY_COUNT = 0 if DEBUG else 1
 
 # --------------------------------------------------
 # Email

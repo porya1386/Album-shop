@@ -1,0 +1,20 @@
+{% comment %}
+  Save as:  accounts/templates/accounts/_social_buttons.html
+  Dar login.html, dakhel-e <form ... data-captcha-form="login">, DAR BALA-YE <div class="captcha-group">:
+      {% include "accounts/_social_buttons.html" %}
+  (dokme-ha be form-haye joda dar _social_forms.html vasl hastan: attribute-e form="...")
+{% endcomment %}
+{% load i18n %}
+<div class="social-login">
+    <p class="social-title"><span>{% trans "or log in with" %}</span></p>
+    <div class="social-buttons">
+        <button type="submit" form="social-form-google" class="social-btn social-btn--google">
+            <i class="fa-brands fa-google social-icon" aria-hidden="true"></i>
+            <span>{% trans "Continue with Google" %}</span>
+        </button>
+        <button type="submit" form="social-form-github" class="social-btn social-btn--github">
+            <i class="fa-brands fa-github social-icon" aria-hidden="true"></i>
+            <span>{% trans "Continue with GitHub" %}</span>
+        </button>
+    </div>
+</div>
