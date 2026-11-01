@@ -26,5 +26,7 @@ RUN sed -i 's/\r$//' /app/entrypoint.sh \
 
 USER app
 
+RUN python manage.py compilemessages
+
 EXPOSE 8000
 ENTRYPOINT ["/app/entrypoint.sh"]
