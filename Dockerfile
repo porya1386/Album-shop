@@ -7,9 +7,9 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
-# libpq5 = needed by psycopg; curl = used by the health check
+# Install system dependencies
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends libpq5 curl \
+    && apt-get install -y --no-install-recommends libpq5 curl gettext \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
@@ -17,7 +17,7 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-# sed removes Windows line endings (CRLF) so the script runs on Linux
+# Prepare entrypoint and permissions
 RUN sed -i 's/\r$//' /app/entrypoint.sh \
     && chmod +x /app/entrypoint.sh \
     && useradd -m app \
@@ -26,7 +26,9 @@ RUN sed -i 's/\r$//' /app/entrypoint.sh \
 
 USER app
 
+# Compile Django translations
 RUN python manage.py compilemessages
 
 EXPOSE 8000
+
 ENTRYPOINT ["/app/entrypoint.sh"]
