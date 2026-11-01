@@ -1,4 +1,5 @@
-# Production image for the Jahan art shop (Django + gunicorn)
+
+# Production image for Jahan art shop (Django + Gunicorn)
 FROM python:3.14-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
@@ -7,9 +8,10 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
-# Install system dependencies
+# System dependencies
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends libpq5 curl gettext \
+    && apt-get install -y --no-install-recommends \
+       libpq5 curl gettext \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
@@ -25,9 +27,6 @@ RUN sed -i 's/\r$//' /app/entrypoint.sh \
     && chown -R app:app /app
 
 USER app
-
-# Compile Django translations
-RUN python manage.py compilemessages
 
 EXPOSE 8000
 
