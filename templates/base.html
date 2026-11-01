@@ -33,6 +33,7 @@
     <link rel="stylesheet" href="{% static 'header.css' %}">
     <link rel="stylesheet" href="{% static "themes.css" %}">
     <link rel="stylesheet" href="{% static "backgrounds.css" %}">
+    <link rel="stylesheet" href="{% static 'website/css/messages.css' %}">
     <link rel="stylesheet" href="{% static 'cursors.css' %}">
     <link rel="stylesheet" href="{% static 'footer.css' %}">
     <link rel="stylesheet" href="{% static 'glow.css' %}">
@@ -56,4 +57,5 @@
     <script src="{% static 'js/header.js' %}"></script>
     <script src="{% static 'js/themes.js' %}" defer></script>
 </body>
+{% include "includes/messages.html" %}
 </html>

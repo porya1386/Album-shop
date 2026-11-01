@@ -26,17 +26,28 @@ def _captcha(**attrs):
     )
 
 
-class CaptchaLanguageMixin:
-    """Show the reCAPTCHA box in the language of the current page."""
+class OptionalCaptchaMixin:
+    """The form has NO captcha at first. Views call enable_captcha() (or pass
+    show_captcha=True) after a few attempts, see captcha_gate.py."""
 
-    def __init__(self, *args, **kwargs):
+    captcha_attrs = {}
+
+    def __init__(self, *args, show_captcha=False, **kwargs):
         super().__init__(*args, **kwargs)
-        field = self.fields.get("captcha")
-        if field is not None:
-            field.widget.api_params = {"hl": get_language() or "en"}
+        if show_captcha:
+            self.enable_captcha()
+
+    def enable_captcha(self):
+        """Add the checkbox. Safe after is_valid(): errors already found stay the same."""
+        if "captcha" in self.fields:
+            return
+        field = _captcha(**self.captcha_attrs)
+        # box in the page language
+        field.widget.api_params = {"hl": get_language() or "en"}
+        self.fields["captcha"] = field
 
 
-class RegisterForm(CaptchaLanguageMixin, UserCreationForm):
+class RegisterForm(OptionalCaptchaMixin, UserCreationForm):
     email = forms.EmailField(
         label=_("Email"),
         required=True,
@@ -75,11 +86,11 @@ class RegisterForm(CaptchaLanguageMixin, UserCreationForm):
         }),
     )
 
-    captcha = _captcha(**{
+    captcha_attrs = {
         "id": "register-captcha",
         "data-callback": "onCaptchaSolved_register",
         "data-expired-callback": "onCaptchaExpired_register",
-    })
+    }
 
     class Meta:
         model = CustomUser
@@ -99,31 +110,31 @@ class RegisterForm(CaptchaLanguageMixin, UserCreationForm):
         return user
 
 
-class LoginForm(CaptchaLanguageMixin, AuthenticationForm):
-    """Django's login form + Google reCAPTCHA v2 ("I'm not a robot")."""
+class LoginForm(OptionalCaptchaMixin, AuthenticationForm):
+    """Django's login form. The reCAPTCHA is added after 3 wrong tries (captcha_gate.py)."""
 
-    captcha = _captcha(**{
+    captcha_attrs = {
         "id": "login-captcha",
         # login_captcha.js enables the button
         "data-callback": "onCaptchaSolved_login",
         "data-expired-callback": "onCaptchaExpired_login",
-    })
+    }
 
     def clean(self):
-        # No captcha (or a wrong one) -> do not even check the password,
+        # Captcha is shown but missing/wrong -> do not even check the password,
         # so a bot cannot guess passwords without solving the captcha.
         if "captcha" in self.errors:
             return self.cleaned_data
         return super().clean()
 
 
-class CaptchaPasswordResetForm(CaptchaLanguageMixin, PasswordResetForm):
-    captcha = _captcha(id="password-reset-captcha")
+class CaptchaPasswordResetForm(OptionalCaptchaMixin, PasswordResetForm):
+    captcha_attrs = {"id": "password-reset-captcha"}
 
 
-class CaptchaSetPasswordForm(CaptchaLanguageMixin, SetPasswordForm):
-    captcha = _captcha(id="set-password-captcha")
+class CaptchaSetPasswordForm(OptionalCaptchaMixin, SetPasswordForm):
+    captcha_attrs = {"id": "set-password-captcha"}
 
 
-class CaptchaPasswordChangeForm(CaptchaLanguageMixin, PasswordChangeForm):
-    captcha = _captcha(id="password-change-captcha")
+class CaptchaPasswordChangeForm(OptionalCaptchaMixin, PasswordChangeForm):
+    captcha_attrs = {"id": "password-change-captcha"}

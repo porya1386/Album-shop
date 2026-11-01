@@ -1322,3 +1322,12 @@ msgstr "هم‌اکنون"
 
 msgid "Something went wrong. Please try again."
 msgstr "مشکلی پیش آمد. لطفاً دوباره تلاش کنید."
+
+msgid "Your account was created. Welcome, %(name)s!"
+msgstr "حساب شما ساخته شد. خوش آمدید، %(name)s!"
+
+msgid "Welcome back, %(name)s!"
+msgstr "خوش آمدید، %(name)s!"
+
+msgid "Notifications"
+msgstr "اعلان‌ها"

@@ -1,0 +1,31 @@
+{% load i18n %}
+{% comment %}
+  Pop-up messages (login / register success, errors ...).
+  Save as:  templates/includes/messages.html
+  Put it ONCE in base.html, right after <body>:   {% include "includes/messages.html" %}
+{% endcomment %}
+{% if messages %}
+<div class="toasts" role="region" aria-label="{% trans 'Notifications' %}">
+    {% for message in messages %}
+    <div class="toast toast--{{ message.level_tag|default:'info' }}"
+         role="{% if message.level_tag == 'error' %}alert{% else %}status{% endif %}">
+        <span class="toast-text">{{ message }}</span>
+        <button type="button" class="toast-close" aria-label="{% trans 'Close' %}">&times;</button>
+    </div>
+    {% endfor %}
+</div>
+<script>
+(function () {
+  var box = document.querySelector(".toasts");
+  if (!box) return;
+  function hide(t) {
+    t.classList.add("is-leaving");
+    setTimeout(function () { t.remove(); }, 300);
+  }
+  box.querySelectorAll(".toast").forEach(function (t) {
+    t.querySelector(".toast-close").addEventListener("click", function () { hide(t); });
+    setTimeout(function () { hide(t); }, 5000);        // disappears after 5 seconds
+  });
+})();
+</script>
+{% endif %}
