@@ -23,15 +23,15 @@ SECRET_KEY = config("SECRET_KEY")
 DEBUG = config("DEBUG", default=False, cast=bool)
 
 # your domain(s) on the server, e.g.  jahan.example.ir,www.jahan.example.ir
-# ALLOWED_HOSTS = config(
-#     "ALLOWED_HOSTS",
-#     default="localhost,127.0.0.1,192.168.1.5",
-#     cast=Csv(),
-# )
-ALLOWED_HOSTS = [
-    "localhost",
-    "127.0.0.1",
-]
+ALLOWED_HOSTS = config(
+    "ALLOWED_HOSTS",
+    default="localhost,127.0.0.1,192.168.1.5",
+    cast=Csv(),
+)
+# ALLOWED_HOSTS = [
+#     "localhost",
+#     "127.0.0.1",
+# ]
 # full origins WITH https://  (needed for login and forms on the server)
 CSRF_TRUSTED_ORIGINS = config("CSRF_TRUSTED_ORIGINS", default="", cast=Csv())
 
