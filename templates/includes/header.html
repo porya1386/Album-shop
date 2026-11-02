@@ -1,6 +1,6 @@
 {% load static i18n lang_extras %}
 {% get_current_language as LANG %}
-{% with current=request.resolver_match.url_name %}
+{% with current=request.resolver_match.url_name app=request.resolver_match.app_name %}
 <header class="site-header">
     <div class="wrap header-inner">
 
@@ -38,7 +38,10 @@
                    {% if current == 'products' or current == 'product_details' %}aria-current="page"{% endif %}>
                     {% trans "Products" %}
                 </a>
-                <a href="{% url 'blogs:list' %}">{% trans "Blog" %}</a>
+                <a href="{% url 'blogs:list' %}"
+                   {% if app == 'blogs' %}aria-current="page"{% endif %}>
+                    {% trans "Blog" %}
+                </a>
             </div>
 
             {# ---- right side: round icon buttons, all the same size; language is the last one ---- #}
@@ -93,7 +96,6 @@
                         </svg>
                         <span class="tool-label">{% trans "Change password" %}</span>
                     </a>
-
                     {% else %}
                     {# set password (Google/GitHub users) #}
                     <a class="tool nav-key" href="{% url 'accounts:password_set' %}"

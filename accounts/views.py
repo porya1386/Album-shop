@@ -54,7 +54,11 @@ def auth_view(request):
             if register_form.is_valid():
                 gate.reset(request, "register")
                 user = register_form.save()
-                login(request, user)
+                login(
+                    request,
+                    user,
+                    backend="django.contrib.auth.backends.ModelBackend"
+                )
                 messages.success(
                     request,
                     _("Your account was created. Welcome, %(name)s!")
@@ -76,7 +80,11 @@ def auth_view(request):
                 # success: start again from 0
                 gate.reset(request, "login")
                 user = login_form.get_user()
-                login(request, user)
+                login(
+                    request,
+                    user,
+                    backend="django.contrib.auth.backends.ModelBackend"
+                )
                 messages.success(
                     request,
                     _("Welcome back, %(name)s!") % {

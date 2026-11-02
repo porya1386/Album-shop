@@ -1,0 +1,8 @@
+/* Blog tiles inside the home page marquee.  Save as: blogs/static/blogs/css/blog_home.css */
+.tile-frame--blank {
+  display: grid; place-items: center;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--gold) 35%, var(--night)), var(--night));
+  color: var(--gold); font-family: var(--font-display); font-size: 3rem;
+}
+.tile-date { display: block; font-size: .85rem; color: var(--ink-soft); }
+.gallery-more { text-align: center; margin: .5rem 0 0; }

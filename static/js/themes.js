@@ -72,13 +72,13 @@
         if (overlay.animate && window.CSS && CSS.supports && CSS.supports("mask-image", "radial-gradient(circle, red, blue)")) {
             var run = overlay.animate(
                 { "--reveal-r": ["0px", radius + "px"] },
-                { duration: 750, easing: "cubic-bezier(.65, 0, .35, 1)" }
+                { duration: 1050, easing: "cubic-bezier(.65, 0, .35, 1)" }
             );
             run.finished.then(done, done);
         } else if (overlay.animate) {
-            overlay.animate({ opacity: [1, 0] }, { duration: 500, easing: "ease-out" }).finished.then(done, done);
+            overlay.animate({ opacity: [1, 0] }, { duration: 700, easing: "ease-out" }).finished.then(done, done);
         } else {
-            setTimeout(done, 600);
+            setTimeout(done, 800);
         }
     }
 

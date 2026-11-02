@@ -1654,119 +1654,60 @@ msgid "Hover to pause. Click a sculpture to read more about it."
 msgstr ""
 "برای توقف، ماوس را روی تصویر نگه دارید. برای خواندن درباره‌ی هر مجسمه روی آن "
 "کلیک کنید."
-msgid "Blog | Jahan"
-msgstr "وبلاگ | جهان"
 
-msgid "Blog"
-msgstr "وبلاگ"
+msgid "Statistics"
+msgstr "آمار"
 
-msgid "News, stories and notes from the studio."
-msgstr "خبرها، داستان‌ها و یادداشت‌هایی از استودیو."
+msgid "Comment"
+msgstr "نظر"
 
-msgid "Write a post"
-msgstr "نوشتن مطلب"
+msgid "Like this post"
+msgstr "پسندیدن این مطلب"
 
-msgid "Only published"
-msgstr "فقط منتشرشده‌ها"
+msgid "Write a comment..."
+msgstr "نظر خود را بنویسید..."
 
-msgid "Show drafts too"
-msgstr "نمایش پیش‌نویس‌ها"
+msgid "to leave a comment."
+msgstr "تا بتوانید نظر بگذارید."
 
-msgid "Draft"
-msgstr "پیش‌نویس"
+msgid "The comment was deleted."
+msgstr "نظر حذف شد."
 
-msgid "Published"
-msgstr "منتشرشده"
+msgid "Show all %(comment_total)s comments"
+msgstr "نمایش هر %(comment_total)s نظر"
 
-msgid "Read more"
-msgstr "ادامه مطلب"
+msgid "Your comment is too short."
+msgstr "نظر شما خیلی کوتاه است."
 
-msgid "No posts yet."
-msgstr "هنوز مطلبی نیست."
+msgid "Your comment is too long."
+msgstr "نظر شما خیلی بلند است."
 
-msgid "Newer"
-msgstr "جدیدتر"
+msgid "Latest works"
+msgstr "تازه‌ترین آثار"
 
-msgid "Older"
-msgstr "قدیمی‌تر"
+msgid "Paintings and sculptures. Hover to pause, click a work to read more about it."
+msgstr "نقاشی‌ها و مجسمه‌ها. برای توقف ماوس را روی تصویر نگه دارید و برای خواندن درباره هر اثر روی آن کلیک کنید."
 
-msgid "Pages"
-msgstr "صفحه‌ها"
+msgid "See all products"
+msgstr "دیدن همه محصولات"
 
-msgid "Back to blog"
-msgstr "بازگشت به وبلاگ"
+msgid "From the blog"
+msgstr "از وبلاگ"
 
-msgid "Edit"
-msgstr "ویرایش"
+msgid "Read the blog"
+msgstr "خواندن وبلاگ"
 
-msgid "Delete"
-msgstr "حذف"
+msgid "Image"
+msgstr "تصویر"
 
-msgid "Edit post"
-msgstr "ویرایش مطلب"
+msgid "Number"
+msgstr "شماره"
 
-msgid "New post"
-msgstr "مطلب جدید"
+msgid "Write [image NUMBER] on its own line in the text where the picture should appear."
+msgstr "در متن، در یک خط جداگانه [image شماره] بنویسید تا تصویر همان‌جا نمایش داده شود."
 
-msgid "Save"
-msgstr "ذخیره"
+msgid "Image in text"
+msgstr "تصویر داخل متن"
 
-msgid "Cancel"
-msgstr "انصراف"
-
-msgid "Delete post | Jahan"
-msgstr "حذف مطلب | جهان"
-
-msgid "Delete this post?"
-msgstr "این مطلب حذف شود؟"
-
-msgid "Yes, delete"
-msgstr "بله، حذف شود"
-
-msgid "The post was saved."
-msgstr "مطلب ذخیره شد."
-
-msgid "The post was deleted."
-msgstr "مطلب حذف شد."
-
-msgid "Title"
-msgstr "عنوان"
-
-msgid "Slug"
-msgstr "نشانی (slug)"
-
-msgid "Leave empty: it is made from the title."
-msgstr "خالی بگذارید: از عنوان ساخته می‌شود."
-
-msgid "Cover image"
-msgstr "تصویر شاخص"
-
-msgid "Short summary"
-msgstr "خلاصه کوتاه"
-
-msgid "Text"
-msgstr "متن"
-
-msgid "Author"
-msgstr "نویسنده"
-
-msgid "Status"
-msgstr "وضعیت"
-
-msgid "Published at"
-msgstr "زمان انتشار"
-
-msgid "Post"
-msgstr "مطلب"
-
-msgid "Posts"
-msgstr "مطالب"
-
-msgid "Post title"
-msgstr "عنوان مطلب"
-
-msgid "One or two sentences for the list page"
-msgstr "یکی دو جمله برای صفحه فهرست"
-
-msgid "The image must be smaller than %(mb)s MB."
-msgstr "حجم تصویر باید کمتر از %(mb)s مگابایت باشد."
+msgid "Images in text"
+msgstr "تصاویر داخل متن"

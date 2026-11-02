@@ -64,6 +64,25 @@
     color: var(--gold);
 }
 
+/* every page link (Home, About, Products, Blog): a thin gold line sweeps in under the word */
+.nav-links a { position: relative; }
+.nav-links a::after {
+    content: "";
+    position: absolute;
+    inset-inline: 1.05rem;
+    bottom: .28rem;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform .3s cubic-bezier(.3, .7, .2, 1);
+}
+[dir="rtl"] .nav-links a::after { transform-origin: right center; }
+.nav-links a:hover::after,
+.nav-links a:focus-visible::after { transform: scaleX(1); }
+.nav-links a[aria-current="page"]::after { transform: scaleX(0); }
+
 .nav-links a:focus-visible,
 .brand:focus-visible {
     outline: 2px solid var(--gold);
@@ -284,6 +303,7 @@
 
     .nav-links { flex-direction: column; align-items: stretch; gap: .25rem; }
     .nav-links a { display: block; padding: .8rem 1rem; border-radius: 10px; }
+    .nav-links a::after { display: none; }
 
     /* icons become rows: icon + words, full width */
     .nav-tools {
@@ -382,6 +402,7 @@ html[lang="fa"] body {
     .tool-icon { transition: none; animation: none !important; }
     .logout-btn::before { animation: none !important; }
     .site-nav .tool:hover { transform: none; }
+    .nav-links a::after { transition: none; }
 }
 /* ============================================================
    Mobile menu fix: phone in LANDSCAPE (short screen), small tablets.

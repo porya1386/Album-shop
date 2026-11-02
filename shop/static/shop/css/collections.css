@@ -140,3 +140,42 @@ html[data-slide="from-left"]  .results { animation: slide-in-from-left  .4s cubi
 @media (prefers-reduced-motion: reduce) {
     .collection-tabs.is-ready .collection-pill { transition: none; }
 }
+/* ---- coloured material icons (emoji).  Paste at the END of shop/static/shop/css/collections.css ---- */
+.mat-icon {
+    display: inline-block;
+    width: auto;
+    height: auto;
+    line-height: 1;
+    font-style: normal;
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+    stroke: none;
+    fill: none;
+}
+
+/* big round chip on the product page: the emoji keeps its own colours */
+.pd-material .mat-chip { color: inherit; }
+.pd-material .mat-icon { font-size: 1.25rem; }
+
+/* small one inside the product cards */
+.product .meta .mat-icon { font-size: 1.05em; width: auto; height: auto; vertical-align: -.1em; }
+/* ---- coloured material icons (Font Awesome).  Paste at the END of shop/static/shop/css/collections.css
+        (and delete the old .mat-icon rules there if you had them) ---- */
+.mat-icon { line-height: 1; font-size: 1.05em; width: auto; height: auto; }
+
+.mat-icon--bronze  { color: #d2873f; }
+.mat-icon--marble  { color: #ece7dc; }
+.mat-icon--stone   { color: #a4abb3; }
+.mat-icon--wood    { color: #4fa85a; }
+.mat-icon--ceramic { color: #e0794c; }
+.mat-icon--metal   { color: #b9c3cd; }
+.mat-icon--glass   { color: #7fd4ff; }
+.mat-icon--resin   { color: #ffb02e; }
+.mat-icon--mixed   { color: #c98bff; }
+.mat-icon--other   { color: #f0c060; }
+
+/* big round chip on the product page keeps the icon's own colour */
+.pd-material .mat-chip { color: inherit; }
+.pd-material .mat-icon { font-size: 1.15rem; }
+
+/* small one inside the product cards */
+.product .meta .mat-icon { font-size: 1em; vertical-align: -.1em; margin-inline-end: .35rem; }

@@ -10,53 +10,69 @@
 {% block page_content %}
 <main class="blog-page">
     <div class="wrap">
-        <div class="page-head">
+        <div class="page-head blog-head">
             <h1>{% trans "Blog" %}</h1>
             <p class="lead">{% trans "News, stories and notes from the studio." %}</p>
         </div>
 
-        {% if can_write %}
-        <div class="blog-tools">
-            <a class="btn btn-primary" href="{% url 'blogs:create' %}">{% trans "Write a post" %}</a>
-            {% if show_all %}
-                <a class="btn btn-ghost" href="{% url 'blogs:list' %}">{% trans "Only published" %}</a>
-            {% else %}
-                <a class="btn btn-ghost" href="{% url 'blogs:list' %}?all=1">{% trans "Show drafts too" %}</a>
-            {% endif %}
-        </div>
-        {% endif %}
-
         <div class="blog-grid">
             {% for post in posts %}
-            <article class="blog-card{% if not post.is_live %} is-draft{% endif %}">
+            <article class="blog-card">
                 {% if post.cover %}
-                <a class="blog-cover" href="{{ post.get_absolute_url }}">
-                    <img src="{{ post.cover.url }}" alt="{{ post.title }}" loading="lazy">
+                <a class="blog-cover" href="{{ post.get_absolute_url }}" tabindex="-1" aria-hidden="true">
+                    <img src="{{ post.cover.url }}" alt="" loading="lazy">
                 </a>
                 {% endif %}
                 <div class="blog-card-body">
-                    {% if not post.is_live %}<span class="blog-badge">{% trans "Draft" %}</span>{% endif %}
-                    <h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
+                    <h2><a href="{{ post.get_absolute_url }}">{{ post.display_title }}</a></h2>
                     <p class="blog-meta">
                         {% if post.published_at %}{{ post.published_at|date:"j F Y" }}{% endif %}
                         {% if post.author %}&middot; {{ post.author.get_username }}{% endif %}
                     </p>
-                    <p class="blog-excerpt">{% if post.excerpt %}{{ post.excerpt }}{% else %}{{ post.body|truncatewords:24 }}{% endif %}</p>
-                    <a class="blog-more" href="{{ post.get_absolute_url }}">{% trans "Read more" %}</a>
+                    <p class="blog-excerpt">{% if post.display_excerpt %}{{ post.display_excerpt }}{% else %}{{ post.display_body|truncatewords:24 }}{% endif %}</p>
+
+                    <div class="blog-foot">
+                        <ul class="blog-counts" aria-label="{% trans 'Statistics' %}">
+                            <li>
+                                <button type="button" class="blog-like blog-like--sm{% if post.liked %} is-liked{% endif %}"
+                                        data-url="{% url 'blogs:like' post.slug %}"
+                                        data-csrf="{{ csrf_token }}"
+                                        data-login-url="{% if not user.is_authenticated %}{% url 'accounts:login' %}?next={{ request.get_full_path|urlencode }}{% endif %}"
+                                        aria-pressed="{% if post.liked %}true{% else %}false{% endif %}"
+                                        aria-label="{% trans 'Like this post' %}">
+                                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                                    <span class="blog-like-count">{{ post.like_total }}</span>
+                                </button>
+                            </li>
+                            <li title="{% trans 'Comments' %}">
+                                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 20l1-4.4A8 8 0 1 1 21 12z"/></svg>
+                                {{ post.comment_total }}
+                            </li>
+                            <li title="{% trans 'Views' %}">
+                                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                {{ post.views }}
+                            </li>
+                        </ul>
+                        <a class="blog-more" href="{{ post.get_absolute_url }}">{% trans "Read more" %}</a>
+                    </div>
                 </div>
             </article>
             {% empty %}
-            <div class="empty"><p>{% trans "No posts yet." %}</p></div>
+            <div class="blog-empty"><p>{% trans "No posts yet." %}</p></div>
             {% endfor %}
         </div>
 
         {% if is_paginated %}
         <nav class="blog-pages" aria-label="{% trans 'Pages' %}">
-            {% if page_obj.has_previous %}<a class="btn btn-ghost" href="?page={{ page_obj.previous_page_number }}{% if show_all %}&all=1{% endif %}">&larr; {% trans "Newer" %}</a>{% endif %}
+            {% if page_obj.has_previous %}<a class="btn btn-ghost" href="?page={{ page_obj.previous_page_number }}">&larr; {% trans "Newer" %}</a>{% endif %}
             <span>{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
-            {% if page_obj.has_next %}<a class="btn btn-ghost" href="?page={{ page_obj.next_page_number }}{% if show_all %}&all=1{% endif %}">{% trans "Older" %} &rarr;</a>{% endif %}
+            {% if page_obj.has_next %}<a class="btn btn-ghost" href="?page={{ page_obj.next_page_number }}">{% trans "Older" %} &rarr;</a>{% endif %}
         </nav>
         {% endif %}
     </div>
 </main>
 {% endblock page_content %}
+
+{% block page_script %}
+    <script src="{% static 'blogs/js/blog.js' %}" defer></script>
+{% endblock page_script %}

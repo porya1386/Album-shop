@@ -426,34 +426,23 @@ msgstr "حساب شما ساخته شد. خوش آمدید، %(name)s!"
 msgid "Welcome back, %(name)s!"
 msgstr "خوش آمدید، %(name)s!"
 
-#: .\blogs\forms.py:12
-
-
-#| msgid "Persian title"
-msgid "Post title"
-msgstr "عنوان فارسی"
-
-#: .\blogs\forms.py:13
-msgid "One or two sentences for the list page"
-msgstr ""
-
 #: .\blogs\models.py:14
 #, python-format
 msgid "The image must be smaller than %(mb)s MB."
-msgstr ""
+msgstr "حجم تصویر باید کمتر از %(mb)s مگابایت باشد."
 
 #: .\blogs\models.py:24 .\blogs\templates\blogs\post_detail.html:20
 #: .\blogs\templates\blogs\post_list.html:38
 msgid "Draft"
-msgstr ""
+msgstr "پیش‌نویس"
 
 #: .\blogs\models.py:24
 msgid "Published"
-msgstr ""
+msgstr "منتشرشده"
 
 #: .\blogs\models.py:26
 msgid "Title"
-msgstr ""
+msgstr "عنوان"
 
 #: .\blogs\models.py:27 .\shop\models.py:139 .\shop\models.py:303
 msgid "Slug"
@@ -461,58 +450,39 @@ msgstr "اسلاگ"
 
 #: .\blogs\models.py:28
 msgid "Leave empty: it is made from the title."
-msgstr ""
+msgstr "خالی بگذارید: از عنوان ساخته می‌شود."
 
 #: .\blogs\models.py:29
-
-#| msgid "Next image"
 msgid "Cover image"
-msgstr "تصویر بعدی"
+msgstr "تصویر شاخص"
 
 #: .\blogs\models.py:31
 msgid "Short summary"
-msgstr ""
+msgstr "خلاصه کوتاه"
 
 #: .\blogs\models.py:32
 msgid "Text"
-msgstr ""
+msgstr "متن"
 
 #: .\blogs\models.py:35
 msgid "Author"
-msgstr ""
+msgstr "نویسنده"
 
 #: .\blogs\models.py:36
 msgid "Status"
-msgstr ""
+msgstr "وضعیت"
 
 #: .\blogs\models.py:37
 msgid "Published at"
-msgstr ""
+msgstr "زمان انتشار"
 
 #: .\blogs\models.py:45
 msgid "Post"
-msgstr ""
+msgstr "مطلب"
 
 #: .\blogs\models.py:46
 msgid "Posts"
-msgstr ""
-
-#: .\blogs\templates\blogs\post_confirm_delete.html:4
-
-#| msgid "Set password | Jahan"
-msgid "Delete post | Jahan"
-msgstr "تعیین رمز عبور | جهان"
-
-#: .\blogs\templates\blogs\post_confirm_delete.html:13
-
-
-#| msgid "Delete this comment?"
-msgid "Delete this post?"
-msgstr "این نظر حذف شود؟"
-
-#: .\blogs\templates\blogs\post_confirm_delete.html:17
-msgid "Yes, delete"
-msgstr ""
+msgstr "مطالب"
 
 #: .\blogs\templates\blogs\post_detail.html:4
 #: .\blogs\templates\blogs\post_form.html:4
@@ -533,90 +503,44 @@ msgstr "مسیر صفحه"
 #: .\blogs\templates\blogs\post_list.html:14
 #: .\templates\includes\header.html:41
 msgid "Blog"
-msgstr ""
+msgstr "وبلاگ"
 
 #: .\blogs\templates\blogs\post_detail.html:35
-
-#| msgid "Back to login"
 msgid "Back to blog"
-msgstr "بازگشت به ورود"
-
-#: .\blogs\templates\blogs\post_detail.html:36
-msgid "Edit"
-msgstr ""
+msgstr "بازگشت به وبلاگ"
 
 #: .\blogs\templates\blogs\post_detail.html:37
-
-#| msgid "Delete comment"
 msgid "Delete"
-msgstr "حذف نظر"
-
-#: .\blogs\templates\blogs\post_form.html:4
-#: .\blogs\templates\blogs\post_form.html:13
-msgid "Edit post"
-msgstr ""
-
-#: .\blogs\templates\blogs\post_form.html:4
-#: .\blogs\templates\blogs\post_form.html:13
-
-#| msgid "New password"
-msgid "New post"
-msgstr "گذرواژه‌ی جدید"
-
-#: .\blogs\templates\blogs\post_form.html:30
-msgid "Save"
-msgstr ""
+msgstr "حذف"
 
 # --- login.html ---
 #: .\blogs\templates\blogs\post_list.html:4
-
-#| msgid "Login | Jahan"
 msgid "Blog | Jahan"
-msgstr "ورود | جهان"
+msgstr "وبلاگ | جهان"
 
 #: .\blogs\templates\blogs\post_list.html:15
 msgid "News, stories and notes from the studio."
-msgstr ""
-
-#: .\blogs\templates\blogs\post_list.html:20
-msgid "Write a post"
-msgstr ""
-
-#: .\blogs\templates\blogs\post_list.html:22
-msgid "Only published"
-msgstr ""
-
-#: .\blogs\templates\blogs\post_list.html:24
-msgid "Show drafts too"
-msgstr ""
+msgstr "خبرها، داستان‌ها و یادداشت‌هایی از استودیو."
 
 #: .\blogs\templates\blogs\post_list.html:45
 msgid "Read more"
-msgstr ""
+msgstr "ادامه مطلب"
 
 #: .\blogs\templates\blogs\post_list.html:49
 msgid "No posts yet."
-msgstr ""
+msgstr "هنوز مطلبی نیست."
 
 #: .\blogs\templates\blogs\post_list.html:54
 msgid "Pages"
-msgstr ""
+msgstr "صفحه‌ها"
 
 #: .\blogs\templates\blogs\post_list.html:55
 msgid "Newer"
-msgstr ""
+msgstr "جدیدتر"
 
 #: .\blogs\templates\blogs\post_list.html:57
 msgid "Older"
-msgstr ""
-
-#: .\blogs\views.py:63 .\blogs\views.py:74
-msgid "The post was saved."
-msgstr ""
-
-#: .\blogs\views.py:85
-msgid "The post was deleted."
-msgstr ""
+msgstr "قدیمی‌تر"
 
 #: .\core\settings.py:177
 msgid "English"
@@ -829,7 +753,7 @@ msgstr "سفید"
 #: .\shop\models.py:21
 #, python-format
 msgid "The video is too big. The maximum size is %(mb)s MB."
-msgstr ""
+msgstr "ویدیو خیلی بزرگ است. حداکثر حجم %(mb)s مگابایت است."
 
 #: .\shop\models.py:85 .\shop\models.py:298
 msgid "Persian title"
@@ -963,11 +887,11 @@ msgstr "تصویر گالری"
 
 #: .\shop\models.py:237 .\shop\models.py:424
 msgid "Video"
-msgstr ""
+msgstr "ویدیو"
 
 #: .\shop\models.py:238 .\shop\models.py:425
 msgid "Upload an image OR a video (MP4 or WebM, up to 100 MB)."
-msgstr ""
+msgstr "یک تصویر یا یک ویدیو (MP4 یا WebM، تا ۱۰۰ مگابایت) بارگذاری کنید."
 
 #: .\shop\models.py:244 .\shop\models.py:428
 msgid "Caption"
@@ -986,10 +910,8 @@ msgid "Album Image Galleries"
 msgstr "گالری‌های نقاشی"
 
 #: .\shop\models.py:261 .\shop\models.py:441
-
-#| msgid "Choose either a painting or a sculpture (not both, not none)."
 msgid "Upload either an image or a video (not both, not empty)."
-msgstr "یا یک نقاشی انتخاب کنید یا یک مجسمه (نه هر دو، نه هیچ‌کدام)."
+msgstr "یا یک تصویر بارگذاری کنید یا یک ویدیو (نه هر دو، نه هیچ‌کدام)."
 
 #: .\shop\models.py:272
 msgid "Bronze"
@@ -1156,7 +1078,7 @@ msgstr "نمایش تصویر %(n)s"
 #: .\shop\templates\shop\product_details.html:78
 #: .\shop\templates\shop\sculpture_details.html:66
 msgid "Play video"
-msgstr ""
+msgstr "پخش ویدیو"
 
 #: .\shop\templates\shop\product_details.html:99
 msgid "Original painting"
@@ -1654,3 +1576,72 @@ msgid "Hover to pause. Click a sculpture to read more about it."
 msgstr ""
 "برای توقف، ماوس را روی تصویر نگه دارید. برای خواندن درباره‌ی هر مجسمه روی آن "
 "کلیک کنید."
+
+msgid "Statistics"
+msgstr "آمار"
+
+msgid "Comment"
+msgstr "نظر"
+
+msgid "Like this post"
+msgstr "پسندیدن این مطلب"
+
+msgid "Write a comment..."
+msgstr "نظر خود را بنویسید..."
+
+msgid "to leave a comment."
+msgstr "تا بتوانید نظر بگذارید."
+
+msgid "The comment was deleted."
+msgstr "نظر حذف شد."
+
+msgid "Show all %(comment_total)s comments"
+msgstr "نمایش همه‌ی %(comment_total)s نظر"
+
+msgid "Your comment is too short."
+msgstr "نظر شما خیلی کوتاه است."
+
+msgid "Your comment is too long."
+msgstr "نظر شما خیلی بلند است."
+
+msgid "Latest works"
+msgstr "تازه‌ترین آثار"
+
+msgid "Paintings and sculptures. Hover to pause, click a work to read more about it."
+msgstr "نقاشی‌ها و مجسمه‌ها. برای توقف ماوس را روی تصویر نگه دارید و برای خواندن درباره هر اثر روی آن کلیک کنید."
+
+msgid "See all products"
+msgstr "دیدن همه محصولات"
+
+msgid "From the blog"
+msgstr "از وبلاگ"
+
+msgid "Read the blog"
+msgstr "خواندن وبلاگ"
+
+msgid "Image"
+msgstr "تصویر"
+
+msgid "Number"
+msgstr "شماره"
+
+msgid "Write [image NUMBER] on its own line in the text where the picture should appear."
+msgstr "در متن، در یک خط جداگانه [image شماره] بنویسید تا تصویر همان‌جا نمایش داده شود."
+
+msgid "Image in text"
+msgstr "تصویر داخل متن"
+
+msgid "Images in text"
+msgstr "تصاویر داخل متن"
+
+msgid "Persian short summary"
+msgstr "خلاصه کوتاه فارسی"
+
+msgid "Persian text"
+msgstr "متن فارسی"
+
+msgid "Text shown on the Persian site. Leave empty to use the English text."
+msgstr "متنی که در سایت فارسی نمایش داده می‌شود. اگر خالی باشد متن انگلیسی نمایش داده می‌شود."
+
+msgid "Persian caption"
+msgstr "زیرنویس فارسی"

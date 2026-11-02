@@ -1,41 +1,148 @@
 {% extends "base.html" %}
-{% load static i18n %}
+{% load static i18n blog_tags %}
 
-{% block page_title %}<title>{{ post.title }} | {% trans "Jahan" %}</title>{% endblock page_title %}
+{% block page_title %}<title>{{ post.display_title }} | {% trans "Jahan" %}</title>{% endblock page_title %}
 
 {% block page_style %}
     <link rel="stylesheet" href="{% static 'blogs/css/blog.css' %}">
+    <link rel="stylesheet" href="{% static 'reviews/css/comments.css' %}">
 {% endblock page_style %}
 
 {% block page_content %}
 <main class="blog-page">
     <div class="wrap blog-narrow">
-        <nav class="pd-crumbs" aria-label="{% trans 'Breadcrumb' %}">
+        <nav class="blog-crumbs" aria-label="{% trans 'Breadcrumb' %}">
             <a href="{% url 'blogs:list' %}">{% trans "Blog" %}</a>
             <span aria-hidden="true">/</span>
-            <span aria-current="page">{{ post.title }}</span>
+            <span aria-current="page">{{ post.display_title }}</span>
         </nav>
 
         <article class="blog-post">
-            {% if not post.is_live %}<span class="blog-badge">{% trans "Draft" %}</span>{% endif %}
-            <h1>{{ post.title }}</h1>
+            <h1>{{ post.display_title }}</h1>
             <p class="blog-meta">
                 {% if post.published_at %}{{ post.published_at|date:"j F Y" }}{% endif %}
                 {% if post.author %}&middot; {{ post.author.get_username }}{% endif %}
             </p>
 
             {% if post.cover %}
-            <img class="blog-hero" src="{{ post.cover.url }}" alt="{{ post.title }}">
+            <img class="blog-hero" src="{{ post.cover.url }}" alt="{{ post.display_title }}">
             {% endif %}
 
-            <div class="blog-body">{{ post.body|linebreaks }}</div>
+            <div class="blog-body">{{ post|blog_body }}</div>
+
+            {# like + views + comments #}
+            <div class="blog-stats">
+                <button type="button" class="blog-like{% if liked %} is-liked{% endif %}"
+                        data-url="{% url 'blogs:like' post.slug %}"
+                        data-csrf="{{ csrf_token }}"
+                        data-login-url="{% if not user.is_authenticated %}{% url 'accounts:login' %}?next={{ request.get_full_path|urlencode }}{% endif %}"
+                        aria-pressed="{% if liked %}true{% else %}false{% endif %}"
+                        aria-label="{% trans 'Like this post' %}">
+                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                    <span class="blog-like-count">{{ like_total }}</span>
+                </button>
+
+                <a class="blog-stat" href="#comments" title="{% trans 'Comments' %}">
+                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 20l1-4.4A8 8 0 1 1 21 12z"/></svg>
+                    {{ comment_total }}
+                </a>
+
+                <span class="blog-stat" title="{% trans 'Views' %}">
+                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                    {{ post.views }}
+                </span>
+            </div>
         </article>
+
+        {# ---------------- comments: the SAME block as on the product pages (reviews/comments.css + emoji.js) ---------------- #}
+        <section class="cm blog-comments" id="comments" aria-labelledby="comments-title">
+
+            <h2 id="comments-title" class="cm-title">
+                {% trans "Comments" %}
+                <span class="cm-count">{{ comment_total }}</span>
+            </h2>
+
+            {% if user.is_authenticated %}
+            <form class="cm-form" method="post" action="{% url 'blogs:comment' post.slug %}" data-emoji-form
+                  data-t-recent="{% trans 'Recent' %}" data-t-smileys="{% trans 'Smileys' %}"
+                  data-t-gestures="{% trans 'Gestures' %}" data-t-hearts="{% trans 'Hearts' %}"
+                  data-t-art="{% trans 'Art' %}" data-t-nature="{% trans 'Nature' %}" data-t-food="{% trans 'Food' %}">
+                {% csrf_token %}
+                {% if comment_error %}
+                    <p class="cm-error" role="alert">{{ comment_error }}</p>
+                {% endif %}
+                <label class="sr-only" for="blog-comment-body">{% trans "Your comment" %}</label>
+                <textarea id="blog-comment-body" name="body" rows="3" maxlength="1000" dir="auto" required
+                          placeholder="{% trans 'Write your comment...' %}">{{ comment_draft }}</textarea>
+                <div class="cm-form-foot">
+                    <div class="cm-emoji">
+                        <button type="button" class="cm-emoji-btn" data-emoji-toggle hidden
+                                aria-expanded="false" aria-controls="cm-emoji-panel"
+                                title="{% trans 'Add emoji' %}" aria-label="{% trans 'Add emoji' %}">&#x1F60A;</button>
+                        <div class="cm-emoji-panel" id="cm-emoji-panel" data-emoji-panel hidden></div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">{% trans "Post comment" %}</button>
+                </div>
+            </form>
+            {% else %}
+            <p class="cm-login">
+                {% url 'accounts:login' as login_url %}
+                {% blocktrans with login=login_url next=request.get_full_path|urlencode %}<a href="{{ login }}?next={{ next }}">Log in</a> to leave a comment.{% endblocktrans %}
+            </p>
+            {% endif %}
+
+            {% if comments %}
+            <ul class="cm-list">
+                {% for c in comments %}
+                {% trans "Delete this comment?" as confirm_text %}
+                <li class="cm-item" id="comment-{{ c.pk }}">
+                    <div class="cm-avatar" aria-hidden="true">{{ c.user.username|slice:":1"|upper }}</div>
+                    <div class="cm-main">
+                        <div class="cm-head">
+                            <strong class="cm-author">{{ c.user.username }}</strong>
+                            <time class="cm-time" datetime="{{ c.created_at|date:'c' }}">
+                                {% with ago=c.created_at|timesince %}{% if ago|slice:":1" == "0" %}{% trans "just now" %}{% else %}{% blocktrans %}{{ ago }} ago{% endblocktrans %}{% endif %}{% endwith %}
+                            </time>
+
+                            {% if can_moderate or c.user_id == request.user.id %}
+                            <form class="cm-delete" method="post" action="{% url 'blogs:comment_delete' c.pk %}"
+                                  onsubmit="return confirm('{{ confirm_text|escapejs }}');">
+                                {% csrf_token %}
+                                <button type="submit" class="cm-delete-btn"
+                                        aria-label="{% trans 'Delete comment' %}" title="{% trans 'Delete comment' %}">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none"
+                                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M6 6l1 14h10l1-14"/><path d="M10 11v6"/><path d="M14 11v6"/>
+                                    </svg>
+                                </button>
+                            </form>
+                            {% endif %}
+                        </div>
+                        <p class="cm-body" dir="auto">{{ c.body|linebreaksbr }}</p>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+
+            {% if has_more %}
+            <p class="cm-more">
+                <a class="btn btn-ghost" href="?all_comments=1#comments">{% blocktrans with total=comment_total %}Show all {{ total }} comments{% endblocktrans %}</a>
+            </p>
+            {% endif %}
+
+            {% else %}
+            <p class="cm-empty">{% trans "No comments yet. Be the first!" %}</p>
+            {% endif %}
+        </section>
 
         <div class="blog-tools">
             <a class="btn btn-ghost" href="{% url 'blogs:list' %}">{% trans "Back to blog" %}</a>
-            {% if can_edit %}<a class="btn btn-primary" href="{% url 'blogs:edit' post.slug %}">{% trans "Edit" %}</a>{% endif %}
-            {% if can_delete %}<a class="btn btn-ghost blog-danger" href="{% url 'blogs:delete' post.slug %}">{% trans "Delete" %}</a>{% endif %}
         </div>
     </div>
 </main>
 {% endblock page_content %}
+
+{% block page_script %}
+    <script src="{% static 'blogs/js/blog.js' %}" defer></script>
+    {% if user.is_authenticated %}<script src="{% static 'reviews/js/emoji.js' %}" defer></script>{% endif %}
+{% endblock page_script %}

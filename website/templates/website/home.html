@@ -1,11 +1,12 @@
 {% extends "base.html" %}
-{% load static i18n shop_tags %}
+{% load static i18n shop_tags blog_tags %}
 
 {% block page_title %}<title>{% trans "Jahan | Album-Shop" %}</title>{% endblock page_title %}
 
 {% block page_style %}
   <link rel="stylesheet" href="{% static 'website/css/home.css' %}">
   <link rel="stylesheet" href="{% static 'website/css/gallery.css' %}">
+  <link rel="stylesheet" href="{% static 'blogs/css/blog_home.css' %}">
 {% endblock page_style %}
 
 {% block page_content %}
@@ -24,74 +25,77 @@
       </div>
     </div>
 
-    {% if products %}
+    {# ---------------- products: paintings and sculptures mixed in ONE row ---------------- #}
+    {% latest_works 14 as works %}
+    {% if works %}
     <section class="gallery" aria-labelledby="gallery-title">
       <div class="wrap gallery-head">
-        <h2 id="gallery-title">{% trans "Latest paintings" %}</h2>
-        <p>{% trans "Hover to pause. Click a painting to read more about it." %}</p>
+        <h2 id="gallery-title">{% trans "Latest works" %}</h2>
+        <p>{% trans "Paintings and sculptures. Hover to pause, click a work to read more about it." %}</p>
       </div>
 
       <div class="marquee">
-        <div class="marquee-viewport" id="marquee-viewport">
-          <div class="marquee-track" id="marquee-track">
-            <ul class="marquee-group" id="marquee-group">
-              {% for product in products %}
+        <div class="marquee-viewport">
+          <div class="marquee-track">
+            <ul class="marquee-group">
+              {% for work in works %}
               <li class="tile">
-                <a class="tile-link" href="{% url 'product_details' product.slug %}">
+                <a class="tile-link" href="{{ work.url }}">
                   <span class="tile-frame">
-                    <img src="{{ product.image.url }}"
-                         alt="{{ product.display_title }}"
-                         loading="lazy" decoding="async">
+                    <img src="{{ work.image }}" alt="{{ work.title }}" loading="lazy" decoding="async">
                   </span>
-                  <span class="tile-title">{{ product.display_title }}</span>
-                  <span class="tile-price">{{ product.display_price }}</span>
+                  <span class="tile-title">{{ work.title }}</span>
+                  <span class="tile-price">{{ work.price }}</span>
                 </a>
               </li>
               {% endfor %}
             </ul>
           </div>
         </div>
-
-        {# Blurred, fading edges on the left and right #}
         <span class="edge edge--left" aria-hidden="true"></span>
         <span class="edge edge--right" aria-hidden="true"></span>
       </div>
+
+      <p class="gallery-more"><a class="btn btn-ghost" href="{% url 'products' %}">{% trans "See all products" %}</a></p>
     </section>
     {% endif %}
 
-    {# ---------------- sculptures: same marquee, same animation ---------------- #}
-    {% latest_sculptures as sculptures %}
-    {% if sculptures %}
-    <section class="gallery" aria-labelledby="sculpture-gallery-title">
+    {# ---------------- blog: newest posts, same moving row ---------------- #}
+    {% latest_posts 10 as posts %}
+    {% if posts %}
+    <section class="gallery" aria-labelledby="blog-gallery-title">
       <div class="wrap gallery-head">
-        <h2 id="sculpture-gallery-title">{% trans "Latest sculptures" %}</h2>
-        <p>{% trans "Hover to pause. Click a sculpture to read more about it." %}</p>
+        <h2 id="blog-gallery-title">{% trans "From the blog" %}</h2>
+        <p>{% trans "News, stories and notes from the studio." %}</p>
       </div>
 
       <div class="marquee">
-        <div class="marquee-viewport" id="sculpture-marquee-viewport">
-          <div class="marquee-track" id="sculpture-marquee-track">
-            <ul class="marquee-group" id="sculpture-marquee-group">
-              {% for sculpture in sculptures %}
+        <div class="marquee-viewport">
+          <div class="marquee-track">
+            <ul class="marquee-group">
+              {% for post in posts %}
               <li class="tile">
-                <a class="tile-link" href="{% url 'sculpture_details' sculpture.slug %}">
+                <a class="tile-link" href="{{ post.get_absolute_url }}">
+                  {% if post.cover %}
                   <span class="tile-frame">
-                    <img src="{{ sculpture.image.url }}"
-                         alt="{{ sculpture.display_title }}"
-                         loading="lazy" decoding="async">
+                    <img src="{{ post.cover.url }}" alt="{{ post.display_title }}" loading="lazy" decoding="async">
                   </span>
-                  <span class="tile-title">{{ sculpture.display_title }}</span>
-                  <span class="tile-price">{{ sculpture.display_price }}</span>
+                  {% else %}
+                  <span class="tile-frame tile-frame--blank" aria-hidden="true">&#9998;</span>
+                  {% endif %}
+                  <span class="tile-title">{{ post.display_title }}</span>
+                  <span class="tile-date">{{ post.published_at|date:"j F Y" }}</span>
                 </a>
               </li>
               {% endfor %}
             </ul>
           </div>
         </div>
-
         <span class="edge edge--left" aria-hidden="true"></span>
         <span class="edge edge--right" aria-hidden="true"></span>
       </div>
+
+      <p class="gallery-more"><a class="btn btn-ghost" href="{% url 'blogs:list' %}">{% trans "Read the blog" %}</a></p>
     </section>
     {% endif %}
 

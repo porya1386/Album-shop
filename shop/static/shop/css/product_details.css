@@ -469,3 +469,27 @@
 
 /* the slide moves sideways inside the stage; the shadow stays visible */
 .pd-stage { overflow: clip; overflow-clip-margin: 40px; }
+/* ---- product details: the text column is a blurred glass panel (easier to read) ----
+   Paste at the END of  shop/static/shop/css/product_details.css  (paintings and sculptures) */
+.pd-info {
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border: 1px solid color-mix(in srgb, var(--ink) 18%, transparent);
+  border-radius: 24px;
+  background: color-mix(in srgb, var(--night) 62%, transparent);
+  -webkit-backdrop-filter: blur(22px) saturate(1.1);
+          backdrop-filter: blur(22px) saturate(1.1);
+  box-shadow: 0 10px 34px rgba(0, 0, 0, .28);
+}
+
+/* the description is a bit brighter on the glass */
+.pd-desc { color: var(--ink); opacity: .94; }
+
+/* breadcrumb gets a little glass too */
+.pd-crumbs {
+  display: inline-flex;
+  padding: .35rem .9rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--night) 50%, transparent);
+  -webkit-backdrop-filter: blur(14px);
+          backdrop-filter: blur(14px);
+}

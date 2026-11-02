@@ -1,28 +1,7 @@
 {% comment %}
-  Icon for a sculpture material.   Save as:  templates/includes/material_icon.html
-  Usage:  {% include "includes/material_icon.html" with material=sculpture.material %}
+  Coloured Font Awesome icon for a sculpture material.
+  Save as:  templates/includes/material_icon.html
+  Usage:    {% include "includes/material_icon.html" with material=sculpture.material %}
+  Needs Font Awesome (solid) on the page: see the README line in the answer (one <link> in base.html).
 {% endcomment %}
-<svg class="mat-icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor"
-     stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-{% if material == "bronze" %}
-    <circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5.5"/>
-{% elif material == "marble" %}
-    <path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12L4 7.5M12 12v9"/>
-{% elif material == "stone" %}
-    <path d="M4 18l2.5-7 4-5 4.5 2 4.5 4-1.5 6z"/><path d="M10.5 6l1 6 3.5 6"/>
-{% elif material == "wood" %}
-    <path d="M12 3l6 8h-3l4 6H5l4-6H6z"/><path d="M12 17v4"/>
-{% elif material == "ceramic" %}
-    <path d="M9.5 3h5M10.5 3v3c0 1.6-4.5 3-4.5 7a6 6 0 0 0 12 0c0-4-4.5-5.4-4.5-7V3"/><path d="M8 21h8"/>
-{% elif material == "metal" %}
-    <path d="M4 15l3-6h10l3 6z"/><path d="M4 15h16v4H4z"/>
-{% elif material == "glass" %}
-    <path d="M6 4h12l-1.5 16h-9z"/><path d="M7 9h10"/>
-{% elif material == "resin" %}
-    <path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/><path d="M9.5 14a2.5 2.5 0 0 0 2.5 2.5"/>
-{% elif material == "mixed" %}
-    <path d="M12 3l9 5-9 5-9-5z"/><path d="M3 12l9 5 9-5"/><path d="M3 16l9 5 9-5"/>
-{% else %}
-    <path d="M12 3c.8 4.5 2.5 6.2 7 7-4.5.8-6.2 2.5-7 7-.8-4.5-2.5-6.2-7-7 4.5-.8 6.2-2.5 7-7z"/>
-{% endif %}
-</svg>
+<i class="mat-icon mat-icon--{{ material|default:'other' }} fa-solid {% if material == 'bronze' %}fa-coins{% elif material == 'marble' %}fa-landmark{% elif material == 'stone' %}fa-mountain{% elif material == 'wood' %}fa-tree{% elif material == 'ceramic' %}fa-jar{% elif material == 'metal' %}fa-gear{% elif material == 'glass' %}fa-wine-glass{% elif material == 'resin' %}fa-droplet{% elif material == 'mixed' %}fa-palette{% else %}fa-gem{% endif %}" aria-hidden="true"></i>
