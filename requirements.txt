@@ -1,28 +1,48 @@
-# Only the packages YOUR project uses. pip installs their dependencies by itself
-# (asgiref, sqlparse, attrs, certifi, requests, ... are NOT listed on purpose).
-
-# --- Django + settings ---
+asgiref==3.13.0
+attrs==26.1.0
+boto3==1.43.123
+botocore==1.43.123
+certifi==2026.10.23
+cffi==2.1.1
+charset-normalizer==3.5.2
+cryptography==50.0.2
 Django==6.1.1
-python-decouple
-django-recaptcha==4.1.0
-django-widget-tweaks==1.5.1
-
-# --- login / security ---
-django-allauth[socialaccount]==65.21.0
+django-allauth==65.21.0
+django-ckeditor-5==0.2.20
 django-ratelimit==4.1.0
-
-# --- API / docs ---
+django-recaptcha==4.1.0
+django-storages==1.14.6
+django-widget-tweaks==1.5.1
 djangorestframework==3.18.3
 drf-yasg==1.21.18
-
-# --- images ---
+gunicorn==26.2.0
+idna==3.20
+importlib_resources==7.1.0
+inflection==0.5.1
+jmespath==1.1.0
+jsonschema==4.26.0
+jsonschema-specifications==2025.9.1
+oauthlib==4.0.1
+packaging==26.3
 pillow==12.3.0
-
-# --- database / cache ---
-psycopg[binary]
+psycopg==3.3.6
+psycopg-binary==3.3.6
+pycparser==3.12
+PyJWT==2.15.1
+python-dateutil==2.9.0.post0
+python-decouple==3.8
+pytz==2026.6
+PyYAML==6.0.3
 redis==8.1.0
-
-# --- production server ---
-gunicorn
-whitenoise
-django-storages[s3]
+referencing==0.37.0
+requests==2.34.2
+rpds-py==2026.9.1
+s3transfer==0.19.3
+six==1.17.0
+sqlparse==0.6.0
+swagger-spec-validator==3.0.4
+typing_extensions==4.16.0
+tzdata==2026.6
+uritemplate==4.2.0
+urllib3==2.8.0
+whitenoise==6.12.0
