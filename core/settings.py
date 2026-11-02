@@ -10,7 +10,12 @@ from decouple import Csv, config, RepositoryEnv, Config
 from django.utils.translation import gettext_lazy as _
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-env_config = Config(RepositoryEnv(str(BASE_DIR / ".env")))
+env_file = BASE_DIR / ".env"
+
+if env_file.exists():
+    env_config = Config(RepositoryEnv(str(env_file)))
+else:
+    env_config = Config({})
 # --------------------------------------------------
 # Core
 # --------------------------------------------------
