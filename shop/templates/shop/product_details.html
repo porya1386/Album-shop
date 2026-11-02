@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static i18n comments_tags %}
+{% load static i18n comments_tags shop_tags %}
 {% block page_title %}
     <title>{{ product.display_title }} | {% trans "Jahan" %}</title>
 {% endblock page_title %}
@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{% static 'shop/css/product_details.css' %}">
     <link rel="stylesheet" href="{% static 'shop/css/likes.css' %}">
     <link rel="stylesheet" href="{% static 'reviews/css/comments.css' %}">
+    <link rel="stylesheet" href="{% static 'blogs/css/blog_content.css' %}">
     <style>
         .pd-colors { display: flex; gap: .55rem; margin: 0; padding: 0; list-style: none; }
         .pd-color {
@@ -103,7 +104,7 @@
                 {% include "includes/like_stats.html" %}
 
                 {% if product.display_description %}
-                    <p class="pd-desc">{{ product.display_description|linebreaksbr }}</p>
+                    <div class="pd-desc ck-content" dir="auto">{{ product.display_description|rich_text }}</div>
                 {% endif %}
 
                 <dl class="pd-facts">

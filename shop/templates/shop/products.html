@@ -120,7 +120,7 @@
                                 {% if sculpture.material %}{% include "includes/material_icon.html" with material=sculpture.material %}{% endif %}{{ sculpture.material_label }}{% if sculpture.material_label and sculpture.size %} &middot; {% endif %}{{ sculpture.size }}
                             </p>
                             {% if sculpture.display_description %}
-                                <p class="excerpt">{{ sculpture.display_description|truncatewords:14 }}</p>
+                                <p class="excerpt">{{ sculpture.display_description|striptags|truncatewords:14 }}</p>
                             {% endif %}
 
                             {% include "includes/like_stats.html" with product=sculpture is_sculpture=True small=True %}
@@ -159,7 +159,7 @@
                                 {{ product.size|default:"" }}{% if product.size and product.year %} &middot; {% endif %}{{ product.year|date:"Y" }}
                             </p>
                             {% if product.display_description %}
-                                <p class="excerpt">{{ product.display_description|truncatewords:14 }}</p>
+                                <p class="excerpt">{{ product.display_description|striptags|truncatewords:14 }}</p>
                             {% endif %}
 
                             {% include "includes/like_stats.html" with product=product small=True %}

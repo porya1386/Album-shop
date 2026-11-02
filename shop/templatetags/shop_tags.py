@@ -1,5 +1,10 @@
 """Save as:  shop/templatetags/shop_tags.py   (replaces the old file)"""
+import re
+
 from django import template
+from django.utils.html import conditional_escape
+from django.utils.safestring import mark_safe
+from django.template.defaultfilters import linebreaksbr
 from django.urls import reverse
 
 from shop.models import Album_image, Sculpture
@@ -42,3 +47,18 @@ def latest_works(limit=12):
 
     items.sort(key=lambda pair: pair[0], reverse=True)
     return [data for _, data in items[:limit]]
+
+
+_HTML = re.compile(
+    r"<\s*(p|h[1-6]|ul|ol|figure|div|table|blockquote|pre)\b", re.IGNORECASE)
+
+
+@register.filter
+def rich_text(value):
+    """{{ product.display_description|rich_text }}
+    Text written with the editor is HTML (only admins can write it): shown as it is.
+    Old plain-text descriptions are escaped and keep their line breaks."""
+    value = value or ""
+    if _HTML.search(value):
+        return mark_safe(value)
+    return linebreaksbr(conditional_escape(value))

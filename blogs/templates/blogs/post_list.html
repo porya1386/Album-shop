@@ -29,7 +29,7 @@
                         {% if post.published_at %}{{ post.published_at|date:"j F Y" }}{% endif %}
                         {% if post.author %}&middot; {{ post.author.get_username }}{% endif %}
                     </p>
-                    <p class="blog-excerpt">{% if post.display_excerpt %}{{ post.display_excerpt }}{% else %}{{ post.display_body|truncatewords:24 }}{% endif %}</p>
+                    <p class="blog-excerpt">{% if post.display_excerpt %}{{ post.display_excerpt }}{% else %}{{ post.display_body|striptags|truncatewords:24 }}{% endif %}</p>
 
                     <div class="blog-foot">
                         <ul class="blog-counts" aria-label="{% trans 'Statistics' %}">

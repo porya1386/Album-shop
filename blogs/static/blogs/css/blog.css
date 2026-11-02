@@ -2,8 +2,7 @@
    The panels have a strong blur + a darker veil so the text can be read on every theme. */
 .blog-page { padding-block: 2rem 4rem; }
 .blog-narrow { max-width: 940px; margin-inline: auto; }       /* wider reading column */
-.blog-head h1 { text-shadow: 0 2px 24px rgba(0, 0, 0, .55); }
-
+.blog-head h1 {text-shadow: 0 2px 24px rgba(0, 0, 0, .55);}
 .blog-tools { display: flex; flex-wrap: wrap; gap: .6rem; margin: 1.4rem 0; align-items: center; }
 
 /* ---- the glass panel used for cards, the post and the comments ---- */

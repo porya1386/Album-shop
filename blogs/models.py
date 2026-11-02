@@ -4,6 +4,7 @@ from django.core.validators import MinLengthValidator
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
+from django_ckeditor_5.fields import CKEditor5Field
 from django.utils.text import slugify
 from django.utils.translation import get_language
 from django.utils.translation import gettext_lazy as _
@@ -17,7 +18,8 @@ def _is_fa():
 
 def validate_cover(file):
     if file.size > MAX_COVER_MB * 1024 * 1024:
-        raise ValidationError(_("The image must be smaller than %(mb)s MB.") % {"mb": MAX_COVER_MB})
+        raise ValidationError(_("The image must be smaller than %(mb)s MB.") % {
+                              "mb": MAX_COVER_MB})
 
 
 class PostQuerySet(models.QuerySet):
@@ -37,19 +39,22 @@ class Post(models.Model):
     cover = models.ImageField(_("Cover image"), upload_to="blogs/covers", blank=True,
                               validators=[validate_cover])
     excerpt = models.CharField(_("Short summary"), max_length=300, blank=True)
-    body = models.TextField(_("Text"))
+    body = CKEditor5Field(_("Text"), config_name="default")
 
     # Persian version (shown on /fa/ ; when empty the English one is shown)
     title_fa = models.CharField(_("Persian title"), max_length=200, blank=True,
                                 help_text=_("Title shown on the Persian site. Leave empty to use the English title."))
-    excerpt_fa = models.CharField(_("Persian short summary"), max_length=300, blank=True)
-    body_fa = models.TextField(_("Persian text"), blank=True,
-                               help_text=_("Text shown on the Persian site. Leave empty to use the English text."))
+    excerpt_fa = models.CharField(
+        _("Persian short summary"), max_length=300, blank=True)
+    body_fa = CKEditor5Field(_("Persian text"), config_name="persian", blank=True,
+                             help_text=_("Text shown on the Persian site. Leave empty to use the English text."))
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,
                                null=True, blank=True, related_name="blog_posts",
                                verbose_name=_("Author"))
-    status = models.CharField(_("Status"), max_length=10, choices=STATUS_CHOICES, default=DRAFT)
-    published_at = models.DateTimeField(_("Published at"), null=True, blank=True)
+    status = models.CharField(
+        _("Status"), max_length=10, choices=STATUS_CHOICES, default=DRAFT)
+    published_at = models.DateTimeField(
+        _("Published at"), null=True, blank=True)
 
     views = models.PositiveIntegerField(_("Views"), default=0, editable=False)
     likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="liked_posts",
@@ -109,10 +114,12 @@ class Post(models.Model):
 class PostComment(models.Model):
     """A text comment under a post. Published at once; the author or a moderator can delete it."""
 
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
+    post = models.ForeignKey(
+        Post, on_delete=models.CASCADE, related_name="comments")
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
                              related_name="blog_comments")
-    body = models.CharField(_("comment"), max_length=1000, validators=[MinLengthValidator(3)])
+    body = models.CharField(_("comment"), max_length=1000,
+                            validators=[MinLengthValidator(3)])
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -127,13 +134,16 @@ class PostComment(models.Model):
 class PostImage(models.Model):
     """A picture that can be placed INSIDE the text: write  [image 1]  on its own line in the post text."""
 
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="images")
+    post = models.ForeignKey(
+        Post, on_delete=models.CASCADE, related_name="images")
     order = models.PositiveSmallIntegerField(
         _("Number"), default=0,
         help_text=_("Write [image NUMBER] on its own line in the text where the picture should appear."))
-    image = models.ImageField(_("Image"), upload_to="blogs/images", validators=[validate_cover])
+    image = models.ImageField(
+        _("Image"), upload_to="blogs/images", validators=[validate_cover])
     caption = models.CharField(_("Caption"), max_length=200, blank=True)
-    caption_fa = models.CharField(_("Persian caption"), max_length=200, blank=True)
+    caption_fa = models.CharField(
+        _("Persian caption"), max_length=200, blank=True)
 
     class Meta:
         ordering = ["order", "id"]
@@ -149,6 +159,7 @@ class PostImage(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.order:
-            last = PostImage.objects.filter(post=self.post).aggregate(m=models.Max("order"))["m"] or 0
+            last = PostImage.objects.filter(post=self.post).aggregate(
+                m=models.Max("order"))["m"] or 0
             self.order = last + 1
         super().save(*args, **kwargs)

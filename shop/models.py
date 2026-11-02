@@ -7,6 +7,7 @@ from django.db import models
 from django.utils.text import slugify
 from django.utils.translation import get_language
 from django.utils.translation import gettext_lazy as _
+from django_ckeditor_5.fields import CKEditor5Field
 
 PERSIAN_DIGITS = str.maketrans("0123456789", "۰۱۲۳۴۵۶۷۸۹")
 
@@ -87,7 +88,8 @@ class Album_image(LocalizedMixin, models.Model):
             "Title shown on the Persian site. Leave empty to use the English title."),
     )
 
-    description_fa = models.TextField(
+    description_fa = CKEditor5Field(
+        config_name="persian",
         blank=True,
         verbose_name=_("Persian description"),
         help_text=_(
@@ -121,7 +123,8 @@ class Album_image(LocalizedMixin, models.Model):
         verbose_name=_("Album Image Price"),
     )
 
-    description = models.TextField(
+    description = CKEditor5Field(
+        config_name="default",
         blank=True,
         help_text=_("Enter the description for your album image"),
         verbose_name=_("Album Image Description"),
@@ -319,13 +322,15 @@ class Sculpture(LocalizedMixin, models.Model):
             "Price shown on the Persian site, in Toman. Leave empty to show the normal price."),
     )
 
-    description = models.TextField(
+    description = CKEditor5Field(
+        config_name="default",
         blank=True,
         help_text=_("Enter the description for your sculpture"),
         verbose_name=_("Sculpture Description"),
     )
 
-    description_fa = models.TextField(
+    description_fa = CKEditor5Field(
+        config_name="persian",
         blank=True,
         verbose_name=_("Persian description"),
         help_text=_(

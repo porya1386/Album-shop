@@ -33,7 +33,8 @@ class PostListView(ListView):
                         comment_total=Count("comments", distinct=True)))
         user = self.request.user
         if user.is_authenticated:
-            qs = qs.annotate(liked=Exists(Post.objects.filter(pk=OuterRef("pk"), likes=user)))
+            qs = qs.annotate(liked=Exists(
+                Post.objects.filter(pk=OuterRef("pk"), likes=user)))
         return qs
 
 
@@ -121,15 +122,18 @@ def add_comment(request, slug):
         request.session["blog_comment_draft"] = body[:1000]
         return redirect(post.get_absolute_url() + "#comments")
 
-    comment = PostComment.objects.create(post=post, user=request.user, body=body)
+    comment = PostComment.objects.create(
+        post=post, user=request.user, body=body)
     return redirect(f"{post.get_absolute_url()}#comment-{comment.pk}")
 
 
 @login_required
 @require_POST
 def delete_comment(request, pk):
-    comment = get_object_or_404(PostComment.objects.select_related("post"), pk=pk)
-    allowed = comment.user_id == request.user.id or request.user.has_perm("blogs.delete_postcomment")
+    comment = get_object_or_404(
+        PostComment.objects.select_related("post"), pk=pk)
+    allowed = comment.user_id == request.user.id or request.user.has_perm(
+        "blogs.delete_postcomment")
     if not allowed:
         raise Http404
     post = comment.post

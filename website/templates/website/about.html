@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static i18n %}
+{% load static i18n website_tags %}
 
 {% block page_title %}
   <title>{% trans "About me | Jahan" %}</title>
@@ -7,9 +7,53 @@
 
 {% block page_style %}
   <link rel="stylesheet" href="{% static 'website/css/about.css' %}">
+  <link rel="stylesheet" href="{% static 'blogs/css/blog_content.css' %}">
 {% endblock page_style %}
 
 {% block page_content %}
+{% about_page as about %}
+{% if about and about.display_body %}
+<main>
+  <div class="wrap">
+    <div class="page-head">
+      <h1>{{ about.display_title }}</h1>
+      {% if about.display_lead %}<p class="lead">{{ about.display_lead }}</p>{% endif %}
+    </div>
+
+    <div class="about-grid">
+      <article class="panel story">
+        {% if about.photo %}
+        <img class="about-photo" src="{{ about.photo.url }}" alt="{{ about.display_title }}"
+             style="float:inline-end;width:min(220px,40%);margin:0 0 1rem 1.2rem;border-radius:18px;">
+        {% endif %}
+
+        <div class="ck-content" dir="auto">{{ about.display_body|safe }}</div>
+
+        <div class="actions">
+          {% if about.email %}<a class="btn btn-primary" href="mailto:{{ about.email }}">{% trans "Email me" %}</a>{% endif %}
+          <a class="btn btn-ghost" href="{% url 'products' %}">{% trans "See my products" %}</a>
+        </div>
+      </article>
+
+      {% if about.facts.all or about.email %}
+      <aside class="panel facts" aria-label="{% trans 'At a glance' %}">
+        <h2>{% trans "At a glance" %}</h2>
+        <dl>
+          {% for fact in about.facts.all %}
+          <dt>{{ fact.display_label }}</dt>
+          <dd>{{ fact.display_value }}</dd>
+          {% endfor %}
+          {% if about.email %}
+          <dt>{% trans "Email" %}</dt>
+          <dd><a href="mailto:{{ about.email }}" dir="ltr">{{ about.email }}</a></dd>
+          {% endif %}
+        </dl>
+      </aside>
+      {% endif %}
+    </div>
+  </div>
+</main>
+{% else %}
 <main>
   <div class="wrap">
     <div class="page-head">
@@ -108,8 +152,9 @@
     </div>
   </div>
 </main>
+{% endif %}
 {% endblock page_content %}
 
 {% block page_script %}
-
+  <script src="{% static 'website/js/about.js' %}"></script>
 {% endblock page_script %}

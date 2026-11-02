@@ -24,13 +24,20 @@ class ImageInline(admin.TabularInline):
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ("title", "author", "status", "published_at", "views", "like_total", "comment_total")
+    list_display = ("title", "author", "status", "published_at",
+                    "views", "like_total", "comment_total")
     list_filter = ("status", "author")
     search_fields = ("title", "title_fa", "body", "body_fa")
     prepopulated_fields = {"slug": ("title",)}
     date_hierarchy = "created_at"
     readonly_fields = ("views", "created_at", "updated_at")
-    inlines = [ImageInline, CommentInline]
+    # pictures are put into the text with the editor (image button)
+    inlines = [CommentInline]
+
+    class Media:
+        # the callout boxes look the same inside the editor as on the site
+        css = {"all": ("blogs/css/blog_content.css",)}
+
     fieldsets = (
         (None, {"fields": ("title", "slug", "cover", "excerpt", "body")}),
         ("Persian (فارسی)", {"fields": ("title_fa", "excerpt_fa", "body_fa")}),

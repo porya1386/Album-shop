@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static i18n comments_tags %}
+{% load static i18n comments_tags shop_tags %}
 {% block page_title %}
     <title>{{ sculpture.display_title }} | {% trans "Jahan" %}</title>
 {% endblock page_title %}
@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="{% static 'shop/css/likes.css' %}">
     <link rel="stylesheet" href="{% static 'reviews/css/comments.css' %}">
     <link rel="stylesheet" href="{% static 'shop/css/collections.css' %}">
+    <link rel="stylesheet" href="{% static 'blogs/css/blog_content.css' %}">
 {% endblock page_style %}
 
 {% block page_content %}
@@ -91,7 +92,7 @@
                 {% include "includes/like_stats.html" with product=sculpture is_sculpture=True %}
 
                 {% if sculpture.display_description %}
-                    <p class="pd-desc">{{ sculpture.display_description|linebreaksbr }}</p>
+                    <div class="pd-desc ck-content" dir="auto">{{ sculpture.display_description|rich_text }}</div>
                 {% endif %}
 
                 <dl class="pd-facts">

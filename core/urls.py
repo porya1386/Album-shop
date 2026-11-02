@@ -39,6 +39,7 @@ urlpatterns += i18n_patterns(
     path("admin/", admin.site.urls),
     path("comments/", include("reviews.urls")),
     path("blog/", include("blogs.urls")),
+    path("ckeditor5/", include("django_ckeditor_5.urls")),
     # prefix_default_language=False   <-- hazf kon (pishfarz True hast)
 )
 

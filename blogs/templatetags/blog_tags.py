@@ -25,17 +25,24 @@ def blog_body(post):
 
     Everything the author typed is escaped (no HTML can be injected). Pictures that are not
     placed in the text are shown after it."""
+    raw = post.display_body or ""
+    # text written with the editor is HTML: show it as it is (only admins / moderators can write it)
+    if re.search(r"<\s*(p|h[1-6]|ul|ol|figure|div|table|blockquote|pre)\b", raw, re.IGNORECASE):
+        return mark_safe(raw)
+
+    # old posts (plain text): paragraphs + [image N] lines
     images = {img.order: img for img in post.images.all()}
     used = set()
     out = []
 
     def figure(img):
         text = img.display_caption
-        caption = format_html("<figcaption>{}</figcaption>", text) if text else ""
+        caption = format_html(
+            "<figcaption>{}</figcaption>", text) if text else ""
         return format_html('<figure class="blog-figure"><img src="{}" alt="{}" loading="lazy">{}</figure>',
                            img.image.url, text or post.display_title, caption)
 
-    for block in re.split(r"\n\s*\n", post.display_body.replace("\r\n", "\n")):
+    for block in re.split(r"\n\s*\n", raw.replace("\r\n", "\n")):
         block = block.strip()
         if not block:
             continue
@@ -55,7 +62,8 @@ def blog_body(post):
 
         for kind, value in parts:
             if kind == "text":
-                out.append(format_html("<p>{}</p>", mark_safe(linebreaksbr(conditional_escape(value)))))
+                out.append(format_html(
+                    "<p>{}</p>", mark_safe(linebreaksbr(conditional_escape(value)))))
             elif value in images:
                 used.add(value)
                 out.append(figure(images[value]))

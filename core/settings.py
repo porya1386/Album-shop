@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'widget_tweaks',
     "django_recaptcha",
+    "django_ckeditor_5",
     # login with Google / GitHub
     "allauth",
     "allauth.account",
@@ -324,3 +325,52 @@ SILENCED_SYSTEM_CHECKS = [
 ]
 
 AUTH_USER_MODEL = "accounts.CustomUser"
+# ------------------------------------------------------------------------------------
+# 1) core/settings.py
+#    pip install django-ckeditor-5
+# next to "blogs"
+
+# only staff can upload pictures in the editor
+CKEDITOR_5_FILE_UPLOAD_PERMISSION = "staff"
+# inside MEDIA_ROOT (MEDIA_URL / MEDIA_ROOT must work)
+CKEDITOR_5_UPLOADS_FOLDER = "blogs/uploads/"
+
+_CALLOUTS = {
+    "definitions": [
+        {"name": "Info box",    "element": "p",
+            "classes": ["callout", "callout-info"]},
+        {"name": "Success box", "element": "p",
+            "classes": ["callout", "callout-success"]},
+        {"name": "Warning box", "element": "p",
+            "classes": ["callout", "callout-warning"]},
+        {"name": "Danger box",  "element": "p",
+            "classes": ["callout", "callout-danger"]},
+        {"name": "Big first paragraph",
+            "element": "p", "classes": ["lead-text"]},
+    ]
+}
+_TOOLBAR = [
+    "heading", "style", "|",
+    "bold", "italic", "underline", "strikethrough", "highlight", "|",
+    "fontColor", "fontBackgroundColor", "|",
+    "link", "bulletedList", "numberedList", "|",
+    "blockQuote", "code", "codeBlock", "insertTable", "imageUpload", "horizontalLine", "|",
+    "undo", "redo",
+]
+_IMAGE = {
+    "toolbar": ["imageTextAlternative", "toggleImageCaption", "|", "imageStyle:inline", "imageStyle:block", "imageStyle:side"],
+}
+_TABLE = {"contentToolbar": ["tableColumn", "tableRow", "mergeTableCells"]}
+
+CKEDITOR_5_CONFIGS = {
+    "default": {                                  # English text
+        "language": "en",
+        "toolbar": {"items": _TOOLBAR, "shouldNotGroupWhenFull": True},
+        "style": _CALLOUTS, "image": _IMAGE, "table": _TABLE,
+    },
+    "persian": {                                  # Persian text (right-to-left editor)
+        "language": "fa",
+        "toolbar": {"items": _TOOLBAR, "shouldNotGroupWhenFull": True},
+        "style": _CALLOUTS, "image": _IMAGE, "table": _TABLE,
+    },
+}

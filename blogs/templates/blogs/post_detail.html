@@ -5,10 +5,12 @@
 
 {% block page_style %}
     <link rel="stylesheet" href="{% static 'blogs/css/blog.css' %}">
+    <link rel="stylesheet" href="{% static 'blogs/css/blog_content.css' %}">
     <link rel="stylesheet" href="{% static 'reviews/css/comments.css' %}">
 {% endblock page_style %}
 
 {% block page_content %}
+{# template version: comments-v3 (cm-* markup, emoji, trash icon) #}
 <main class="blog-page">
     <div class="wrap blog-narrow">
         <nav class="blog-crumbs" aria-label="{% trans 'Breadcrumb' %}">
@@ -28,7 +30,7 @@
             <img class="blog-hero" src="{{ post.cover.url }}" alt="{{ post.display_title }}">
             {% endif %}
 
-            <div class="blog-body">{{ post|blog_body }}</div>
+            <div class="blog-body ck-content" dir="auto">{{ post|blog_body }}</div>
 
             {# like + views + comments #}
             <div class="blog-stats">
