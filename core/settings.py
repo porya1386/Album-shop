@@ -295,17 +295,20 @@ MAILERS = {
     "default": {
         "BACKEND": "django.core.mail.backends.smtp.EmailBackend",
         "OPTIONS": {
-            "host": env_config("EMAIL_HOST"),
-            "port": env_config("EMAIL_PORT", cast=int),
-            "use_tls": env_config("EMAIL_USE_TLS", cast=bool),
-            "use_ssl": env_config("EMAIL_USE_SSL", cast=bool),
-            "username": env_config("EMAIL_HOST_USER"),
-            "password": env_config("EMAIL_HOST_PASSWORD"),
+            "host": env_config("EMAIL_HOST", default=""),
+            "port": env_config("EMAIL_PORT", default=587, cast=int),
+            "use_tls": env_config("EMAIL_USE_TLS", default=True, cast=bool),
+            "use_ssl": env_config("EMAIL_USE_SSL", default=False, cast=bool),
+            "username": env_config("EMAIL_HOST_USER", default=""),
+            "password": env_config("EMAIL_HOST_PASSWORD", default=""),
         },
     },
 }
 
-DEFAULT_FROM_EMAIL = env_config("DEFAULT_FROM_EMAIL")
+DEFAULT_FROM_EMAIL = env_config(
+    "DEFAULT_FROM_EMAIL",
+    default="webmaster@localhost",
+)
 # --------------------------------------------------
 # Login redirect
 # --------------------------------------------------
