@@ -1,0 +1,55 @@
+/* Blog.  Save as: blogs/static/blogs/css/blog.css */
+.blog-page { padding-block: 2rem 4rem; }
+.blog-narrow { max-width: 760px; margin-inline: auto; }
+
+.blog-tools { display: flex; flex-wrap: wrap; gap: .6rem; margin: 1.2rem 0; align-items: center; }
+
+.blog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.4rem; margin-top: 1rem; }
+
+.blog-card {
+  display: flex; flex-direction: column; overflow: hidden; border-radius: 16px;
+  border: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+  background: color-mix(in srgb, currentColor 4%, transparent);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.blog-card:hover { transform: translateY(-4px); box-shadow: 0 14px 30px rgba(0, 0, 0, .25); }
+.blog-card.is-draft { opacity: .7; border-style: dashed; }
+
+.blog-cover { display: block; aspect-ratio: 16 / 10; overflow: hidden; }
+.blog-cover img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
+.blog-card:hover .blog-cover img { transform: scale(1.05); }
+
+.blog-card-body { padding: 1rem 1.1rem 1.2rem; display: flex; flex-direction: column; gap: .4rem; }
+.blog-card h2 { margin: 0; font-size: 1.2rem; }
+.blog-card h2 a { color: inherit; text-decoration: none; }
+.blog-meta { margin: 0; font-size: .85rem; opacity: .7; }
+.blog-excerpt { margin: 0; opacity: .88; }
+.blog-more { color: var(--gold, #c9a227); font-weight: 600; text-decoration: none; margin-top: .3rem; }
+
+.blog-badge {
+  align-self: flex-start; padding: .1rem .6rem; border-radius: 999px; font-size: .75rem;
+  background: var(--gold, #c9a227); color: var(--night, #111);
+}
+
+.blog-pages { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 2rem; }
+
+/* one post */
+.blog-post h1 { margin: .4rem 0; }
+.blog-hero { width: 100%; max-height: 460px; object-fit: cover; border-radius: 16px; margin: 1.2rem 0; }
+.blog-body { font-size: 1.08rem; line-height: 1.9; }
+.blog-body p { margin: 0 0 1.1rem; }
+
+/* form */
+.blog-form { display: grid; gap: 1rem; }
+.blog-field { display: grid; gap: .35rem; }
+.blog-field input[type="text"], .blog-field textarea, .blog-field select {
+  width: 100%; padding: .7rem .85rem; border-radius: 10px; font: inherit; color: inherit;
+  border: 1px solid color-mix(in srgb, currentColor 25%, transparent);
+  background: color-mix(in srgb, currentColor 5%, transparent);
+}
+.blog-field input:focus, .blog-field textarea:focus, .blog-field select:focus {
+  outline: 2px solid var(--gold, #c9a227); outline-offset: 1px;
+}
+.blog-error { color: #ff8a78; margin: 0; font-size: .88rem; }
+.blog-alert { padding: .7rem 1rem; border-radius: 10px; background: rgba(229, 83, 61, .15); color: #ff8a78; }
+.blog-danger { border-color: #e5533d; }

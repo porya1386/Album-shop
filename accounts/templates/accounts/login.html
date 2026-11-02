@@ -9,6 +9,7 @@
     {# Font Awesome (icons of the Google / GitHub buttons). Self-hosted: static/vendor/fontawesome/ #}
     <link rel="stylesheet" href="{% static 'vendor/css/all.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/social.css' %}">
+    <link rel="stylesheet" href="{% static 'css/password_strength.css' %}">
 {% endblock page_style %}
 
 {% block page_content %}
@@ -201,6 +202,7 @@
                             autocomplete="new-password"
                             minlength="8"
                             required
+                            data-strength
                         >
                         <button
                             type="button"
@@ -211,6 +213,16 @@
                             data-hide-text="{% trans 'Hide' %}"
                         >{% trans "Show" %}</button>
                     </div>
+                    <div class="pw-meter" data-strength-for="reg-password1" data-text="reg-pw-text"
+                         data-personal="reg-username,reg-email"
+                         role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"
+                         aria-label="{% trans 'Password strength' %}"
+                         data-label-0="" data-label-short="{% trans 'Too short: use at least 8 characters' %}"
+                         data-label-1="{% trans 'Weak' %}" data-label-2="{% trans 'Fair' %}"
+                         data-label-3="{% trans 'Good' %}" data-label-4="{% trans 'Strong' %}">
+                        <div class="pw-meter-bar"></div>
+                    </div>
+                    <p class="pw-meter-text" id="reg-pw-text" aria-live="polite"></p>
                 </div>
 
                 <div class="field">
@@ -233,6 +245,14 @@
                             data-hide-text="{% trans 'Hide' %}"
                         >{% trans "Show" %}</button>
                     </div>
+                    <div class="pw-meter pw-match" data-match-for="reg-password2" data-match-with="reg-password1"
+                         data-text="reg-match-text" aria-hidden="true">
+                        <div class="pw-meter-bar"></div>
+                    </div>
+                    <p class="pw-meter-text pw-match-text" id="reg-match-text" aria-live="polite"
+                       data-label-ok="{% trans 'Passwords match' %}"
+                       data-label-bad="{% trans 'Passwords do not match' %}"
+                       data-label-partial="{% trans 'Keep going...' %}"></p>
                 </div>
 
                 {% if show_register_captcha %}
@@ -293,5 +313,6 @@
 
 {% block page_script %}
     <script src="{% static 'js/login.js' %}" defer></script>
+    <script src="{% static 'js/password_strength.js' %}" defer></script>
     <script src="{% static 'js/login_captcha.js' %}" defer></script>
 {% endblock page_script %}

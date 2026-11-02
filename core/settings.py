@@ -6,11 +6,11 @@ python-decouple: first from environment variables, then from the .env file.
 """
 from pathlib import Path
 
-from decouple import Csv, config
+from decouple import Csv, config, RepositoryEnv, Config
 from django.utils.translation import gettext_lazy as _
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+env_config = Config(RepositoryEnv(str(BASE_DIR / ".env")))
 # --------------------------------------------------
 # Core
 # --------------------------------------------------
@@ -18,11 +18,15 @@ SECRET_KEY = config("SECRET_KEY")
 DEBUG = config("DEBUG", default=False, cast=bool)
 
 # your domain(s) on the server, e.g.  jahan.example.ir,www.jahan.example.ir
-ALLOWED_HOSTS = config(
-    "ALLOWED_HOSTS",
-    default="localhost,127.0.0.1,192.168.1.5",
-    cast=Csv(),
-)
+# ALLOWED_HOSTS = config(
+#     "ALLOWED_HOSTS",
+#     default="localhost,127.0.0.1,192.168.1.5",
+#     cast=Csv(),
+# )
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+]
 # full origins WITH https://  (needed for login and forms on the server)
 CSRF_TRUSTED_ORIGINS = config("CSRF_TRUSTED_ORIGINS", default="", cast=Csv())
 
@@ -41,6 +45,7 @@ INSTALLED_APPS = [
     'website',
     'shop',
     'reviews',
+    'blogs',
     # installed apps
     'drf_yasg',
     'rest_framework',
@@ -158,7 +163,6 @@ RATELIMIT_USE_CACHE = "ratelimit"
 # Password validation
 # --------------------------------------------------
 AUTH_PASSWORD_VALIDATORS = [
-    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
     {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
@@ -279,14 +283,24 @@ ACCOUNT_DEFAULT_HTTP_PROTOCOL = "http" if DEBUG else "https"
 ALLAUTH_TRUSTED_PROXY_COUNT = 0 if DEBUG else 1
 
 # --------------------------------------------------
-# Email
+# Email - Mailerino SMTP
 # --------------------------------------------------
+
 MAILERS = {
-    'default': {
-        'BACKEND': 'django.core.mail.backends.console.EmailBackend',
+    "default": {
+        "BACKEND": "django.core.mail.backends.smtp.EmailBackend",
+        "OPTIONS": {
+            "host": env_config("EMAIL_HOST"),
+            "port": env_config("EMAIL_PORT", cast=int),
+            "use_tls": env_config("EMAIL_USE_TLS", cast=bool),
+            "use_ssl": env_config("EMAIL_USE_SSL", cast=bool),
+            "username": env_config("EMAIL_HOST_USER"),
+            "password": env_config("EMAIL_HOST_PASSWORD"),
+        },
     },
 }
 
+DEFAULT_FROM_EMAIL = env_config("DEFAULT_FROM_EMAIL")
 # --------------------------------------------------
 # Login redirect
 # --------------------------------------------------

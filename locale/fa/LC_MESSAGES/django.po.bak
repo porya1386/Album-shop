@@ -1,0 +1,1772 @@
+# Persian translation for Jahan.
+msgid ""
+msgstr ""
+"Project-Id-Version: Jahan\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-02 04:59+0330\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: .\accounts\forms.py:16 .\accounts\templates\accounts\login.html:44
+msgid "Please confirm that you are not a robot."
+msgstr "لطفاً تأیید کنید که ربات نیستید."
+
+#: .\accounts\forms.py:52 .\accounts\templates\accounts\login.html:184
+#: .\accounts\templates\accounts\password_reset_form.html:37
+#: .\website\templates\website\about.html:104
+msgid "Email"
+msgstr "ایمیل"
+
+#: .\accounts\forms.py:57
+msgid "Enter your email"
+msgstr "ایمیل خود را وارد کنید"
+
+#: .\accounts\forms.py:62 .\accounts\templates\accounts\login.html:55
+#: .\accounts\templates\accounts\login.html:172
+msgid "Username"
+msgstr "نام کاربری"
+
+#: .\accounts\forms.py:67
+msgid "Choose a username"
+msgstr "یک نام کاربری انتخاب کنید"
+
+#: .\accounts\forms.py:72 .\accounts\templates\accounts\login.html:67
+#: .\accounts\templates\accounts\login.html:196
+#: .\accounts\templates\accounts\password_set_form.html:33
+msgid "Password"
+msgstr "گذرواژه"
+
+#: .\accounts\forms.py:81
+#: .\accounts\templates\accounts\password_set_form.html:51
+msgid "Confirm password"
+msgstr "تکرار گذرواژه"
+
+#: .\accounts\forms.py:102
+msgid "This email is already registered."
+msgstr "این ایمیل قبلاً ثبت شده است."
+
+#: .\accounts\password_set_view.py:22
+msgid "Your password is set. You can now also sign in with it."
+msgstr "رمز عبور شما تعیین شد. اکنون می‌توانید با آن هم وارد شوید."
+
+# Add to the normal entries of locale/fa/LC_MESSAGES/django.po (before the "#~" lines),
+# then: django-admin compilemessages + restart.
+#: .\accounts\templates\accounts\_social_buttons.html:9
+msgid "or log in with"
+msgstr "یا وارد شوید با"
+
+#: .\accounts\templates\accounts\_social_buttons.html:13
+msgid "Continue with Google"
+msgstr "ادامه با گوگل"
+
+#: .\accounts\templates\accounts\_social_buttons.html:17
+msgid "Continue with GitHub"
+msgstr "ادامه با گیت‌هاب"
+
+# --- login.html ---
+#: .\accounts\templates\accounts\login.html:4
+msgid "Login | Jahan"
+msgstr "ورود | جهان"
+
+# --- login.html ---
+#: .\accounts\templates\accounts\login.html:21
+msgid "Log in | Jahan"
+msgstr "ورود | جهان"
+
+#: .\accounts\templates\accounts\login.html:22
+msgid "Register | Jahan"
+msgstr "ثبت‌نام | جهان"
+
+#: .\accounts\templates\accounts\login.html:23
+msgid "The two passwords do not match."
+msgstr "دو گذرواژه با هم یکسان نیستند."
+
+#: .\accounts\templates\accounts\login.html:32
+#: .\accounts\templates\accounts\login.html:126
+#: .\accounts\templates\accounts\login.html:279
+#: .\accounts\templates\accounts\login.html:305
+#: .\accounts\templates\accounts\password_reset_complete.html:26
+#: .\templates\includes\header.html:124
+msgid "Log in"
+msgstr "ورود"
+
+#: .\accounts\templates\accounts\login.html:34
+msgid "Welcome back. Enter your details to continue."
+msgstr "خوش آمدید. برای ادامه اطلاعات خود را وارد کنید."
+
+#: .\accounts\templates\accounts\login.html:46
+msgid "The username or password is incorrect. Check both and try again."
+msgstr ""
+"نام کاربری یا گذرواژه نادرست است. هر دو را بررسی کنید و دوباره تلاش کنید."
+
+#: .\accounts\templates\accounts\login.html:81
+#: .\accounts\templates\accounts\login.html:83
+#: .\accounts\templates\accounts\login.html:212
+#: .\accounts\templates\accounts\login.html:214
+#: .\accounts\templates\accounts\login.html:244
+#: .\accounts\templates\accounts\login.html:246
+msgid "Show"
+msgstr "نمایش"
+
+#: .\accounts\templates\accounts\login.html:82
+#: .\accounts\templates\accounts\login.html:213
+#: .\accounts\templates\accounts\login.html:245
+msgid "Hide"
+msgstr "پنهان"
+
+#: .\accounts\templates\accounts\login.html:94
+msgid "Remember me"
+msgstr "مرا به خاطر بسپار"
+
+#: .\accounts\templates\accounts\login.html:98
+msgid "Forgot password?"
+msgstr "گذرواژه را فراموش کرده‌اید؟"
+
+#: .\accounts\templates\accounts\login.html:117
+msgid "Tick \"I'm not a robot\" to log in."
+msgstr "برای ورود، گزینه‌ی «من ربات نیستم» را تیک بزنید."
+
+#: .\accounts\templates\accounts\login.html:134
+#: .\accounts\templates\accounts\login.html:287
+msgid "New here?"
+msgstr "تازه آمده‌اید؟"
+
+#: .\accounts\templates\accounts\login.html:136
+#: .\accounts\templates\accounts\login.html:295
+msgid "Register"
+msgstr "ثبت‌نام"
+
+#: .\accounts\templates\accounts\login.html:147
+msgid "Create an account"
+msgstr "ایجاد حساب کاربری"
+
+#: .\accounts\templates\accounts\login.html:149
+msgid "It takes a minute. You can then follow new paintings and get in touch."
+msgstr ""
+"فقط یک دقیقه طول می‌کشد. بعد می‌توانید نقاشی‌های تازه را دنبال کنید و با ما در "
+"تماس باشید."
+
+#: .\accounts\templates\accounts\login.html:219
+msgid "Password strength"
+msgstr "قدرت رمز عبور"
+
+#: .\accounts\templates\accounts\login.html:220
+msgid "Too short: use at least 8 characters"
+msgstr "خیلی کوتاه است: حداقل ۸ نویسه"
+
+#: .\accounts\templates\accounts\login.html:221
+msgid "Weak"
+msgstr "ضعیف"
+
+#: .\accounts\templates\accounts\login.html:221
+msgid "Fair"
+msgstr "متوسط"
+
+#: .\accounts\templates\accounts\login.html:222
+msgid "Good"
+msgstr "خوب"
+
+#: .\accounts\templates\accounts\login.html:222
+msgid "Strong"
+msgstr "قوی"
+
+#: .\accounts\templates\accounts\login.html:229
+msgid "Repeat password"
+msgstr "تکرار گذرواژه"
+
+#: .\accounts\templates\accounts\login.html:253
+msgid "Passwords match"
+msgstr "رمزها یکسان است"
+
+#: .\accounts\templates\accounts\login.html:254
+msgid "Passwords do not match"
+msgstr "رمزها یکسان نیست"
+
+#: .\accounts\templates\accounts\login.html:255
+msgid "Keep going..."
+msgstr "ادامه بده..."
+
+#: .\accounts\templates\accounts\login.html:263
+msgid "Tick \"I'm not a robot\" to create your account."
+msgstr "برای ساخت حساب، گزینه‌ی «من ربات نیستم» را تیک بزنید."
+
+#: .\accounts\templates\accounts\login.html:272
+msgid "Create account"
+msgstr "ساخت حساب"
+
+#: .\accounts\templates\accounts\login.html:277
+msgid "Already have an account?"
+msgstr "قبلاً حساب ساخته‌اید؟"
+
+#: .\accounts\templates\accounts\login.html:289
+msgid "Create an account to follow new paintings and get in touch."
+msgstr "برای دنبال کردن نقاشی‌های تازه و ارتباط با ما حساب بسازید."
+
+#: .\accounts\templates\accounts\login.html:300
+msgid "Welcome back"
+msgstr "خوش آمدید"
+
+#: .\accounts\templates\accounts\login.html:302
+msgid "Already have an account? Log in to continue."
+msgstr "قبلاً حساب ساخته‌اید؟ برای ادامه وارد شوید."
+
+# --- password pages (accounts) ---
+#: .\accounts\templates\accounts\password_change_done.html:5
+msgid "Password changed | Jahan"
+msgstr "گذرواژه تغییر کرد | جهان"
+
+#: .\accounts\templates\accounts\password_change_done.html:20
+msgid "Password changed"
+msgstr "گذرواژه تغییر کرد"
+
+#: .\accounts\templates\accounts\password_change_done.html:21
+msgid ""
+"Your password has been updated. Use the new one the next time you log in."
+msgstr ""
+"گذرواژه‌ی شما به‌روز شد. دفعه‌ی بعد که وارد می‌شوید از گذرواژه‌ی جدید استفاده "
+"کنید."
+
+#: .\accounts\templates\accounts\password_change_done.html:26
+msgid "Browse paintings"
+msgstr "دیدن نقاشی‌ها"
+
+#: .\accounts\templates\accounts\password_change_done.html:27
+#: .\accounts\templates\accounts\password_reset_complete.html:27
+msgid "Back to home"
+msgstr "بازگشت به خانه"
+
+#: .\accounts\templates\accounts\password_change_form.html:6
+msgid "Change password | Jahan"
+msgstr "تغییر گذرواژه | جهان"
+
+#: .\accounts\templates\accounts\password_change_form.html:16
+#: .\accounts\templates\accounts\password_reset_confirm.html:17
+#: .\accounts\templates\accounts\password_reset_done.html:15
+#: .\accounts\templates\accounts\password_reset_form.html:16
+#: .\accounts\templates\accounts\password_set_form.html:16
+msgid "Account"
+msgstr "حساب کاربری"
+
+#: .\accounts\templates\accounts\password_change_form.html:17
+#: .\accounts\templates\accounts\password_change_form.html:89
+#: .\templates\includes\header.html:85 .\templates\includes\header.html:94
+msgid "Change password"
+msgstr "تغییر گذرواژه"
+
+#: .\accounts\templates\accounts\password_change_form.html:18
+msgid "Enter your current password, then choose a new one."
+msgstr "گذرواژه‌ی فعلی خود را وارد کنید، سپس یک گذرواژه‌ی جدید انتخاب کنید."
+
+#: .\accounts\templates\accounts\password_change_form.html:27
+#: .\accounts\templates\accounts\password_change_form.html:37
+#: .\accounts\templates\accounts\password_change_form.html:52
+#: .\accounts\templates\accounts\password_change_form.html:70
+#: .\accounts\templates\accounts\password_reset_confirm.html:30
+#: .\accounts\templates\accounts\password_reset_confirm.html:40
+#: .\accounts\templates\accounts\password_reset_confirm.html:58
+#: .\accounts\templates\accounts\password_reset_form.html:31
+#: .\accounts\templates\accounts\password_set_form.html:27
+#: .\accounts\templates\accounts\password_set_form.html:37
+#: .\accounts\templates\accounts\password_set_form.html:55
+msgid "Show password"
+msgstr "نمایش گذرواژه"
+
+#: .\accounts\templates\accounts\password_change_form.html:28
+#: .\accounts\templates\accounts\password_reset_confirm.html:31
+#: .\accounts\templates\accounts\password_reset_form.html:32
+#: .\accounts\templates\accounts\password_set_form.html:28
+msgid "Hide password"
+msgstr "پنهان کردن گذرواژه"
+
+#: .\accounts\templates\accounts\password_change_form.html:29
+#: .\accounts\templates\accounts\password_reset_confirm.html:32
+#: .\accounts\templates\accounts\password_reset_form.html:33
+#: .\accounts\templates\accounts\password_set_form.html:29
+msgid "Saving..."
+msgstr "در حال ذخیره..."
+
+#: .\accounts\templates\accounts\password_change_form.html:33
+msgid "Current password"
+msgstr "گذرواژه‌ی فعلی"
+
+#: .\accounts\templates\accounts\password_change_form.html:48
+#: .\accounts\templates\accounts\password_reset_confirm.html:36
+msgid "New password"
+msgstr "گذرواژه‌ی جدید"
+
+#: .\accounts\templates\accounts\password_change_form.html:66
+#: .\accounts\templates\accounts\password_reset_confirm.html:54
+msgid "Confirm new password"
+msgstr "تکرار گذرواژه‌ی جدید"
+
+#: .\accounts\templates\accounts\password_change_form.html:90
+#: .\accounts\templates\accounts\password_set_form.html:67
+#: .\blogs\templates\blogs\post_confirm_delete.html:18
+#: .\blogs\templates\blogs\post_form.html:31
+msgid "Cancel"
+msgstr "انصراف"
+
+#: .\accounts\templates\accounts\password_reset_complete.html:5
+msgid "Password reset | Jahan"
+msgstr "بازنشانی گذرواژه | جهان"
+
+#: .\accounts\templates\accounts\password_reset_complete.html:20
+msgid "Password updated"
+msgstr "گذرواژه به‌روز شد"
+
+#: .\accounts\templates\accounts\password_reset_complete.html:21
+msgid "Your password has been set. You can now log in with your new password."
+msgstr "گذرواژه‌ی شما تنظیم شد. اکنون می‌توانید با گذرواژه‌ی جدید وارد شوید."
+
+#: .\accounts\templates\accounts\password_reset_confirm.html:6
+msgid "Choose a new password | Jahan"
+msgstr "انتخاب گذرواژه‌ی جدید | جهان"
+
+#: .\accounts\templates\accounts\password_reset_confirm.html:18
+msgid "Choose a new password"
+msgstr "گذرواژه‌ی جدید را انتخاب کنید"
+
+#: .\accounts\templates\accounts\password_reset_confirm.html:19
+msgid "Enter your new password twice to make sure you typed it correctly."
+msgstr "گذرواژه‌ی جدید را دو بار وارد کنید تا مطمئن شویم درست نوشته‌اید."
+
+#: .\accounts\templates\accounts\password_reset_confirm.html:77
+msgid "Save new password"
+msgstr "ذخیره‌ی گذرواژه‌ی جدید"
+
+#: .\accounts\templates\accounts\password_reset_confirm.html:86
+msgid "Link not valid"
+msgstr "لینک معتبر نیست"
+
+#: .\accounts\templates\accounts\password_reset_confirm.html:88
+msgid ""
+"This password reset link is invalid, probably because it has already been "
+"used or has expired. Please request a new one."
+msgstr ""
+"این پیوند بازنشانی گذرواژه معتبر نیست؛ احتمالاً قبلاً استفاده شده یا منقضی شده "
+"است. لطفاً پیوند تازه‌ای درخواست کنید."
+
+#: .\accounts\templates\accounts\password_reset_confirm.html:93
+msgid "Request a new link"
+msgstr "درخواست پیوند تازه"
+
+#: .\accounts\templates\accounts\password_reset_confirm.html:94
+#: .\accounts\templates\accounts\password_reset_done.html:28
+#: .\accounts\templates\accounts\password_reset_form.html:52
+msgid "Back to login"
+msgstr "بازگشت به ورود"
+
+#: .\accounts\templates\accounts\password_reset_done.html:5
+msgid "Check your email | Jahan"
+msgstr "ایمیل خود را بررسی کنید | جهان"
+
+#: .\accounts\templates\accounts\password_reset_done.html:17
+msgid "Check your email"
+msgstr "ایمیل خود را بررسی کنید"
+
+#: .\accounts\templates\accounts\password_reset_done.html:20
+msgid ""
+"If an account exists for that email address, you will receive a link to "
+"reset your password."
+msgstr ""
+"اگر برای این نشانی ایمیلی حسابی وجود داشته باشد، پیوند بازنشانی گذرواژه برای "
+"شما ارسال خواهد شد."
+
+#: .\accounts\templates\accounts\password_reset_form.html:6
+msgid "Forgot password | Jahan"
+msgstr "فراموشی گذرواژه | جهان"
+
+#: .\accounts\templates\accounts\password_reset_form.html:17
+msgid "Forgot your password?"
+msgstr "گذرواژه‌تان را فراموش کرده‌اید؟"
+
+#: .\accounts\templates\accounts\password_reset_form.html:19
+msgid ""
+"Enter the email address you registered with. We will send you a link to "
+"choose a new password."
+msgstr ""
+"نشانی ایمیلی را که با آن ثبت‌نام کرده‌اید وارد کنید. پیوندی برای انتخاب "
+"گذرواژه‌ی جدید برایتان می‌فرستیم."
+
+#: .\accounts\templates\accounts\password_reset_form.html:51
+msgid "Send reset link"
+msgstr "ارسال پیوند بازنشانی"
+
+#: .\accounts\templates\accounts\password_set_form.html:6
+msgid "Set password | Jahan"
+msgstr "تعیین رمز عبور | جهان"
+
+#: .\accounts\templates\accounts\password_set_form.html:17
+msgid "Set a password"
+msgstr "یک رمز عبور تعیین کنید"
+
+#: .\accounts\templates\accounts\password_set_form.html:18
+msgid ""
+"You signed in with Google or GitHub, so you have no password yet. Choose one "
+"to also sign in with your username."
+msgstr ""
+"شما با گوگل یا گیت‌هاب وارد شده‌اید و هنوز رمز عبور ندارید. یکی انتخاب کنید تا "
+"با نام کاربری هم بتوانید وارد شوید."
+
+#: .\accounts\templates\accounts\password_set_form.html:66
+#: .\templates\includes\header.html:100 .\templates\includes\header.html:109
+msgid "Set password"
+msgstr "تعیین رمز عبور"
+
+#: .\accounts\views.py:60
+#, python-format
+msgid "Your account was created. Welcome, %(name)s!"
+msgstr "حساب شما ساخته شد. خوش آمدید، %(name)s!"
+
+#: .\accounts\views.py:82
+#, python-format
+msgid "Welcome back, %(name)s!"
+msgstr "خوش آمدید، %(name)s!"
+
+#: .\blogs\forms.py:12
+
+
+#| msgid "Persian title"
+msgid "Post title"
+msgstr "عنوان فارسی"
+
+#: .\blogs\forms.py:13
+msgid "One or two sentences for the list page"
+msgstr ""
+
+#: .\blogs\models.py:14
+#, python-format
+msgid "The image must be smaller than %(mb)s MB."
+msgstr ""
+
+#: .\blogs\models.py:24 .\blogs\templates\blogs\post_detail.html:20
+#: .\blogs\templates\blogs\post_list.html:38
+msgid "Draft"
+msgstr ""
+
+#: .\blogs\models.py:24
+msgid "Published"
+msgstr ""
+
+#: .\blogs\models.py:26
+msgid "Title"
+msgstr ""
+
+#: .\blogs\models.py:27 .\shop\models.py:139 .\shop\models.py:303
+msgid "Slug"
+msgstr "اسلاگ"
+
+#: .\blogs\models.py:28
+msgid "Leave empty: it is made from the title."
+msgstr ""
+
+#: .\blogs\models.py:29
+
+#| msgid "Next image"
+msgid "Cover image"
+msgstr "تصویر بعدی"
+
+#: .\blogs\models.py:31
+msgid "Short summary"
+msgstr ""
+
+#: .\blogs\models.py:32
+msgid "Text"
+msgstr ""
+
+#: .\blogs\models.py:35
+msgid "Author"
+msgstr ""
+
+#: .\blogs\models.py:36
+msgid "Status"
+msgstr ""
+
+#: .\blogs\models.py:37
+msgid "Published at"
+msgstr ""
+
+#: .\blogs\models.py:45
+msgid "Post"
+msgstr ""
+
+#: .\blogs\models.py:46
+msgid "Posts"
+msgstr ""
+
+#: .\blogs\templates\blogs\post_confirm_delete.html:4
+
+#| msgid "Set password | Jahan"
+msgid "Delete post | Jahan"
+msgstr "تعیین رمز عبور | جهان"
+
+#: .\blogs\templates\blogs\post_confirm_delete.html:13
+
+
+#| msgid "Delete this comment?"
+msgid "Delete this post?"
+msgstr "این نظر حذف شود؟"
+
+#: .\blogs\templates\blogs\post_confirm_delete.html:17
+msgid "Yes, delete"
+msgstr ""
+
+#: .\blogs\templates\blogs\post_detail.html:4
+#: .\blogs\templates\blogs\post_form.html:4
+#: .\shop\templates\shop\product_details.html:4
+#: .\shop\templates\shop\sculpture_details.html:4
+#: .\templates\includes\footer.html:12 .\templates\includes\footer.html:15
+#: .\templates\includes\header.html:11
+msgid "Jahan"
+msgstr "جهان"
+
+#: .\blogs\templates\blogs\post_detail.html:13
+#: .\shop\templates\shop\product_details.html:33
+#: .\shop\templates\shop\sculpture_details.html:19
+msgid "Breadcrumb"
+msgstr "مسیر صفحه"
+
+#: .\blogs\templates\blogs\post_detail.html:14
+#: .\blogs\templates\blogs\post_list.html:14
+#: .\templates\includes\header.html:41
+msgid "Blog"
+msgstr ""
+
+#: .\blogs\templates\blogs\post_detail.html:35
+
+#| msgid "Back to login"
+msgid "Back to blog"
+msgstr "بازگشت به ورود"
+
+#: .\blogs\templates\blogs\post_detail.html:36
+msgid "Edit"
+msgstr ""
+
+#: .\blogs\templates\blogs\post_detail.html:37
+
+#| msgid "Delete comment"
+msgid "Delete"
+msgstr "حذف نظر"
+
+#: .\blogs\templates\blogs\post_form.html:4
+#: .\blogs\templates\blogs\post_form.html:13
+msgid "Edit post"
+msgstr ""
+
+#: .\blogs\templates\blogs\post_form.html:4
+#: .\blogs\templates\blogs\post_form.html:13
+
+#| msgid "New password"
+msgid "New post"
+msgstr "گذرواژه‌ی جدید"
+
+#: .\blogs\templates\blogs\post_form.html:30
+msgid "Save"
+msgstr ""
+
+# --- login.html ---
+#: .\blogs\templates\blogs\post_list.html:4
+
+#| msgid "Login | Jahan"
+msgid "Blog | Jahan"
+msgstr "ورود | جهان"
+
+#: .\blogs\templates\blogs\post_list.html:15
+msgid "News, stories and notes from the studio."
+msgstr ""
+
+#: .\blogs\templates\blogs\post_list.html:20
+msgid "Write a post"
+msgstr ""
+
+#: .\blogs\templates\blogs\post_list.html:22
+msgid "Only published"
+msgstr ""
+
+#: .\blogs\templates\blogs\post_list.html:24
+msgid "Show drafts too"
+msgstr ""
+
+#: .\blogs\templates\blogs\post_list.html:45
+msgid "Read more"
+msgstr ""
+
+#: .\blogs\templates\blogs\post_list.html:49
+msgid "No posts yet."
+msgstr ""
+
+#: .\blogs\templates\blogs\post_list.html:54
+msgid "Pages"
+msgstr ""
+
+#: .\blogs\templates\blogs\post_list.html:55
+msgid "Newer"
+msgstr ""
+
+#: .\blogs\templates\blogs\post_list.html:57
+msgid "Older"
+msgstr ""
+
+#: .\blogs\views.py:63 .\blogs\views.py:74
+msgid "The post was saved."
+msgstr ""
+
+#: .\blogs\views.py:85
+msgid "The post was deleted."
+msgstr ""
+
+#: .\core\settings.py:177
+msgid "English"
+msgstr "انگلیسی"
+
+#: .\core\settings.py:178
+msgid "فارسی"
+msgstr "فارسی"
+
+#: .\reviews\admin.py:17
+msgid "Choose either a painting or a sculpture (not both, not none)."
+msgstr "یا یک نقاشی انتخاب کنید یا یک مجسمه (نه هر دو، نه هیچ‌کدام)."
+
+#: .\reviews\admin.py:34 .\reviews\models.py:33 .\reviews\models.py:54
+msgid "comment"
+msgstr "نظر"
+
+#: .\reviews\admin.py:38 .\shop\models.py:223
+msgid "Product"
+msgstr "محصول"
+
+#: .\reviews\forms.py:16 .\reviews\templates\reviews\comments.html:20
+msgid "Your comment"
+msgstr "نظر شما"
+
+#: .\reviews\forms.py:22
+msgid "Write your comment..."
+msgstr "نظر خود را بنویسید..."
+
+#: .\reviews\forms.py:32
+msgid "Please do not post more than two links."
+msgstr "لطفاً بیشتر از دو لینک نگذارید."
+
+# --- reviews (comments) ---
+#: .\reviews\models.py:16
+msgid "painting"
+msgstr "نقاشی"
+
+#: .\reviews\models.py:24
+msgid "sculpture"
+msgstr "مجسمه"
+
+#: .\reviews\models.py:30
+msgid "user"
+msgstr "کاربر"
+
+#: .\reviews\models.py:36
+msgid "created at"
+msgstr "تاریخ ثبت"
+
+#: .\reviews\models.py:55
+msgid "comments"
+msgstr "نظرات"
+
+#: .\reviews\templates\reviews\_comment.html:2
+msgid "Delete this comment?"
+msgstr "این نظر حذف شود؟"
+
+# Add to the normal entries of locale/fa/LC_MESSAGES/django.po (before the "#~" lines),
+# then: django-admin compilemessages + restart.
+#: .\reviews\templates\reviews\_comment.html:9
+msgid "just now"
+msgstr "هم‌اکنون"
+
+#: .\reviews\templates\reviews\_comment.html:9
+#, python-format
+msgid "%(ago)s ago"
+msgstr "%(ago)s پیش"
+
+#: .\reviews\templates\reviews\_comment.html:17
+msgid "Delete comment"
+msgstr "حذف نظر"
+
+#: .\reviews\templates\reviews\comments.html:2
+#: .\reviews\templates\reviews\comments.html:54
+msgid "No comments yet. Be the first!"
+msgstr "هنوز نظری ثبت نشده. اولین نفر باشید!"
+
+#: .\reviews\templates\reviews\comments.html:3
+msgid "Something went wrong. Please try again."
+msgstr "مشکلی پیش آمد. لطفاً دوباره تلاش کنید."
+
+#: .\reviews\templates\reviews\comments.html:6
+msgid "Comments"
+msgstr "نظرات"
+
+# --- emoji + colours ---
+#: .\reviews\templates\reviews\comments.html:13
+msgid "Recent"
+msgstr "اخیر"
+
+#: .\reviews\templates\reviews\comments.html:13
+msgid "Smileys"
+msgstr "شکلک‌ها"
+
+#: .\reviews\templates\reviews\comments.html:14
+msgid "Gestures"
+msgstr "حرکات دست"
+
+#: .\reviews\templates\reviews\comments.html:14
+msgid "Hearts"
+msgstr "قلب‌ها"
+
+#: .\reviews\templates\reviews\comments.html:15
+msgid "Art"
+msgstr "هنر"
+
+#: .\reviews\templates\reviews\comments.html:15
+msgid "Nature"
+msgstr "طبیعت"
+
+#: .\reviews\templates\reviews\comments.html:15
+msgid "Food"
+msgstr "خوراکی"
+
+#: .\reviews\templates\reviews\comments.html:26
+msgid "Add emoji"
+msgstr "افزودن ایموجی"
+
+#: .\reviews\templates\reviews\comments.html:29
+msgid "Post comment"
+msgstr "ثبت نظر"
+
+#: .\reviews\templates\reviews\comments.html:35
+#, python-format
+msgid "<a href=\"%(login)s?next=%(next)s\">Log in</a> to leave a comment."
+msgstr "برای ثبت نظر <a href=\"%(login)s?next=%(next)s\">وارد شوید</a>."
+
+#: .\reviews\templates\reviews\comments.html:49
+#, python-format
+msgid "Show all %(total)s comments"
+msgstr "نمایش همه‌ی %(total)s نظر"
+
+#: .\reviews\views.py:50
+msgid "You are commenting too fast. Please wait a minute."
+msgstr "خیلی سریع نظر می‌دهید. لطفاً کمی صبر کنید."
+
+#: .\reviews\views.py:74
+msgid "Invalid comment."
+msgstr "نظر نامعتبر است."
+
+#: .\shop\admin.py:32 .\shop\admin.py:59
+msgid "Likes"
+msgstr "پسندها"
+
+#: .\shop\colors.py:7 .\shop\models.py:28
+msgid "Red"
+msgstr "قرمز"
+
+#: .\shop\colors.py:8 .\shop\models.py:29
+msgid "Orange"
+msgstr "نارنجی"
+
+#: .\shop\colors.py:9 .\shop\models.py:30
+msgid "Yellow"
+msgstr "زرد"
+
+#: .\shop\colors.py:10 .\shop\models.py:31
+msgid "Lime"
+msgstr "لیمویی"
+
+#: .\shop\colors.py:11 .\shop\models.py:32
+msgid "Green"
+msgstr "سبز"
+
+#: .\shop\colors.py:12 .\shop\models.py:33
+msgid "Teal"
+msgstr "سبزآبی"
+
+#: .\shop\colors.py:13 .\shop\models.py:34
+msgid "Cyan"
+msgstr "فیروزه‌ای"
+
+#: .\shop\colors.py:14 .\shop\models.py:35
+msgid "Blue"
+msgstr "آبی"
+
+#: .\shop\colors.py:15 .\shop\models.py:36
+msgid "Navy"
+msgstr "سرمه‌ای"
+
+#: .\shop\colors.py:16 .\shop\models.py:37
+msgid "Purple"
+msgstr "بنفش"
+
+#: .\shop\colors.py:17 .\shop\models.py:38
+msgid "Pink"
+msgstr "صورتی"
+
+#: .\shop\colors.py:18 .\shop\models.py:39
+msgid "Brown"
+msgstr "قهوه‌ای"
+
+#: .\shop\colors.py:19 .\shop\models.py:40
+msgid "Beige"
+msgstr "بژ"
+
+#: .\shop\colors.py:20 .\shop\models.py:41
+msgid "Gray"
+msgstr "خاکستری"
+
+#: .\shop\colors.py:21 .\shop\models.py:42
+msgid "Black"
+msgstr "مشکی"
+
+#: .\shop\colors.py:22 .\shop\models.py:43
+msgid "White"
+msgstr "سفید"
+
+#: .\shop\models.py:21
+#, python-format
+msgid "The video is too big. The maximum size is %(mb)s MB."
+msgstr ""
+
+#: .\shop\models.py:85 .\shop\models.py:298
+msgid "Persian title"
+msgstr "عنوان فارسی"
+
+#: .\shop\models.py:87 .\shop\models.py:300
+msgid "Title shown on the Persian site. Leave empty to use the English title."
+msgstr ""
+"عنوانی که در سایت فارسی نمایش داده می‌شود. اگر خالی باشد عنوان انگلیسی نمایش "
+"داده می‌شود."
+
+#: .\shop\models.py:92 .\shop\models.py:330
+msgid "Persian description"
+msgstr "توضیحات فارسی"
+
+#: .\shop\models.py:94 .\shop\models.py:332
+msgid ""
+"Description shown on the Persian site. Leave empty to use the English one."
+msgstr ""
+"توضیحاتی که در سایت فارسی نمایش داده می‌شود. اگر خالی باشد توضیحات انگلیسی "
+"نمایش داده می‌شود."
+
+#: .\shop\models.py:100 .\shop\models.py:317
+msgid "Price (Toman)"
+msgstr "قیمت (تومان)"
+
+#: .\shop\models.py:102 .\shop\models.py:319
+msgid ""
+"Price shown on the Persian site, in Toman. Leave empty to show the normal "
+"price."
+msgstr ""
+"قیمتی که در سایت فارسی به تومان نمایش داده می‌شود. اگر خالی باشد قیمت دلاری "
+"نمایش داده می‌شود."
+
+#: .\shop\models.py:108
+msgid "Album Image Title"
+msgstr "عنوان نقاشی"
+
+#: .\shop\models.py:109
+msgid "Enter your album image title"
+msgstr "عنوان نقاشی را وارد کنید"
+
+#: .\shop\models.py:120
+msgid "Enter your album image price"
+msgstr "قیمت نقاشی را وارد کنید"
+
+#: .\shop\models.py:121
+msgid "Album Image Price"
+msgstr "قیمت نقاشی"
+
+#: .\shop\models.py:126
+msgid "Enter the description for your album image"
+msgstr "توضیحات نقاشی را وارد کنید"
+
+#: .\shop\models.py:127
+msgid "Album Image Description"
+msgstr "توضیحات نقاشی"
+
+#: .\shop\models.py:131 .\shop\models.py:195
+msgid "Album Image"
+msgstr "نقاشی"
+
+#: .\shop\models.py:132 .\shop\models.py:337
+msgid "Upload your image"
+msgstr "تصویر خود را بارگذاری کنید"
+
+#: .\shop\models.py:145
+msgid "Enter your album image size, e.g. 60 x 90 cm"
+msgstr "اندازه نقاشی را وارد کنید، مثلاً ۶۰ × ۹۰ سانتی‌متر"
+
+#: .\shop\models.py:146
+msgid "Album Image Size"
+msgstr "اندازه نقاشی"
+
+#: .\shop\models.py:151
+msgid "Album Image Creation Date"
+msgstr "تاریخ خلق نقاشی"
+
+#: .\shop\models.py:152
+msgid "Enter the date you created this masterpiece"
+msgstr "تاریخ خلق این شاهکار را وارد کنید"
+
+#: .\shop\models.py:157
+msgid "Colour 1"
+msgstr "رنگ ۱"
+
+#: .\shop\models.py:159
+msgid "Colour 2"
+msgstr "رنگ ۲"
+
+#: .\shop\models.py:161
+msgid "Colour 3"
+msgstr "رنگ ۳"
+
+#: .\shop\models.py:163
+msgid "Colour 4"
+msgstr "رنگ ۴"
+
+#: .\shop\models.py:167 .\shop\models.py:388
+msgid "Created At"
+msgstr "تاریخ ایجاد"
+
+#: .\shop\models.py:172 .\shop\models.py:390
+msgid "Updated At"
+msgstr "تاریخ به‌روزرسانی"
+
+#: .\shop\models.py:177 .\shop\models.py:373
+msgid "Available for Sale"
+msgstr "موجود برای فروش"
+
+#: .\shop\models.py:178
+msgid "Indicates whether this album image is available for sale"
+msgstr "مشخص می‌کند که این نقاشی برای فروش موجود است یا نه"
+
+#: .\shop\models.py:184 .\shop\models.py:378
+#: .\templates\includes\like_stats.html:28
+msgid "Views"
+msgstr "بازدیدها"
+
+#: .\shop\models.py:191 .\shop\models.py:384
+msgid "Liked By"
+msgstr "پسندیده‌شده توسط"
+
+#: .\shop\models.py:196
+msgid "Album Images"
+msgstr "نقاشی‌ها"
+
+#: .\shop\models.py:229 .\shop\models.py:418
+msgid "Gallery Image"
+msgstr "تصویر گالری"
+
+#: .\shop\models.py:237 .\shop\models.py:424
+msgid "Video"
+msgstr ""
+
+#: .\shop\models.py:238 .\shop\models.py:425
+msgid "Upload an image OR a video (MP4 or WebM, up to 100 MB)."
+msgstr ""
+
+#: .\shop\models.py:244 .\shop\models.py:428
+msgid "Caption"
+msgstr "توضیح تصویر"
+
+#: .\shop\models.py:249 .\shop\models.py:430
+msgid "Display Order"
+msgstr "ترتیب نمایش"
+
+#: .\shop\models.py:254
+msgid "Album Image Gallery"
+msgstr "گالری نقاشی"
+
+#: .\shop\models.py:255
+msgid "Album Image Galleries"
+msgstr "گالری‌های نقاشی"
+
+#: .\shop\models.py:261 .\shop\models.py:441
+
+#| msgid "Choose either a painting or a sculpture (not both, not none)."
+msgid "Upload either an image or a video (not both, not empty)."
+msgstr "یا یک نقاشی انتخاب کنید یا یک مجسمه (نه هر دو، نه هیچ‌کدام)."
+
+#: .\shop\models.py:272
+msgid "Bronze"
+msgstr "برنز"
+
+#: .\shop\models.py:273
+msgid "Marble"
+msgstr "مرمر"
+
+#: .\shop\models.py:274
+msgid "Stone"
+msgstr "سنگ"
+
+#: .\shop\models.py:275
+msgid "Wood"
+msgstr "چوب"
+
+#: .\shop\models.py:276
+msgid "Ceramic"
+msgstr "سرامیک"
+
+#: .\shop\models.py:277
+msgid "Metal"
+msgstr "فلز"
+
+#: .\shop\models.py:278
+msgid "Glass"
+msgstr "شیشه"
+
+#: .\shop\models.py:279
+msgid "Resin"
+msgstr "رزین"
+
+#: .\shop\models.py:280
+msgid "Mixed media"
+msgstr "ترکیبی"
+
+#: .\shop\models.py:281
+msgid "Other"
+msgstr "دیگر"
+
+#: .\shop\models.py:291
+msgid "Sculpture Title"
+msgstr "عنوان مجسمه"
+
+#: .\shop\models.py:292
+msgid "Enter your sculpture title"
+msgstr "عنوان مجسمه را وارد کنید"
+
+#: .\shop\models.py:310
+msgid "Enter your sculpture price"
+msgstr "قیمت مجسمه را وارد کنید"
+
+#: .\shop\models.py:311
+msgid "Sculpture Price"
+msgstr "قیمت مجسمه (دلار)"
+
+#: .\shop\models.py:324
+msgid "Enter the description for your sculpture"
+msgstr "توضیحات مجسمه را وارد کنید"
+
+#: .\shop\models.py:325
+msgid "Sculpture Description"
+msgstr "توضیحات مجسمه"
+
+#: .\shop\models.py:336
+msgid "Sculpture Image"
+msgstr "تصویر مجسمه"
+
+#: .\shop\models.py:345 .\shop\templates\shop\sculpture_details.html:100
+msgid "Material"
+msgstr "جنس"
+
+#: .\shop\models.py:351
+msgid "Sculpture Size"
+msgstr "اندازه مجسمه"
+
+#: .\shop\models.py:352
+msgid "Enter the size, e.g. H 40 x W 20 x D 15 cm"
+msgstr "اندازه را وارد کنید، مثلاً ارتفاع ۴۰ در عرض ۲۰ در عمق ۱۵ سانتی‌متر"
+
+#: .\shop\models.py:361
+msgid "Weight (kg)"
+msgstr "وزن (کیلوگرم)"
+
+#: .\shop\models.py:367 .\shop\templates\shop\product_details.html:119
+#: .\shop\templates\shop\sculpture_details.html:126
+msgid "Year"
+msgstr "سال"
+
+#: .\shop\models.py:368
+msgid "The year you made it, e.g. 2024"
+msgstr "سالی که ساخته‌اید، مثلاً ۱۴۰۳ یا ۲۰۲۴"
+
+#: .\shop\models.py:374
+msgid "Indicates whether this sculpture is available for sale"
+msgstr "مشخص می‌کند این مجسمه برای فروش موجود است یا نه"
+
+#: .\shop\models.py:393 .\shop\models.py:414
+msgid "Sculpture"
+msgstr "مجسمه"
+
+#: .\shop\models.py:394 .\shop\templates\shop\products.html:61
+#: .\shop\templates\shop\sculpture_details.html:22
+msgid "Sculptures"
+msgstr "مجسمه‌ها"
+
+#: .\shop\models.py:434
+msgid "Sculpture Gallery"
+msgstr "گالری مجسمه"
+
+#: .\shop\models.py:435
+msgid "Sculpture Galleries"
+msgstr "گالری‌های مجسمه"
+
+#: .\shop\templates\shop\product_details.html:34
+#: .\shop\templates\shop\products.html:27
+#: .\shop\templates\shop\sculpture_details.html:20
+#: .\templates\includes\header.html:39
+msgid "Products"
+msgstr "محصولات"
+
+#: .\shop\templates\shop\product_details.html:44
+#: .\shop\templates\shop\sculpture_details.html:32
+#, python-format
+msgid "View %(title)s full size"
+msgstr "مشاهده‌ی %(title)s در اندازه‌ی کامل"
+
+#: .\shop\templates\shop\product_details.html:50
+#: .\shop\templates\shop\product_details.html:149
+#: .\shop\templates\shop\products.html:113
+#: .\shop\templates\shop\products.html:152
+#: .\shop\templates\shop\sculpture_details.html:38
+#: .\shop\templates\shop\sculpture_details.html:137
+msgid "Sold"
+msgstr "فروخته شد"
+
+#: .\shop\templates\shop\product_details.html:52
+#: .\shop\templates\shop\sculpture_details.html:40
+msgid "Click to enlarge"
+msgstr "برای بزرگ‌نمایی کلیک کنید"
+
+#: .\shop\templates\shop\product_details.html:56
+#: .\shop\templates\shop\sculpture_details.html:44
+msgid "Previous image"
+msgstr "تصویر قبلی"
+
+#: .\shop\templates\shop\product_details.html:57
+#: .\shop\templates\shop\sculpture_details.html:45
+msgid "Next image"
+msgstr "تصویر بعدی"
+
+#: .\shop\templates\shop\product_details.html:67
+#: .\shop\templates\shop\sculpture_details.html:55
+msgid "Show main image"
+msgstr "نمایش تصویر اصلی"
+
+#: .\shop\templates\shop\product_details.html:72
+#: .\shop\templates\shop\sculpture_details.html:60
+#, python-format
+msgid "Show image %(n)s"
+msgstr "نمایش تصویر %(n)s"
+
+#: .\shop\templates\shop\product_details.html:78
+#: .\shop\templates\shop\sculpture_details.html:66
+msgid "Play video"
+msgstr ""
+
+#: .\shop\templates\shop\product_details.html:99
+msgid "Original painting"
+msgstr "نقاشی اصل"
+
+#: .\shop\templates\shop\product_details.html:112
+#: .\shop\templates\shop\sculpture_details.html:112
+msgid "Size"
+msgstr "اندازه"
+
+#: .\shop\templates\shop\product_details.html:128
+msgid "Main colours"
+msgstr "رنگ‌های اصلی"
+
+#: .\shop\templates\shop\product_details.html:144
+#: .\shop\templates\shop\sculpture_details.html:132
+msgctxt "product"
+msgid "Availability"
+msgstr "وضعیت"
+
+#: .\shop\templates\shop\product_details.html:147
+#: .\shop\templates\shop\sculpture_details.html:135
+msgid "Available"
+msgstr "موجود"
+
+#: .\shop\templates\shop\product_details.html:157
+#: .\shop\templates\shop\sculpture_details.html:145
+#, python-format
+msgid "Question about: %(title)s"
+msgstr "پرسش درباره‌ی: %(title)s"
+
+#: .\shop\templates\shop\product_details.html:160
+msgid "Ask about this painting"
+msgstr "پرسش درباره‌ی این نقاشی"
+
+#: .\shop\templates\shop\product_details.html:163
+msgid "Back to products"
+msgstr "بازگشت به محصولات"
+
+#: .\shop\templates\shop\product_details.html:164
+#: .\shop\templates\shop\sculpture_details.html:152
+msgid "Link copied"
+msgstr "لینک کپی شد"
+
+#: .\shop\templates\shop\product_details.html:164
+#: .\shop\templates\shop\sculpture_details.html:152
+msgid "Copy link"
+msgstr "کپی لینک"
+
+#: .\shop\templates\shop\product_details.html:175
+#: .\shop\templates\shop\sculpture_details.html:163
+#, python-format
+msgid "%(title)s full size"
+msgstr "%(title)s در اندازه‌ی کامل"
+
+#: .\shop\templates\shop\product_details.html:177
+#: .\shop\templates\shop\sculpture_details.html:165
+#: .\templates\includes\messages.html:13
+msgid "Close"
+msgstr "بستن"
+
+# --- products.html / product_details.html / like_stats.html ---
+#: .\shop\templates\shop\products.html:4
+msgid "Products | Jahan"
+msgstr "محصولات | جهان"
+
+#: .\shop\templates\shop\products.html:30
+msgid ""
+"Original sculptures, one of each. Choose a sculpture and press the button to "
+"read more about it."
+msgstr ""
+"مجسمه‌های اصل، از هر کدام فقط یکی. یک مجسمه را انتخاب کنید و روی دکمه بزنید "
+"تا درباره‌اش بیشتر بخوانید."
+
+#: .\shop\templates\shop\products.html:34
+msgid ""
+"Original paintings, one of each. Choose a painting and press the button to "
+"read more about it."
+msgstr ""
+"نقاشی‌های اصل، از هر کدام فقط یکی. یک نقاشی را انتخاب کنید و روی دکمه بزنید "
+"تا درباره‌اش بیشتر بخوانید."
+
+#: .\shop\templates\shop\products.html:42
+msgid "Collections"
+msgstr "مجموعه‌ها"
+
+#: .\shop\templates\shop\products.html:51
+msgid "Paintings"
+msgstr "نقاشی‌ها"
+
+#: .\shop\templates\shop\products.html:72
+#: .\shop\templates\shop\products.html:74
+msgid "Search"
+msgstr "جستجو"
+
+#: .\shop\templates\shop\products.html:87
+#, python-format
+msgid "%(shown)s of %(total)s sculptures"
+msgstr "%(shown)s از %(total)s مجسمه"
+
+#: .\shop\templates\shop\products.html:87
+#, python-format
+msgid "%(counter)s sculpture"
+msgid_plural "%(counter)s sculptures"
+msgstr[0] "%(counter)s مجسمه"
+msgstr[1] "%(counter)s مجسمه"
+
+#: .\shop\templates\shop\products.html:89
+#, python-format
+msgid "%(shown)s of %(total)s paintings"
+msgstr "%(shown)s از %(total)s نقاشی"
+
+#: .\shop\templates\shop\products.html:89
+#, python-format
+msgid "%(counter)s painting"
+msgid_plural "%(counter)s paintings"
+msgstr[0] "%(counter)s نقاشی"
+msgstr[1] "%(counter)s نقاشی"
+
+#: .\shop\templates\shop\products.html:97
+#, python-format
+msgid "Remove filter %(label)s %(value)s"
+msgstr "حذف فیلتر %(label)s %(value)s"
+
+#: .\shop\templates\shop\products.html:100
+msgid "Clear all"
+msgstr "پاک کردن همه"
+
+#: .\shop\templates\shop\products.html:130
+msgid "About this sculpture"
+msgstr "درباره‌ی این مجسمه"
+
+#: .\shop\templates\shop\products.html:137
+msgid "No sculptures match your search."
+msgstr "مجسمه‌ای با جستجوی شما پیدا نشد."
+
+#: .\shop\templates\shop\products.html:138
+#: .\shop\templates\shop\products.html:177
+msgid "Clear filters"
+msgstr "پاک کردن فیلترها"
+
+#: .\shop\templates\shop\products.html:140
+msgid "No sculptures available right now."
+msgstr "فعلاً مجسمه‌ای موجود نیست."
+
+#: .\shop\templates\shop\products.html:169
+msgid "About this painting"
+msgstr "درباره‌ی این نقاشی"
+
+#: .\shop\templates\shop\products.html:176
+msgid "No paintings match your search."
+msgstr "نقاشی‌ای با جستجوی شما پیدا نشد."
+
+#: .\shop\templates\shop\products.html:179
+msgid "No paintings available right now."
+msgstr "فعلاً نقاشی‌ای موجود نیست."
+
+#: .\shop\templates\shop\sculpture_details.html:87
+msgid "Original sculpture"
+msgstr "مجسمه اصل"
+
+#: .\shop\templates\shop\sculpture_details.html:119
+msgid "Weight"
+msgstr "وزن"
+
+#: .\shop\templates\shop\sculpture_details.html:120
+msgid "kg"
+msgstr "کیلوگرم"
+
+#: .\shop\templates\shop\sculpture_details.html:148
+msgid "Ask about this sculpture"
+msgstr "پرسش درباره‌ی این مجسمه"
+
+#: .\shop\templates\shop\sculpture_details.html:151
+msgid "Back to sculptures"
+msgstr "بازگشت به مجسمه‌ها"
+
+#: .\templates\includes\footer.html:8
+msgid "About"
+msgstr "درباره"
+
+#: .\templates\includes\footer.html:18
+msgid ""
+"Original paintings, one of each. Every piece is made by hand and sold "
+"directly by the artist."
+msgstr ""
+"نقاشی‌های اصل، از هر کدام فقط یکی. هر اثر با دست ساخته شده و مستقیم از طرف "
+"هنرمند فروخته می‌شود."
+
+#: .\templates\includes\footer.html:26 .\templates\includes\footer.html:27
+msgid "Contact"
+msgstr "تماس"
+
+#: .\templates\includes\footer.html:30
+msgid "Phone"
+msgstr "تلفن"
+
+#: .\templates\includes\footer.html:35
+msgid "Address"
+msgstr "نشانی"
+
+#: .\templates\includes\footer.html:37
+msgid "Street name 123, City"
+msgstr "خیابان نمونه ۱۲۳، شهر"
+
+#: .\templates\includes\footer.html:38
+msgid "Country, 00000"
+msgstr "کشور، ۰۰۰۰۰"
+
+#: .\templates\includes\footer.html:45
+msgid "Social media"
+msgstr "شبکه‌های اجتماعی"
+
+#: .\templates\includes\footer.html:46
+msgid "Follow"
+msgstr "ما را دنبال کنید"
+
+#: .\templates\includes\footer.html:80
+#, python-format
+msgid "&copy; %(current_year)s Jahan. All rights reserved."
+msgstr "&copy; %(current_year)s جهان. تمامی حقوق محفوظ است."
+
+#: .\templates\includes\footer.html:83
+msgid "Developer:"
+msgstr "توسعه‌دهنده:"
+
+#: .\templates\includes\header.html:20
+msgid "Open menu"
+msgstr "باز کردن منو"
+
+#: .\templates\includes\header.html:25
+msgid "Main navigation"
+msgstr "منوی اصلی"
+
+#: .\templates\includes\header.html:31
+msgid "Home"
+msgstr "خانه"
+
+#: .\templates\includes\header.html:35
+#: .\website\templates\website\about.html:16
+#: .\website\templates\website\home.html:22
+msgid "About me"
+msgstr "درباره من"
+
+#: .\templates\includes\header.html:50 .\templates\includes\header.html:56
+#: .\templates\includes\header.html:58
+msgid "Theme"
+msgstr "تم"
+
+#: .\templates\includes\header.html:59
+msgid "Forest"
+msgstr "جنگل"
+
+#: .\templates\includes\header.html:60
+msgid "Starry Night"
+msgstr "شب پرستاره"
+
+#: .\templates\includes\header.html:61
+msgid "Great Wave"
+msgstr "موج بزرگ"
+
+#: .\templates\includes\header.html:62
+msgid "Water Lilies"
+msgstr "نیلوفرهای آبی"
+
+#: .\templates\includes\header.html:63
+msgid "Poppy Field"
+msgstr "مزرعه شقایق"
+
+#: .\templates\includes\header.html:72 .\templates\includes\header.html:78
+msgid "Admin panel"
+msgstr "پنل مدیریت"
+
+#: .\templates\includes\header.html:118 .\templates\includes\header.html:119
+msgid "Logout"
+msgstr "خروج"
+
+#: .\templates\includes\like_stats.html:20
+#, python-format
+msgid "Like %(title)s"
+msgstr "پسندیدن %(title)s"
+
+#: .\templates\includes\like_stats.html:31
+msgid "views"
+msgstr "بازدید"
+
+#: .\templates\includes\messages.html:8
+msgid "Notifications"
+msgstr "اعلان‌ها"
+
+#: .\website\templates\website\about.html:5
+msgid "About me | Jahan"
+msgstr "درباره من | جهان"
+
+#: .\website\templates\website\about.html:18
+#: .\website\templates\website\about.html:27
+msgid ""
+"A web developer who likes slow mornings, tidy code and projects that leave "
+"people a little calmer than they found them."
+msgstr ""
+"توسعه‌دهنده‌ی وبی که صبح‌های آرام، کد مرتب و پروژه‌هایی را دوست دارد که مردم را "
+"کمی آرام‌تر از آنچه بودند رها کنند."
+
+#: .\website\templates\website\about.html:29
+msgid ""
+"My name is Your Name, and I build websites and web applications for a "
+"living. Most of my work is done with Python and Django, with HTML, CSS and a "
+"little JavaScript on the front. I enjoy the whole path of a project: talking "
+"through the idea, shaping the data, writing the code, and watching the first "
+"real person use it."
+msgstr ""
+"نام من «نام شما» است و کارم ساختن وب‌سایت و برنامه‌های وب است. بیشتر کارم با "
+"پایتون و جنگو انجام می‌شود و در بخش نمایش از HTML و CSS و کمی جاوااسکریپت "
+"استفاده می‌کنم. از کل مسیر یک پروژه لذت می‌برم: گفتگو درباره‌ی ایده، شکل دادن "
+"به داده‌ها، نوشتن کد و دیدن اولین کاربر واقعی که از آن استفاده می‌کند."
+
+#: .\website\templates\website\about.html:34
+msgid ""
+"I work best with small teams and individual clients who know what they want "
+"to achieve but are not sure how to get there. Explaining technical things in "
+"plain words is a part of the job I take seriously."
+msgstr ""
+"با تیم‌های کوچک و کارفرمایان تکی بهتر کار می‌کنم؛ کسانی که می‌دانند چه می‌خواهند "
+"ولی مطمئن نیستند چطور به آن برسند. توضیح دادن موضوعات فنی با زبان ساده بخشی "
+"از کار است که جدی می‌گیرم."
+
+#: .\website\templates\website\about.html:40
+msgid ""
+"A good website should feel like a quiet room: everything is where you expect "
+"it to be."
+msgstr ""
+"یک وب‌سایت خوب باید مثل یک اتاق آرام باشد: همه‌چیز همان‌جا که انتظار دارید قرار "
+"دارد."
+
+#: .\website\templates\website\about.html:45
+msgid "How I got here"
+msgstr "چطور به اینجا رسیدم"
+
+#: .\website\templates\website\about.html:47
+msgid ""
+"I started programming because I wanted to build a small tool for myself and "
+"could not find one that did exactly what I needed. That first tool was "
+"rough, but it worked, and I was hooked. Since then I have studied, taken on "
+"freelance projects, worked with companies and learned a lot from mistakes "
+"along the way."
+msgstr ""
+"برنامه‌نویسی را شروع کردم چون می‌خواستم ابزار کوچکی برای خودم بسازم و ابزاری "
+"پیدا نکردم که دقیقاً همان کار را بکند. آن ابزار اول ناپخته بود، اما کار می‌کرد "
+"و من شیفته شدم. از آن زمان درس خوانده‌ام، پروژه‌های فریلنس گرفته‌ام، با شرکت‌ها "
+"کار کرده‌ام و در این مسیر از اشتباهاتم چیزهای زیادی یاد گرفته‌ام."
+
+#: .\website\templates\website\about.html:52
+msgid ""
+"Over the years my focus moved from \"making it work\" to \"making it last\". "
+"Code that is simple to read, easy to change and honest about what it does "
+"saves everyone time, including future me."
+msgstr ""
+"در طول سال‌ها تمرکزم از «کار انداختن» به «ماندگار کردن» رسید. کدی که خواندنش "
+"ساده، تغییرش آسان و درباره‌ی کارش صادق باشد وقت همه را حفظ می‌کند، از جمله خودِ "
+"آینده‌ی من."
+
+#: .\website\templates\website\about.html:57
+msgid "How I work"
+msgstr "چطور کار می‌کنم"
+
+#: .\website\templates\website\about.html:59
+msgid ""
+"I like to start small. Before writing much code I make a rough plan, agree "
+"on what the first useful version looks like, and build that. After that we "
+"improve it step by step. This way you see progress early and can change "
+"direction without wasting weeks."
+msgstr ""
+"دوست دارم از کوچک شروع کنم. پیش از نوشتن کد زیاد یک طرح کلی می‌کشم، درباره‌ی "
+"نخستین نسخه‌ی مفید توافق می‌کنیم و همان را می‌سازم. بعد قدم‌به‌قدم بهترش می‌کنیم. "
+"این‌طور زود پیشرفت را می‌بینید و می‌توانید بدون از دست دادن هفته‌ها مسیر را عوض "
+"کنید."
+
+#: .\website\templates\website\about.html:64
+msgid ""
+"I write down decisions, keep the project tidy and explain what I have done "
+"in language that does not need a dictionary. If something is a bad idea, I "
+"will tell you, and I will also suggest a better one."
+msgstr ""
+"تصمیم‌ها را یادداشت می‌کنم، پروژه را مرتب نگه می‌دارم و کارهایم را با زبانی "
+"توضیح می‌دهم که به فرهنگ لغت نیاز نداشته باشد. اگر چیزی ایده‌ی بدی باشد می‌گویم "
+"و ایده‌ی بهتری هم پیشنهاد می‌کنم."
+
+#: .\website\templates\website\about.html:69
+msgid "Away from the screen"
+msgstr "دور از صفحه‌ی نمایش"
+
+#: .\website\templates\website\about.html:71
+msgid ""
+"When I am not working I like long walks, landscape paintings, cooking for "
+"friends and reading books I probably should have finished last year. This "
+"site is a reflection of that: calm colours, plenty of space and a view of "
+"the mountains."
+msgstr ""
+"وقتی کار نمی‌کنم پیاده‌روی‌های طولانی، نقاشی‌های منظره، آشپزی برای دوستان و "
+"خواندن کتاب‌هایی را دوست دارم که احتمالاً باید پارسال تمامشان می‌کردم. این سایت "
+"بازتابی از همین‌هاست: رنگ‌های آرام، فضای فراوان و منظره‌ای از کوهستان."
+
+#: .\website\templates\website\about.html:76
+msgid "Let's talk"
+msgstr "بیایید حرف بزنیم"
+
+#: .\website\templates\website\about.html:78
+msgid ""
+"If you have a project, a question or just want to say hello, I would be "
+"happy to hear from you. I usually reply within a couple of days."
+msgstr ""
+"اگر پروژه‌ای، پرسشی دارید یا فقط می‌خواهید سلام کنید، خوشحال می‌شوم خبری از شما "
+"بشنوم. معمولاً ظرف چند روز پاسخ می‌دهم."
+
+#: .\website\templates\website\about.html:84
+msgid "Email me"
+msgstr "ایمیل بزنید"
+
+#: .\website\templates\website\about.html:85
+msgid "See my products"
+msgstr "دیدن محصولات من"
+
+#: .\website\templates\website\about.html:89
+#: .\website\templates\website\about.html:90
+msgid "At a glance"
+msgstr "در یک نگاه"
+
+#: .\website\templates\website\about.html:92
+msgid "Based in"
+msgstr "محل زندگی"
+
+#: .\website\templates\website\about.html:93
+msgid "Your City, Your Country"
+msgstr "شهر شما، کشور شما"
+
+#: .\website\templates\website\about.html:95
+msgid "Works with"
+msgstr "ابزارهای کاری"
+
+#: .\website\templates\website\about.html:98
+msgid "Languages"
+msgstr "زبان‌ها"
+
+#: .\website\templates\website\about.html:99
+msgid "Persian, English"
+msgstr "فارسی، انگلیسی"
+
+#: .\website\templates\website\about.html:101
+msgid "Availability"
+msgstr "آمادگی برای کار"
+
+#: .\website\templates\website\about.html:102
+msgid "Open to new projects"
+msgstr "پذیرای پروژه‌های جدید"
+
+# --- home.html / about.html (add: python manage.py makemessages will attach locations) ---
+#: .\website\templates\website\home.html:4
+msgid "Jahan | Album-Shop"
+msgstr "جهان | آلبوم‌شاپ"
+
+#: .\website\templates\website\home.html:17
+msgid "Quiet places, careful work."
+msgstr "جاهای آرام، کار با دقت."
+
+#: .\website\templates\website\home.html:19
+msgid ""
+"I'm Your Name, a web developer who builds clear, fast websites with Python "
+"and Django."
+msgstr ""
+"من «نام شما» هستم، توسعه‌دهنده وبی که با پایتون و جنگو سایت‌های روشن و سریع "
+"می‌سازد."
+
+#: .\website\templates\website\home.html:23
+msgid "Get in touch"
+msgstr "تماس با من"
+
+#: .\website\templates\website\home.html:30
+msgid "Latest paintings"
+msgstr "تازه‌ترین نقاشی‌ها"
+
+#: .\website\templates\website\home.html:31
+msgid "Hover to pause. Click a painting to read more about it."
+msgstr ""
+"برای توقف، ماوس را روی تصویر نگه دارید. برای خواندن درباره‌ی هر نقاشی روی آن "
+"کلیک کنید."
+
+# Add to the END of the normal entries of locale/fa/LC_MESSAGES/django.po
+# (before the lines that start with "#~"), then: django-admin compilemessages + restart.
+#: .\website\templates\website\home.html:67
+msgid "Latest sculptures"
+msgstr "تازه‌ترین مجسمه‌ها"
+
+#: .\website\templates\website\home.html:68
+msgid "Hover to pause. Click a sculpture to read more about it."
+msgstr ""
+"برای توقف، ماوس را روی تصویر نگه دارید. برای خواندن درباره‌ی هر مجسمه روی آن "
+"کلیک کنید."
+msgid "Blog | Jahan"
+msgstr "وبلاگ | جهان"
+
+msgid "Blog"
+msgstr "وبلاگ"
+
+msgid "News, stories and notes from the studio."
+msgstr "خبرها، داستان‌ها و یادداشت‌هایی از استودیو."
+
+msgid "Write a post"
+msgstr "نوشتن مطلب"
+
+msgid "Only published"
+msgstr "فقط منتشرشده‌ها"
+
+msgid "Show drafts too"
+msgstr "نمایش پیش‌نویس‌ها"
+
+msgid "Draft"
+msgstr "پیش‌نویس"
+
+msgid "Published"
+msgstr "منتشرشده"
+
+msgid "Read more"
+msgstr "ادامه مطلب"
+
+msgid "No posts yet."
+msgstr "هنوز مطلبی نیست."
+
+msgid "Newer"
+msgstr "جدیدتر"
+
+msgid "Older"
+msgstr "قدیمی‌تر"
+
+msgid "Pages"
+msgstr "صفحه‌ها"
+
+msgid "Back to blog"
+msgstr "بازگشت به وبلاگ"
+
+msgid "Edit"
+msgstr "ویرایش"
+
+msgid "Delete"
+msgstr "حذف"
+
+msgid "Edit post"
+msgstr "ویرایش مطلب"
+
+msgid "New post"
+msgstr "مطلب جدید"
+
+msgid "Save"
+msgstr "ذخیره"
+
+msgid "Cancel"
+msgstr "انصراف"
+
+msgid "Delete post | Jahan"
+msgstr "حذف مطلب | جهان"
+
+msgid "Delete this post?"
+msgstr "این مطلب حذف شود؟"
+
+msgid "Yes, delete"
+msgstr "بله، حذف شود"
+
+msgid "The post was saved."
+msgstr "مطلب ذخیره شد."
+
+msgid "The post was deleted."
+msgstr "مطلب حذف شد."
+
+msgid "Title"
+msgstr "عنوان"
+
+msgid "Slug"
+msgstr "نشانی (slug)"
+
+msgid "Leave empty: it is made from the title."
+msgstr "خالی بگذارید: از عنوان ساخته می‌شود."
+
+msgid "Cover image"
+msgstr "تصویر شاخص"
+
+msgid "Short summary"
+msgstr "خلاصه کوتاه"
+
+msgid "Text"
+msgstr "متن"
+
+msgid "Author"
+msgstr "نویسنده"
+
+msgid "Status"
+msgstr "وضعیت"
+
+msgid "Published at"
+msgstr "زمان انتشار"
+
+msgid "Post"
+msgstr "مطلب"
+
+msgid "Posts"
+msgstr "مطالب"
+
+msgid "Post title"
+msgstr "عنوان مطلب"
+
+msgid "One or two sentences for the list page"
+msgstr "یکی دو جمله برای صفحه فهرست"
+
+msgid "The image must be smaller than %(mb)s MB."
+msgstr "حجم تصویر باید کمتر از %(mb)s مگابایت باشد."

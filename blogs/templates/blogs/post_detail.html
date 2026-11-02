@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static i18n %}
+
+{% block page_title %}<title>{{ post.title }} | {% trans "Jahan" %}</title>{% endblock page_title %}
+
+{% block page_style %}
+    <link rel="stylesheet" href="{% static 'blogs/css/blog.css' %}">
+{% endblock page_style %}
+
+{% block page_content %}
+<main class="blog-page">
+    <div class="wrap blog-narrow">
+        <nav class="pd-crumbs" aria-label="{% trans 'Breadcrumb' %}">
+            <a href="{% url 'blogs:list' %}">{% trans "Blog" %}</a>
+            <span aria-hidden="true">/</span>
+            <span aria-current="page">{{ post.title }}</span>
+        </nav>
+
+        <article class="blog-post">
+            {% if not post.is_live %}<span class="blog-badge">{% trans "Draft" %}</span>{% endif %}
+            <h1>{{ post.title }}</h1>
+            <p class="blog-meta">
+                {% if post.published_at %}{{ post.published_at|date:"j F Y" }}{% endif %}
+                {% if post.author %}&middot; {{ post.author.get_username }}{% endif %}
+            </p>
+
+            {% if post.cover %}
+            <img class="blog-hero" src="{{ post.cover.url }}" alt="{{ post.title }}">
+            {% endif %}
+
+            <div class="blog-body">{{ post.body|linebreaks }}</div>
+        </article>
+
+        <div class="blog-tools">
+            <a class="btn btn-ghost" href="{% url 'blogs:list' %}">{% trans "Back to blog" %}</a>
+            {% if can_edit %}<a class="btn btn-primary" href="{% url 'blogs:edit' post.slug %}">{% trans "Edit" %}</a>{% endif %}
+            {% if can_delete %}<a class="btn btn-ghost blog-danger" href="{% url 'blogs:delete' post.slug %}">{% trans "Delete" %}</a>{% endif %}
+        </div>
+    </div>
+</main>
+{% endblock page_content %}

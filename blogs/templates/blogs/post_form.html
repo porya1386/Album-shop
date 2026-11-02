@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static i18n %}
+
+{% block page_title %}<title>{% if object %}{% trans "Edit post" %}{% else %}{% trans "New post" %}{% endif %} | {% trans "Jahan" %}</title>{% endblock page_title %}
+
+{% block page_style %}
+    <link rel="stylesheet" href="{% static 'blogs/css/blog.css' %}">
+{% endblock page_style %}
+
+{% block page_content %}
+<main class="blog-page">
+    <div class="wrap blog-narrow">
+        <h1>{% if object %}{% trans "Edit post" %}{% else %}{% trans "New post" %}{% endif %}</h1>
+
+        <form method="post" enctype="multipart/form-data" class="blog-form" novalidate>
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+            <div class="blog-alert" role="alert">{% for e in form.non_field_errors %}<p>{{ e }}</p>{% endfor %}</div>
+            {% endif %}
+
+            {% for field in form %}
+            <div class="blog-field">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% for e in field.errors %}<p class="blog-error">{{ e }}</p>{% endfor %}
+            </div>
+            {% endfor %}
+
+            <div class="blog-tools">
+                <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+                <a class="btn btn-ghost" href="{% if object %}{{ object.get_absolute_url }}{% else %}{% url 'blogs:list' %}{% endif %}">{% trans "Cancel" %}</a>
+            </div>
+        </form>
+    </div>
+</main>
+{% endblock page_content %}

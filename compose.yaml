@@ -1,5 +1,4 @@
-# Local test with the production image:   docker compose up --build
-# (Hamravesh does NOT use this file: there you create the app, Postgres and Redis separately.)
+
 services:
   web:
     build: .
@@ -9,6 +8,7 @@ services:
       - "8000:8000"
     volumes:
       - ./media:/app/media
+      - ./.env:/app/.env:ro
     env_file:
       - .env
     environment:
@@ -31,7 +31,7 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:?Set POSTGRES_USER in .env}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
     ports:
-      - "127.0.0.1:5433:5432"      # 5433 on your PC (5432 may already be used by a Postgres installed on Windows)
+      - "127.0.0.1:5433:5432"
     volumes:
       - album_shop_pgdata:/var/lib/postgresql/data
     healthcheck:

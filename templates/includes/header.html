@@ -38,6 +38,7 @@
                    {% if current == 'products' or current == 'product_details' %}aria-current="page"{% endif %}>
                     {% trans "Products" %}
                 </a>
+                <a href="{% url 'blogs:list' %}">{% trans "Blog" %}</a>
             </div>
 
             {# ---- right side: round icon buttons, all the same size; language is the last one ---- #}
@@ -78,6 +79,7 @@
                     </a>
                     {% endif %}
 
+                    {% if user.has_usable_password %}
                     {# change password #}
                     <a class="tool nav-key" href="{% url 'accounts:password_change' %}"
                        title="{% trans 'Change password' %}" aria-label="{% trans 'Change password' %}"
@@ -91,6 +93,23 @@
                         </svg>
                         <span class="tool-label">{% trans "Change password" %}</span>
                     </a>
+
+                    {% else %}
+                    {# set password (Google/GitHub users) #}
+                    <a class="tool nav-key" href="{% url 'accounts:password_set' %}"
+                       title="{% trans 'Set password' %}" aria-label="{% trans 'Set password' %}"
+                       {% if current == 'password_set' %}aria-current="page"{% endif %}>
+                        <svg class="tool-icon nav-key-icon" viewBox="0 0 24 24" aria-hidden="true"
+                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="8" cy="15" r="4"/>
+                            <path d="M11 12l9-9"/>
+                            <path d="M16 7l3 3"/>
+                            <path d="M13.5 9.5l2 2"/>
+                        </svg>
+                        <span class="tool-label">{% trans "Set password" %}</span>
+                    </a>
+
+                    {% endif %}
 
                     {# logout #}
                     <form method="post" action="{% url 'accounts:logout' %}" class="logout-form">

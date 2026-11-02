@@ -1,13 +1,13 @@
-
 from django.contrib.auth import views as auth_views
 from django.urls import path, reverse_lazy
 
 from . import views
 from .forms import (
+    CaptchaPasswordChangeForm,
     CaptchaPasswordResetForm,
     CaptchaSetPasswordForm,
-    CaptchaPasswordChangeForm,
 )
+from .password_set_view import password_set_view
 
 app_name = "accounts"
 
@@ -29,7 +29,6 @@ urlpatterns = [
         ),
         name="password_reset",
     ),
-
     path(
         "password-reset/done/",
         auth_views.PasswordResetDoneView.as_view(
@@ -44,13 +43,10 @@ urlpatterns = [
         auth_views.PasswordResetConfirmView.as_view(
             form_class=CaptchaSetPasswordForm,
             template_name="accounts/password_reset_confirm.html",
-            success_url=reverse_lazy(
-                "accounts:password_reset_complete"
-            ),
+            success_url=reverse_lazy("accounts:password_reset_complete"),
         ),
         name="password_reset_confirm",
     ),
-
     path(
         "reset/done/",
         auth_views.PasswordResetCompleteView.as_view(
@@ -59,19 +55,16 @@ urlpatterns = [
         name="password_reset_complete",
     ),
 
-    # Change password for logged-in users
+    # Change password for logged-in users (asks the old password)
     path(
         "password-change/",
         views.LimitedPasswordChangeView.as_view(
             form_class=CaptchaPasswordChangeForm,
             template_name="accounts/password_change_form.html",
-            success_url=reverse_lazy(
-                "accounts:password_change_done"
-            ),
+            success_url=reverse_lazy("accounts:password_change_done"),
         ),
         name="password_change",
     ),
-
     path(
         "password-change/done/",
         auth_views.PasswordChangeDoneView.as_view(
@@ -79,4 +72,7 @@ urlpatterns = [
         ),
         name="password_change_done",
     ),
+
+    # Set a first password (people who signed in with Google / GitHub)
+    path("password-set/", password_set_view, name="password_set"),
 ]
