@@ -1,0 +1,57 @@
+/* Skeleton loading: a grey shimmering block shows where a picture will be, the picture fades in when it has loaded.
+   Save as:  static/css/skeleton.css   (project-level static folder, next to css/login.css)
+   The rules only work when <html> has the class "js-skeleton" (a tiny script adds it), so without
+   JavaScript the pictures are simply shown. */
+.js-skeleton [data-skeleton] {
+  position: relative;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--ink, #fff) 9%, transparent);
+}
+
+/* calm breathing light: it pulses in place, nothing moves sideways */
+.js-skeleton [data-skeleton]:not(.sk-done)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: color-mix(in srgb, var(--ink, #fff) 16%, transparent);
+  opacity: 0;
+  animation: sk-pulse 1.5s ease-in-out infinite;
+}
+
+/* a soft picture icon in the middle while waiting */
+.js-skeleton [data-skeleton]:not(.sk-done)::after {
+  content: "";
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 44px; height: 44px;
+  margin: -22px 0 0 -22px;
+  opacity: .28;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='16' rx='2'/%3E%3Ccircle cx='9' cy='10' r='1.6'/%3E%3Cpath d='M3.5 17l5-4.5 4 3.5 3-2.5 5 4'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='16' rx='2'/%3E%3Ccircle cx='9' cy='10' r='1.6'/%3E%3Cpath d='M3.5 17l5-4.5 4 3.5 3-2.5 5 4'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* picture hidden until loaded, then it fades in */
+.js-skeleton [data-skeleton]:not(.sk-done) img { opacity: 0; }
+[data-skeleton].sk-done img { animation: sk-in .55s ease both; }
+
+@keyframes sk-pulse { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
+@keyframes sk-in { from { opacity: 0; transform: scale(1.03); } to { opacity: 1; transform: none; } }
+
+/* text lines that can be used as skeleton too:  <span class="sk-line"></span> */
+.sk-line {
+  display: block; height: .9em; border-radius: 6px; margin: .5em 0;
+  background: linear-gradient(100deg, color-mix(in srgb, var(--ink, #fff) 9%, transparent) 30%,
+              color-mix(in srgb, var(--ink, #fff) 20%, transparent) 50%,
+              color-mix(in srgb, var(--ink, #fff) 9%, transparent) 70%);
+  background-size: 200% 100%;
+  animation: sk-line 1.4s linear infinite;
+}
+@keyframes sk-line { to { background-position: -200% 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .js-skeleton [data-skeleton]:not(.sk-done)::before, .sk-line { animation: none; }
+  [data-skeleton].sk-done img { animation: none; }
+}

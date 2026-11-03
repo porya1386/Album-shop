@@ -68,3 +68,10 @@
 .ck-content p.callout-danger::before  { content: "\00d7"; background: #e5533d; }
 
 .ck-content p.lead-text { font-size: 1.25rem; opacity: .95; }
+
+/* ---- videos added under "Videos in the text" ---- */
+.ck-content .blog-video, .blog-video { margin: 1.6rem 0; }
+.blog-video video {
+  display: block; width: 100%; max-height: 560px; border-radius: 14px; background: #000;
+}
+.blog-video figcaption { margin-top: .5rem; text-align: center; font-size: .9rem; opacity: .75; }

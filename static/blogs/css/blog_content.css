@@ -1,0 +1,77 @@
+/* The text written in the editor (CKEditor 5): headings, lists, quotes, code, tables, images, colour boxes.
+   Save as: blogs/static/blogs/css/blog_content.css
+   Used on the blog page AND inside the editor in the admin (same look). Works left-to-right and right-to-left. */
+
+.ck-content { line-height: 1.95; }
+.ck-content p { margin: 0 0 1.1rem; }
+.ck-content h2, .ck-content h3, .ck-content h4 { line-height: 1.35; margin: 1.8rem 0 .7rem; }
+.ck-content h2 { font-size: 1.6rem; }
+.ck-content h3 { font-size: 1.35rem; }
+.ck-content h4 { font-size: 1.15rem; }
+
+.ck-content a { color: var(--gold, #c9a227); text-underline-offset: 3px; }
+.ck-content ul, .ck-content ol { margin: 0 0 1.1rem; padding-inline-start: 1.6rem; }
+.ck-content li { margin-bottom: .35rem; }
+
+.ck-content blockquote {
+  margin: 1.4rem 0; padding: .8rem 1.1rem;
+  border-inline-start: 4px solid var(--gold, #c9a227);
+  border-radius: 0 12px 12px 0;
+  background: color-mix(in srgb, var(--gold, #c9a227) 10%, transparent);
+  font-style: italic;
+}
+[dir="rtl"] .ck-content blockquote, .ck-content[dir="rtl"] blockquote { border-radius: 12px 0 0 12px; }
+
+.ck-content mark { padding: 0 .2em; border-radius: 4px; }
+.ck-content hr { border: 0; height: 1px; margin: 2rem 0; background: color-mix(in srgb, currentColor 25%, transparent); }
+
+/* code */
+.ck-content code { padding: .1em .4em; border-radius: 6px; font-size: .92em; background: rgba(127, 127, 127, .22); }
+.ck-content pre {
+  direction: ltr; text-align: left; margin: 1.4rem 0; padding: 1rem 1.2rem; overflow-x: auto;
+  border-radius: 12px; background: #11161d; color: #e6edf3; font-size: .92rem; line-height: 1.7;
+}
+.ck-content pre code { padding: 0; background: none; color: inherit; font-size: inherit; }
+
+/* tables */
+.ck-content figure.table { margin: 1.4rem 0; overflow-x: auto; }
+.ck-content table { border-collapse: collapse; width: 100%; }
+.ck-content th, .ck-content td { padding: .6rem .8rem; border: 1px solid color-mix(in srgb, currentColor 28%, transparent); }
+.ck-content th { background: color-mix(in srgb, currentColor 10%, transparent); }
+
+/* images */
+.ck-content figure.image { margin: 1.6rem auto; display: table; clear: both; max-width: 100%; }
+.ck-content figure.image img { display: block; max-width: 100%; height: auto; border-radius: 14px; }
+.ck-content figure.image figcaption { display: table-caption; caption-side: bottom; padding-top: .5rem; text-align: center; font-size: .9rem; opacity: .75; }
+.ck-content .image-style-side { float: right; max-width: 50%; margin-inline-start: 1.5rem; }
+.ck-content .image-style-align-left { float: left; margin-right: 1.5rem; }
+.ck-content .image-style-align-right { float: right; margin-left: 1.5rem; }
+.ck-content .image-style-align-center, .ck-content .image-style-block-align-center { margin-inline: auto; }
+.ck-content::after { content: ""; display: block; clear: both; }
+
+/* ---- colour boxes (Style menu in the editor: Info / Success / Warning / Danger) ---- */
+.ck-content p.callout {
+  position: relative; margin: 1.4rem 0; padding: .9rem 1.1rem; padding-inline-start: 3.1rem;
+  border: 1px solid; border-radius: 14px; line-height: 1.8;
+}
+.ck-content p.callout::before {
+  position: absolute; inset-inline-start: .9rem; top: .75rem; width: 1.6rem; height: 1.6rem;
+  display: grid; place-items: center; border-radius: 50%; font-weight: 700; font-size: .95rem; color: #fff;
+}
+.ck-content p.callout-info    { background: rgba(80, 150, 255, .14);  border-color: rgba(80, 150, 255, .55); }
+.ck-content p.callout-info::before    { content: "i"; background: #4d8dff; }
+.ck-content p.callout-success { background: rgba(63, 184, 104, .14);  border-color: rgba(63, 184, 104, .55); }
+.ck-content p.callout-success::before { content: "\2713"; background: #3fb868; }
+.ck-content p.callout-warning { background: rgba(240, 176, 48, .16);  border-color: rgba(240, 176, 48, .6); }
+.ck-content p.callout-warning::before { content: "!"; background: #e0a020; }
+.ck-content p.callout-danger  { background: rgba(229, 83, 61, .15);   border-color: rgba(229, 83, 61, .6); }
+.ck-content p.callout-danger::before  { content: "\00d7"; background: #e5533d; }
+
+.ck-content p.lead-text { font-size: 1.25rem; opacity: .95; }
+
+/* ---- videos added under "Videos in the text" ---- */
+.ck-content .blog-video, .blog-video { margin: 1.6rem 0; }
+.blog-video video {
+  display: block; width: 100%; max-height: 560px; border-radius: 14px; background: #000;
+}
+.blog-video figcaption { margin-top: .5rem; text-align: center; font-size: .9rem; opacity: .75; }

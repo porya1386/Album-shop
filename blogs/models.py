@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.core.exceptions import ValidationError
-from django.core.validators import MinLengthValidator
+from django.core.validators import FileExtensionValidator, MinLengthValidator
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
@@ -10,6 +10,8 @@ from django.utils.translation import get_language
 from django.utils.translation import gettext_lazy as _
 
 MAX_COVER_MB = 5
+MAX_VIDEO_MB = 100
+VIDEO_EXTENSIONS = ["mp4", "webm", "mov", "m4v"]
 
 
 def _is_fa():
@@ -20,6 +22,12 @@ def validate_cover(file):
     if file.size > MAX_COVER_MB * 1024 * 1024:
         raise ValidationError(_("The image must be smaller than %(mb)s MB.") % {
                               "mb": MAX_COVER_MB})
+
+
+def validate_video_size(file):
+    if file.size > MAX_VIDEO_MB * 1024 * 1024:
+        raise ValidationError(
+            _("The video is too big. The maximum size is %(mb)s MB.") % {"mb": MAX_VIDEO_MB})
 
 
 class PostQuerySet(models.QuerySet):
@@ -160,6 +168,45 @@ class PostImage(models.Model):
     def save(self, *args, **kwargs):
         if not self.order:
             last = PostImage.objects.filter(post=self.post).aggregate(
+                m=models.Max("order"))["m"] or 0
+            self.order = last + 1
+        super().save(*args, **kwargs)
+
+
+class PostVideo(models.Model):
+    """A video that can be put INSIDE the text: write  [video 1]  on its own line in the post text."""
+
+    post = models.ForeignKey(
+        Post, on_delete=models.CASCADE, related_name="videos")
+    order = models.PositiveSmallIntegerField(
+        _("Number"), default=0,
+        help_text=_("Write [video NUMBER] on its own line in the text where the video should appear."))
+    video = models.FileField(
+        _("Video"), upload_to="blogs/videos",
+        validators=[FileExtensionValidator(
+            VIDEO_EXTENSIONS), validate_video_size],
+        help_text=_("MP4 or WebM, up to 100 MB."))
+    poster = models.ImageField(_("Preview picture"), upload_to="blogs/video_posters", blank=True,
+                               validators=[validate_cover])
+    caption = models.CharField(_("Caption"), max_length=200, blank=True)
+    caption_fa = models.CharField(
+        _("Persian caption"), max_length=200, blank=True)
+
+    class Meta:
+        ordering = ["order", "id"]
+        verbose_name = _("Video in text")
+        verbose_name_plural = _("Videos in text")
+
+    def __str__(self):
+        return f"[video {self.order}] {self.caption}".strip()
+
+    @property
+    def display_caption(self):
+        return self.caption_fa if _is_fa() and self.caption_fa else self.caption
+
+    def save(self, *args, **kwargs):
+        if not self.order:
+            last = PostVideo.objects.filter(post=self.post).aggregate(
                 m=models.Max("order"))["m"] or 0
             self.order = last + 1
         super().save(*args, **kwargs)

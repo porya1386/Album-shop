@@ -33,6 +33,45 @@
         try { localStorage.setItem(KEY, theme); } catch (e) { /* private mode: not important */ }
     }
 
+    // Elements that have their OWN painting (not the page background) cannot be reached by the big
+    // overlay. For each of them we put a copy of the OLD painting inside (a "ghost") with the same round
+    // hole that grows from the click, so everything changes together.
+    // Add  data-theme-art  to any element that should do this. The login card panel is included.
+    var GHOST_SELECTOR = "[data-theme-art], .auth-card .overlay";
+
+    function makeGhosts(x, y) {
+        var list = [];
+        Array.prototype.forEach.call(document.querySelectorAll(GHOST_SELECTOR), function (el) {
+            var rect = el.getBoundingClientRect();
+            if (!rect.width || !rect.height) return;
+            var cs = getComputedStyle(el);
+            var ghost = document.createElement("span");
+            ghost.setAttribute("aria-hidden", "true");
+            ghost.style.cssText =
+                "position:absolute;inset:0;z-index:-1;pointer-events:none;border-radius:inherit;" +
+                "background-image:" + cs.backgroundImage + ";" +
+                "background-size:" + cs.backgroundSize + ";" +
+                "background-position:" + cs.backgroundPosition + ";" +
+                "background-repeat:" + cs.backgroundRepeat + ";" +
+                "background-color:" + cs.backgroundColor + ";";
+            var cx = (x - rect.left) + "px", cy = (y - rect.top) + "px";
+            var mask = "radial-gradient(circle at " + cx + " " + cy +
+                       ", transparent var(--reveal-r), #000 calc(var(--reveal-r) + 2px))";
+            ghost.style.webkitMaskImage = mask;
+            ghost.style.maskImage = mask;
+            ghost.style.setProperty("--reveal-r", "0px");
+
+            var oldIsolation = el.style.isolation;
+            el.style.isolation = "isolate";             // so z-index:-1 stays inside the panel, above its own background
+            el.insertBefore(ghost, el.firstChild);
+            list.push({
+                el: ghost,
+                remove: function () { ghost.remove(); el.style.isolation = oldIsolation; }
+            });
+        });
+        return list;
+    }
+
     function change(theme, x, y) {
         if (theme === current()) return;
 
@@ -60,6 +99,9 @@
         overlay.style.setProperty("--reveal-y", y + "px");
         document.body.appendChild(overlay);
 
+        // panels that carry their own painting (the sliding panel of the login card) get the same round reveal
+        var ghosts = makeGhosts(x, y);
+
         root.classList.add("theme-fade");
         apply();
 
@@ -75,10 +117,18 @@
                 { duration: 1050, easing: "cubic-bezier(.65, 0, .35, 1)" }
             );
             run.finished.then(done, done);
+            ghosts.forEach(function (g) {
+                g.el.animate({ "--reveal-r": ["0px", radius + "px"] },
+                             { duration: 1050, easing: "cubic-bezier(.65, 0, .35, 1)" }).finished.then(g.remove, g.remove);
+            });
         } else if (overlay.animate) {
             overlay.animate({ opacity: [1, 0] }, { duration: 700, easing: "ease-out" }).finished.then(done, done);
+            ghosts.forEach(function (g) {
+                g.el.animate({ opacity: [1, 0] }, { duration: 700, easing: "ease-out" }).finished.then(g.remove, g.remove);
+            });
         } else {
             setTimeout(done, 800);
+            ghosts.forEach(function (g) { setTimeout(g.remove, 800); });
         }
     }
 

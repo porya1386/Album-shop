@@ -35,7 +35,8 @@ class PostListView(ListView):
         if user.is_authenticated:
             qs = qs.annotate(liked=Exists(
                 Post.objects.filter(pk=OuterRef("pk"), likes=user)))
-        return qs
+        # Count() makes a GROUP BY, which drops Meta.ordering -> order explicitly
+        return qs.order_by("-published_at", "-created_at", "-pk")
 
 
 class PostDetailView(DetailView):
@@ -43,7 +44,8 @@ class PostDetailView(DetailView):
     context_object_name = "post"
 
     def get_queryset(self):
-        qs = Post.objects.select_related("author").prefetch_related("images")
+        qs = Post.objects.select_related(
+            "author").prefetch_related("images", "videos")
         # people who may edit posts in the admin can preview a draft; everybody else sees only live posts
         if self.request.user.has_perm("blogs.change_post"):
             return qs

@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="{% static 'shop/css/filters.css' %}">
     <link rel="stylesheet" href="{% static 'shop/css/loading.css' %}">
     <link rel="stylesheet" href="{% static 'shop/css/collections.css' %}">
+    <link rel="stylesheet" href="{% static 'skeleton.css' %}">
+    <script>document.documentElement.classList.add("js-skeleton");</script>
     {# remember which way the list slides in (set by collections.js when you click a tab) #}
     <script>
         try {
@@ -23,7 +25,7 @@
 {% block page_content %}
 <main>
     <div class="wrap">
-        <div class="page-head">
+        <div class="page-head head-card">
             <h1>{% trans "Products" %}</h1>
             <p class="lead">
                 {% if collection == "sculptures" %}
@@ -107,7 +109,7 @@
                 {# ---------------- sculptures ---------------- #}
                     {% for sculpture in products %}
                     <article class="product{% if not sculpture.is_active %} is-sold{% endif %}">
-                        <a class="frame" href="{% url 'sculpture_details' sculpture.slug %}">
+                        <a class="frame" href="{% url 'sculpture_details' sculpture.slug %}" data-skeleton>
                             <img src="{{ sculpture.image.url }}" alt="{{ sculpture.display_title }}" loading="lazy">
                             {% if not sculpture.is_active %}
                                 <span class="badge-sold">{% trans "Sold" %}</span>
@@ -146,7 +148,7 @@
                 {# ---------------- paintings (default) ---------------- #}
                     {% for product in products %}
                     <article class="product{% if not product.is_active %} is-sold{% endif %}">
-                        <a class="frame" href="{% url 'product_details' product.slug %}">
+                        <a class="frame" href="{% url 'product_details' product.slug %}" data-skeleton>
                             <img src="{{ product.image.url }}" alt="{{ product.display_title }}" loading="lazy">
                             {% if not product.is_active %}
                                 <span class="badge-sold">{% trans "Sold" %}</span>
@@ -192,4 +194,5 @@
     <script src="{% static 'shop/js/likes.js' %}"></script>
     <script src="{% static 'shop/js/loading.js' %}"></script>
     <script src="{% static 'shop/js/collections.js' %}"></script>
+    <script src="{% static 'js/skeleton.js' %}" defer></script>
 {% endblock page_script %}

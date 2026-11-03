@@ -5,12 +5,14 @@
 
 {% block page_style %}
     <link rel="stylesheet" href="{% static 'blogs/css/blog.css' %}">
+    <link rel="stylesheet" href="{% static 'skeleton.css' %}">
+    <script>document.documentElement.classList.add("js-skeleton");</script>
 {% endblock page_style %}
 
 {% block page_content %}
 <main class="blog-page">
     <div class="wrap">
-        <div class="page-head blog-head">
+        <div class="page-head blog-head head-card">
             <h1>{% trans "Blog" %}</h1>
             <p class="lead">{% trans "News, stories and notes from the studio." %}</p>
         </div>
@@ -19,7 +21,7 @@
             {% for post in posts %}
             <article class="blog-card">
                 {% if post.cover %}
-                <a class="blog-cover" href="{{ post.get_absolute_url }}" tabindex="-1" aria-hidden="true">
+                <a class="blog-cover" href="{{ post.get_absolute_url }}" tabindex="-1" aria-hidden="true" data-skeleton>
                     <img src="{{ post.cover.url }}" alt="" loading="lazy">
                 </a>
                 {% endif %}
@@ -75,4 +77,5 @@
 
 {% block page_script %}
     <script src="{% static 'blogs/js/blog.js' %}" defer></script>
+    <script src="{% static 'js/skeleton.js' %}" defer></script>
 {% endblock page_script %}

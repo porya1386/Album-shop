@@ -179,3 +179,35 @@ html[data-slide="from-left"]  .results { animation: slide-in-from-left  .4s cubi
 
 /* small one inside the product cards */
 .product .meta .mat-icon { font-size: 1em; vertical-align: -.1em; margin-inline-end: .35rem; }
+/* ---- page header as a clean bordered glass card (Blog and Products pages) ----
+   Paste at the END of:  shop/static/shop/css/collections.css   (Products page; blog.css already has it) */
+.head-card {
+  position: relative;
+  max-width: 620px;
+  margin: 0 auto 1.4rem;
+  padding: clamp(.9rem, 2.4vw, 1.25rem) clamp(1rem, 3vw, 1.6rem);
+  text-align: center;
+  border: 1px solid color-mix(in srgb, var(--ink) 20%, transparent);
+  border-radius: 18px;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--gold) 9%, transparent), transparent 55%),
+    color-mix(in srgb, var(--night) 58%, transparent);
+  -webkit-backdrop-filter: blur(20px) saturate(1.1);
+          backdrop-filter: blur(20px) saturate(1.1);
+  box-shadow: 0 8px 26px rgba(0, 0, 0, .24);
+  overflow: hidden;
+}
+.head-card::before {
+  content: "";
+  position: absolute;
+  inset-inline: 22%;
+  top: 0;
+  height: 3px;
+  border-radius: 0 0 6px 6px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.head-card h1 { margin: 0 0 .25rem; font-size: clamp(1.45rem, 4.4vw, 2rem); line-height: 1.2; }
+.head-card .lead { margin: 0 auto; max-width: 48ch; font-size: clamp(.86rem, 2.6vw, .98rem); line-height: 1.55; }
+@media (max-width: 560px) {
+  .head-card { margin: 0 12px 1rem; max-width: none; border-radius: 16px; }
+}

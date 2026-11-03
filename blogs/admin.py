@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Post, PostComment, PostImage
+from .models import Post, PostComment, PostImage, PostVideo
 
 
 class CommentInline(admin.TabularInline):
@@ -12,6 +12,14 @@ class CommentInline(admin.TabularInline):
 
     def has_add_permission(self, request, obj=None):
         return False
+
+
+class VideoInline(admin.TabularInline):
+    model = PostVideo
+    extra = 0
+    fields = ("order", "video", "poster", "caption", "caption_fa")
+    verbose_name = "video in the text"
+    verbose_name_plural = "Videos in the text (write [video 1], [video 2] ... on its own line in the text)"
 
 
 class ImageInline(admin.TabularInline):
@@ -31,8 +39,8 @@ class PostAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title",)}
     date_hierarchy = "created_at"
     readonly_fields = ("views", "created_at", "updated_at")
-    # pictures are put into the text with the editor (image button)
-    inlines = [CommentInline]
+    # pictures: image button of the editor; videos: [video N] line
+    inlines = [VideoInline, CommentInline]
 
     class Media:
         # the callout boxes look the same inside the editor as on the site
