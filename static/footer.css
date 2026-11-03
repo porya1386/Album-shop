@@ -198,3 +198,7 @@
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; }
 }
+
+.footer-legal { display: flex; flex-wrap: wrap; gap: .4rem 1.2rem; justify-content: center; flex-basis: 100%; margin: 0; }
+.footer-legal a { color: inherit; opacity: .8; text-decoration: none; font-size: .88rem; }
+.footer-legal a:hover { opacity: 1; text-decoration: underline; }

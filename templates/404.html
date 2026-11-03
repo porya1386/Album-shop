@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static i18n %}
+
+{% block page_title %}<title>{% trans "Page not found | Jahan" %}</title>{% endblock page_title %}
+
+{% block page_style %}
+<style>
+  .nf { min-height: 62vh; display: grid; place-items: center; padding: 3rem 1.2rem 5rem; }
+  .nf-card { width: min(560px, 100%); text-align: center; padding: clamp(1.8rem, 6vw, 3rem) clamp(1.2rem, 5vw, 2.6rem); border-radius: 24px;
+    border: 1px solid color-mix(in srgb, var(--ink) 20%, transparent); background: color-mix(in srgb, var(--night) 62%, transparent);
+    -webkit-backdrop-filter: blur(22px) saturate(1.1); backdrop-filter: blur(22px) saturate(1.1); box-shadow: 0 14px 44px rgba(0,0,0,.32); }
+  .nf-frame { width: 120px; aspect-ratio: 4 / 5; margin: 0 auto 1.4rem; border-radius: 6px; position: relative; display: grid; place-items: center;
+    border: 3px solid var(--gold); box-shadow: 0 10px 30px rgba(0,0,0,.35), inset 0 0 0 6px color-mix(in srgb, var(--night) 70%, transparent);
+    animation: nf-sway 5s ease-in-out infinite; transform-origin: 50% 0; }
+  .nf-frame::before { content: ""; position: absolute; top: -26px; left: 50%; width: 2px; height: 26px; background: color-mix(in srgb, var(--gold) 70%, transparent); }
+  .nf-frame b { font-family: var(--font-display); font-size: 2.2rem; font-weight: 600; color: var(--gold); }
+  .nf h1 { margin: 0 0 .5rem; font-family: var(--font-display); font-weight: 500; font-size: clamp(1.5rem, 4.6vw, 2.1rem); line-height: 1.25; }
+  .nf p { margin: 0 auto 1.6rem; max-width: 40ch; color: var(--ink-soft); line-height: 1.8; }
+  .nf-actions { display: flex; flex-wrap: wrap; gap: .7rem; justify-content: center; }
+  @keyframes nf-sway { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+  @media (prefers-reduced-motion: reduce) { .nf-frame { animation: none; } }
+</style>
+{% endblock page_style %}
+
+{% block page_content %}
+<main class="nf">
+  <div class="nf-card">
+    <div class="nf-frame" aria-hidden="true"><b>404</b></div>
+    <h1>{% trans "This page is not here." %}</h1>
+    <p>{% trans "The link may be old or mistyped. Let us take you somewhere that exists." %}</p>
+    <div class="nf-actions">
+      <a class="btn btn-primary" href="/">{% trans "Back to home" %}</a>
+      <a class="btn btn-ghost" href="{% url 'products' %}">{% trans "Browse the collection" %}</a>
+    </div>
+  </div>
+</main>
+{% endblock page_content %}

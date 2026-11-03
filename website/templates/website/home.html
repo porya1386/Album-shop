@@ -1,111 +1,143 @@
 {% extends "base.html" %}
-{% load static i18n shop_tags blog_tags %}
+{% load static i18n shop_tags blog_tags website_tags %}
 
 {% block page_title %}<title>{% trans "Jahan | Album-Shop" %}</title>{% endblock page_title %}
 
 {% block page_style %}
-  <link rel="stylesheet" href="{% static 'website/css/home.css' %}">
-  <link rel="stylesheet" href="{% static 'website/css/gallery.css' %}">
-  <link rel="stylesheet" href="{% static 'blogs/css/blog_home.css' %}">
+  <link rel="stylesheet" href="{% static 'website/css/home_v2.css' %}">
   <link rel="stylesheet" href="{% static 'skeleton.css' %}">
-  <script>document.documentElement.classList.add("js-skeleton");</script>
+  <script>document.documentElement.classList.add("js-skeleton", "js-hm");</script>
 {% endblock page_style %}
 
 {% block page_content %}
-<main>
-  {# One wrapper so <main> (which may be a flex row in home.css) has a single child #}
-  <div class="home">
+{% home_page as hp %}
+{% home_hero as hero %}
+{% site_counts as counts %}
+{% about_page as about %}
+<main class="hm">
 
-    <div class="wrap hero">
-      <h1>{% trans "Quiet places, careful work." %}</h1>
-      <p class="lead">
-        {% trans "I'm Your Name, a web developer who builds clear, fast websites with Python and Django." %}
-      </p>
-      <div class="hero-actions">
-        <a class="btn btn-primary" href="{% url 'about' %}">{% trans "About me" %}</a>
-        <a class="btn btn-ghost" href="mailto:you@example.com">{% trans "Get in touch" %}</a>
+  {# ===== 1. full-width hero: the picture is the ACTIVE THEME's landscape (it changes with the theme switch), the artwork chosen in the admin stands in a frame on the side ===== #}
+  <section class="hm-hero">
+    <div class="hm-hero-bg" data-theme-art aria-hidden="true"></div>
+    <div class="hm-hero-shade" aria-hidden="true"></div>
+    <div class="hm-hero-inner hm-wrap">
+      <div class="hm-hero-copy">
+        <p class="hm-eyebrow">{% if hp and hp.display_eyebrow %}{{ hp.display_eyebrow }}{% else %}{% trans "Art gallery" %}{% endif %}</p>
+        <h1 class="hm-title">{% if hp and hp.display_headline %}{{ hp.display_headline }}{% else %}{% trans "Quiet places, careful work." %}{% endif %}</h1>
+        <p class="hm-lead">{% if hp and hp.display_lead %}{{ hp.display_lead }}{% else %}{% trans "Original paintings and sculptures, made slowly and shown with care." %}{% endif %}</p>
+        <a class="hm-pill" href="{% url 'products' %}">{% trans "Explore the collection" %} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
       </div>
+      {% if hero %}
+      <a class="hm-feature" href="{{ hero.url }}">
+        <span class="hm-feature-img" data-skeleton><img src="{{ hero.image }}" alt="{{ hero.title }}" decoding="async"></span>
+        <span class="hm-feature-cap"><small>{% trans "Featured" %}{% if hero.year %} · {{ hero.year }}{% endif %}</small><b>{{ hero.title }}</b><span>{{ hero.price }}</span></span>
+      </a>
+      {% endif %}
     </div>
+  </section>
 
-    {# ---------------- products: paintings and sculptures mixed in ONE row ---------------- #}
-    {% latest_works 14 as works %}
-    {% if works %}
-    <section class="gallery" aria-labelledby="gallery-title">
-      <div class="wrap gallery-head">
-        <h2 id="gallery-title">{% trans "Latest works" %}</h2>
-        <p>{% trans "Paintings and sculptures. Hover to pause, click a work to read more about it." %}</p>
-      </div>
+  {# ===== 2. one big sentence that types itself ===== #}
+  <section class="hm-statement hm-wrap">
+    <p class="hm-type" data-hm-type="{% if hp and hp.display_quote %}{{ hp.display_quote }}{% else %}{% trans 'Art does not need an audience. It needs a witness.' %}{% endif %}">{% if hp and hp.display_quote %}{{ hp.display_quote }}{% else %}{% trans 'Art does not need an audience. It needs a witness.' %}{% endif %}</p>
+  </section>
 
-      <div class="marquee">
-        <div class="marquee-viewport">
-          <div class="marquee-track">
-            <ul class="marquee-group">
-              {% for work in works %}
-              <li class="tile">
-                <a class="tile-link" href="{{ work.url }}">
-                  <span class="tile-frame" data-skeleton>
-                    <img src="{{ work.image }}" alt="{{ work.title }}" loading="lazy" decoding="async">
-                  </span>
-                  <span class="tile-title">{{ work.title }}</span>
-                  <span class="tile-price">{{ work.price }}</span>
-                </a>
-              </li>
-              {% endfor %}
-            </ul>
-          </div>
-        </div>
-        <span class="edge edge--left" aria-hidden="true"></span>
-        <span class="edge edge--right" aria-hidden="true"></span>
-      </div>
-
-      <p class="gallery-more"><a class="btn btn-ghost" href="{% url 'products' %}">{% trans "See all products" %}</a></p>
-    </section>
+  {# ===== 3. text + photo, side by side ===== #}
+  <section class="hm-split hm-reveal">
+    <div class="hm-split-text">
+      <h2>{% trans "A studio exists to give a painting room to breathe." %}</h2>
+      <p>{% if about and about.display_lead %}{{ about.display_lead }}{% else %}{% trans "Every work here is chosen for one reason: it has something to say that cannot be said any other way." %}{% endif %}</p>
+      <a class="hm-arrow-link" href="{% url 'about' %}">{% trans "About the artist" %} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+    </div>
+    {% if about and about.photo %}
+    <div class="hm-split-img" data-skeleton><img src="{{ about.photo.url }}" alt="" loading="lazy" decoding="async"></div>
     {% endif %}
+  </section>
 
-    {# ---------------- blog: newest posts, same moving row ---------------- #}
-    {% latest_posts 10 as posts %}
-    {% if posts %}
-    <section class="gallery" aria-labelledby="blog-gallery-title">
-      <div class="wrap gallery-head">
-        <h2 id="blog-gallery-title">{% trans "From the blog" %}</h2>
-        <p>{% trans "News, stories and notes from the studio." %}</p>
-      </div>
-
-      <div class="marquee">
-        <div class="marquee-viewport">
-          <div class="marquee-track">
-            <ul class="marquee-group">
-              {% for post in posts %}
-              <li class="tile">
-                <a class="tile-link" href="{{ post.get_absolute_url }}">
-                  {% if post.cover %}
-                  <span class="tile-frame" data-skeleton>
-                    <img src="{{ post.cover.url }}" alt="{{ post.display_title }}" loading="lazy" decoding="async">
-                  </span>
-                  {% else %}
-                  <span class="tile-frame tile-frame--blank" aria-hidden="true">&#9998;</span>
-                  {% endif %}
-                  <span class="tile-title">{{ post.display_title }}</span>
-                  <span class="tile-date">{{ post.published_at|date:"j F Y" }}</span>
-                </a>
-              </li>
-              {% endfor %}
-            </ul>
-          </div>
-        </div>
-        <span class="edge edge--left" aria-hidden="true"></span>
-        <span class="edge edge--right" aria-hidden="true"></span>
-      </div>
-
-      <p class="gallery-more"><a class="btn btn-ghost" href="{% url 'blogs:list' %}">{% trans "Read the blog" %}</a></p>
-    </section>
-    {% endif %}
-
+  {# ===== 4. moving strip ===== #}
+  <div class="hm-ticker" aria-hidden="true">
+    <div class="hm-ticker-track">
+      {% for i in "12" %}
+      <span>{{ counts.paintings }} {% trans "Paintings" %}</span><i>◆</i>
+      <span>{{ counts.sculptures }} {% trans "Sculptures" %}</span><i>◆</i>
+      <span>{{ counts.posts }} {% trans "Stories" %}</span><i>◆</i>
+      <span>{% trans "Original works" %}</span><i>◆</i>
+      {% endfor %}
+    </div>
   </div>
+
+  {# ===== 5. the blog, in one place ===== #}
+  {% latest_posts 3 as posts %}
+  {% if posts %}
+  <section class="hm-wrap hm-section hm-reveal">
+    <header class="hm-head">
+      <h2>{% trans "From the studio" %}</h2>
+      <a class="hm-more" href="{% url 'blogs:list' %}">{% trans "All stories" %} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+    </header>
+    <div class="hm-posts">
+      {% for post in posts %}
+      <a class="hm-post" href="{{ post.get_absolute_url }}">
+        <span class="hm-post-img" data-skeleton>{% if post.cover %}<img src="{{ post.cover.url }}" alt="" loading="lazy" decoding="async">{% endif %}</span>
+        <b>{{ post.display_title }}</b>
+        <span class="hm-post-date">{{ post.published_at|date:"j F Y" }}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  {# ===== 6. the list of works: sticky title on one side, rows on the other ===== #}
+  {% home_works 4 as works %}
+  {% if works %}
+  <section class="hm-wrap hm-section hm-list">
+    <div class="hm-list-side">
+      <h2>{% trans "Works on show" %}</h2>
+      <p>{{ counts.paintings|add:counts.sculptures }} {% trans "works" %}</p>
+      <a class="hm-arrow-link" href="{% url 'products' %}">{% trans "View all" %} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+    </div>
+    <div class="hm-list-rows">
+      {% for w in works %}
+      <a class="hm-row hm-reveal" href="{{ w.url }}">
+        <span class="hm-row-img" data-skeleton><img src="{{ w.image }}" alt="{{ w.title }}" loading="lazy" decoding="async"></span>
+        <span class="hm-row-text">
+          <small>{{ w.n }} / {{ works|length }}</small>
+          <b>{{ w.title }}</b>
+          <em>{% if w.kind == "sculpture" %}{% trans "Sculpture" %}{% else %}{% trans "Painting" %}{% endif %}{% if w.year %} · {{ w.year }}{% endif %}</em>
+          {% if w.text %}<span class="hm-row-desc">{{ w.text }}</span>{% endif %}
+          <span class="hm-row-foot"><span>{{ w.price }}</span><span class="hm-arrow-link">{% trans "View" %} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span></span>
+        </span>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  {# ===== 7. get in touch ===== #}
+  <section class="hm-wrap hm-section hm-contact hm-reveal">
+    <div class="hm-contact-text">
+      <h2>{% trans "Come and say hello." %}</h2>
+      {% if about and about.email %}
+      <dl><dt>{% trans "Email" %}</dt><dd><a href="mailto:{{ about.email }}">{{ about.email }}</a></dd></dl>
+      {% endif %}
+      <p>{% trans "Commissions, questions about a piece, or a studio visit: write a few lines and I will answer personally." %}</p>
+    </div>
+    <div class="hm-contact-boxes">
+      <a class="hm-box hm-box--dark" href="{% if about and about.email %}mailto:{{ about.email }}{% else %}{% url 'about' %}{% endif %}">
+        <b>{% trans "Commission a piece" %}</b>
+        <span>{% trans "Tell me about the space and the mood you imagine." %}</span>
+        <span class="hm-arrow-link">{% trans "Write to me" %} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+      </a>
+      <a class="hm-box hm-box--light" href="{% url 'products' %}">
+        <b>{% trans "Browse the collection" %}</b>
+        <span>{% trans "Paintings and sculptures that are ready to find a home." %}</span>
+        <span class="hm-arrow-link">{% trans "Open the shop" %} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+      </a>
+    </div>
+  </section>
+
 </main>
 {% endblock page_content %}
 
 {% block page_script %}
   <script src="{% static 'js/skeleton.js' %}"></script>
-  <script src="{% static 'website/js/gallery.js' %}"></script>
+  <script src="{% static 'website/js/home.js' %}"></script>
 {% endblock page_script %}

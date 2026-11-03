@@ -9,6 +9,7 @@ from django.conf.urls.i18n import i18n_patterns
 from django.urls import re_path
 from django.views.static import serve
 
+
 # ---- Swagger ----
 schema_view = get_schema_view(
     openapi.Info(

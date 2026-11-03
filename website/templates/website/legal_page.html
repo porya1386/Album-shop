@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static i18n %}
+
+{% block page_title %}<title>{{ page.display_title }} | Jahan</title>{% endblock page_title %}
+
+{% block page_style %}
+  <link rel="stylesheet" href="{% static 'website/css/legal.css' %}">
+  <link rel="stylesheet" href="{% static 'blogs/css/blog_content.css' %}">
+{% endblock page_style %}
+
+{% block page_content %}
+<main class="legal-page">
+  <div class="legal-wrap">
+    <header class="legal-head">
+      <h1>{{ page.display_title }}</h1>
+      <p>{% trans "Last updated" %}: {{ page.updated_at|date:"j F Y" }}</p>
+    </header>
+
+    <nav class="legal-nav" aria-label="{% trans 'Legal pages' %}">
+      {% for p in all_pages %}
+        <a href="{% url 'legal' p.slug %}"{% if p.pk == page.pk %} aria-current="page"{% endif %}>{{ p.display_title }}</a>
+      {% endfor %}
+    </nav>
+
+    <article class="legal-card ck-content" dir="auto">{{ page.display_body|safe }}</article>
+  </div>
+</main>
+{% endblock page_content %}

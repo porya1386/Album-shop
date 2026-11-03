@@ -49,6 +49,7 @@
     <link rel="manifest"
       href="{% static 'images/site.webmanifest' %}">
 </head>
+{% include "includes/cookie_notice.html" %}
 <body>
     {% include "includes/header.html" %}
     {% block page_content %}{% endblock page_content %}

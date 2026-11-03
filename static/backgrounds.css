@@ -101,3 +101,13 @@ body::before,
           mask-image: radial-gradient(circle at var(--reveal-x) var(--reveal-y),
                       transparent var(--reveal-r), #000 calc(var(--reveal-r) + 2px));
 }
+
+.hm-hero-bg {
+  background-image: var(--bg-land);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+@media (max-aspect-ratio: 1 / 1) {
+  .hm-hero-bg { background-image: var(--bg-port, var(--bg-land)); }
+}

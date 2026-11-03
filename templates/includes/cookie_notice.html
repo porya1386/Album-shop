@@ -1,0 +1,21 @@
+{% load i18n %}
+{# Save as templates/includes/cookie_notice.html (or any templates folder) and put  {% include "includes/cookie_notice.html" %}  just before </body> in base.html #}
+<div class="ck-notice" id="ckNotice" role="region" aria-label="{% trans 'Cookie notice' %}" hidden>
+  <p>{% trans "We use only the cookies the site needs to work (login, language, security) and a small local setting for your theme. No advertising cookies." %}
+     <a href="{% url 'legal' 'cookies' %}">{% trans "Cookie Policy" %}</a> ·
+     <a href="{% url 'legal' 'privacy' %}">{% trans "Privacy Policy" %}</a></p>
+  <button type="button" class="btn btn-primary" id="ckOk">{% trans "OK, got it" %}</button>
+</div>
+<style>
+.ck-notice{position:fixed;inset-inline:1rem;bottom:1rem;z-index:80;max-width:720px;margin-inline:auto;display:flex;align-items:center;gap:1rem;padding:.9rem 1.1rem;border-radius:16px;
+  border:1px solid color-mix(in srgb,var(--ink) 22%,transparent);background:color-mix(in srgb,var(--night) 78%,transparent);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);box-shadow:0 14px 40px rgba(0,0,0,.4);font-size:.88rem;color:var(--ink)}
+.ck-notice[hidden]{display:none}
+.ck-notice p{margin:0;line-height:1.6;color:var(--ink-soft)}
+.ck-notice a{color:var(--gold)}
+@media (max-width:560px){.ck-notice{flex-direction:column;align-items:stretch;text-align:center}}
+</style>
+<script>
+(function(){var n=document.getElementById("ckNotice"),k="jahan_cookie_ok";
+try{if(!localStorage.getItem(k))n.hidden=false}catch(e){n.hidden=false}
+document.getElementById("ckOk").addEventListener("click",function(){n.hidden=true;try{localStorage.setItem(k,"1")}catch(e){}});})();
+</script>
