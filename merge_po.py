@@ -15,7 +15,9 @@ import sys
 
 def unq(line):
     m = re.search(r'"(.*)"\s*$', line)
-    return m.group(1) if m else ""
+    v = m.group(1) if m else ""
+    # a stray quote inside the text would break msgfmt: escape it
+    return re.sub(r'(?<!\\)"', r'\\"', v)
 
 
 def parse(text):

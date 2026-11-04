@@ -107,6 +107,10 @@
 
                 {# Google / GitHub buttons (they submit the 2 small forms below the login form) #}
                 {% include "accounts/_social_buttons.html" %}
+                <p class="auth-legal">
+                    {% url 'legal' 'terms' as terms_url %}{% url 'legal' 'privacy' as privacy_url %}
+                    {% blocktrans trimmed %}By continuing with Google or GitHub you agree to the <a href="{{ terms_url }}" target="_blank" rel="noopener">Terms of Service</a> and the <a href="{{ privacy_url }}" target="_blank" rel="noopener">Privacy Policy</a>.{% endblocktrans %}
+                </p>
 
                 {# reCAPTCHA: only after 3 wrong tries. It must be INSIDE the login form #}
                 {% if show_captcha %}
@@ -253,6 +257,17 @@
                        data-label-ok="{% trans 'Passwords match' %}"
                        data-label-bad="{% trans 'Passwords do not match' %}"
                        data-label-partial="{% trans 'Keep going...' %}"></p>
+                </div>
+
+                <div class="terms-check">
+                    <label for="reg-terms" class="remember-label">
+                        <input type="checkbox" id="reg-terms" name="accept_terms" required
+                               {% if register_form.accept_terms.value %}checked{% endif %}>
+                        <span>
+                            {% url 'legal' 'terms' as terms_url %}{% url 'legal' 'privacy' as privacy_url %}
+                            {% blocktrans trimmed %}I agree to the <a href="{{ terms_url }}" target="_blank" rel="noopener">Terms of Service</a> and the <a href="{{ privacy_url }}" target="_blank" rel="noopener">Privacy Policy</a>{% endblocktrans %}
+                        </span>
+                    </label>
                 </div>
 
                 {% if show_register_captcha %}

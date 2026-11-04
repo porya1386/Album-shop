@@ -1,4 +1,5 @@
 from django import forms
+from django.utils import timezone
 from django.contrib.auth.forms import (
     AuthenticationForm,
     PasswordChangeForm,
@@ -86,6 +87,14 @@ class RegisterForm(OptionalCaptchaMixin, UserCreationForm):
         }),
     )
 
+    accept_terms = forms.BooleanField(
+        required=True,
+        label=_("I agree to the Terms of Service and Privacy Policy"),
+        error_messages={"required": _(
+            "You must accept the Terms of Service and Privacy Policy to create an account.")},
+        widget=forms.CheckboxInput(attrs={"id": "reg-terms"}),
+    )
+
     captcha_attrs = {
         "id": "register-captcha",
         "data-callback": "onCaptchaSolved_register",
@@ -105,6 +114,7 @@ class RegisterForm(OptionalCaptchaMixin, UserCreationForm):
     def save(self, commit=True):
         user = super().save(commit=False)
         user.email = self.cleaned_data["email"]
+        user.terms_accepted_at = timezone.now()      # proof of when the person accepted
         if commit:
             user.save()
         return user

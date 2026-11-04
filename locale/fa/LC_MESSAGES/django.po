@@ -1594,6 +1594,7 @@ msgstr "ورود به فروشگاه"
 
 msgid "Featured"
 msgstr "اثر ویژه"
+
 msgid "Page not found | Jahan"
 msgstr "صفحه پیدا نشد | جهان"
 
@@ -1603,5 +1604,44 @@ msgstr "این صفحه اینجا نیست."
 msgid "The link may be old or mistyped. Let us take you somewhere that exists."
 msgstr "ممکن است پیوند قدیمی یا اشتباه تایپ شده باشد. شما را به جایی که وجود دارد می‌بریم."
 
-msgid "Back to home"
-msgstr "بازگشت به خانه"
+msgid "I agree to the Terms of Service and Privacy Policy"
+msgstr "شرایط استفاده و سیاست حریم خصوصی را می‌پذیرم"
+
+msgid "You must accept the Terms of Service and Privacy Policy to create an account."
+msgstr "برای ساخت حساب باید شرایط استفاده و سیاست حریم خصوصی را بپذیرید."
+
+msgid "Terms accepted at"
+msgstr "زمان پذیرش شرایط"
+
+msgid "I agree to the <a href=\"%(terms_url)s\" target=\"_blank\" rel=\"noopener\">Terms of Service</a> and the <a href=\"%(privacy_url)s\" target=\"_blank\" rel=\"noopener\">Privacy Policy</a>"
+msgstr "<a href=\"%(terms_url)s\" target=\"_blank\" rel=\"noopener\">شرایط استفاده</a> و <a href=\"%(privacy_url)s\" target=\"_blank\" rel=\"noopener\">سیاست حریم خصوصی</a> را می‌پذیرم"
+
+msgid "By continuing with Google or GitHub you agree to the <a href=\"%(terms_url)s\" target=\"_blank\" rel=\"noopener\">Terms of Service</a> and the <a href=\"%(privacy_url)s\" target=\"_blank\" rel=\"noopener\">Privacy Policy</a>."
+msgstr "با ادامه دادن با گوگل یا گیت‌هاب، <a href=\"%(terms_url)s\" target=\"_blank\" rel=\"noopener\">شرایط استفاده</a> و <a href=\"%(privacy_url)s\" target=\"_blank\" rel=\"noopener\">سیاست حریم خصوصی</a> را می‌پذیرید."
+
+msgid "Last updated"
+msgstr "آخرین به‌روزرسانی"
+
+msgid "Legal pages"
+msgstr "صفحات حقوقی"
+
+msgid "Legal"
+msgstr "حقوقی"
+
+msgid "Terms of Service"
+msgstr "شرایط استفاده"
+
+msgid "Privacy Policy"
+msgstr "سیاست حریم خصوصی"
+
+msgid "Cookie Policy"
+msgstr "سیاست کوکی"
+
+msgid "Cookie notice"
+msgstr "اعلان کوکی"
+
+msgid "We use only the cookies the site needs to work (login, language, security) and a small local setting for your theme. No advertising cookies."
+msgstr "ما فقط از کوکی‌های لازم برای کار سایت (ورود، زبان، امنیت) و یک تنظیم محلی کوچک برای تم استفاده می‌کنیم. بدون کوکی تبلیغاتی."
+
+msgid "OK, got it"
+msgstr "باشه، متوجه شدم"
