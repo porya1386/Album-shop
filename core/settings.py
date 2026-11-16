@@ -374,3 +374,6 @@ CKEDITOR_5_CONFIGS = {
         "style": _CALLOUTS, "image": _IMAGE, "table": _TABLE,
     },
 }
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
