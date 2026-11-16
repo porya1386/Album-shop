@@ -15,6 +15,7 @@ fi
 [ -n "$WSGI_MODULE" ] || { echo "Set WSGI_MODULE, e.g. config.wsgi:application"; exit 1; }
 
 python manage.py migrate --noinput
+python manage.py seed_legal
 python manage.py collectstatic --noinput
 python manage.py compilemessages || echo "WARNING: compilemessages failed (is gettext installed?)"
 
