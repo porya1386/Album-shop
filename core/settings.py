@@ -104,7 +104,7 @@ WSGI_APPLICATION = 'core.wsgi.application'
 #   POSTGRES_DB empty -> sqlite file (quick local run without Docker)
 # --------------------------------------------------
 POSTGRES_DB = config("POSTGRES_DB", default="")
-
+# yadam bashe dorost konaminjaro only one database connection and thats postgres
 if POSTGRES_DB:
     DATABASES = {
         "default": {
