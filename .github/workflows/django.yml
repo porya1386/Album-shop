@@ -1,4 +1,3 @@
-
 name: Django CI/CD
 
 on:
@@ -82,6 +81,9 @@ jobs:
         run: python manage.py test --noinput -v 2
 
   build:
+    # Only checks that the Docker image builds. Nothing is uploaded to GitHub
+    # (the old zip artifact hit the Actions storage quota and Hamravesh builds
+    # its own image from the repo anyway).
     needs: test
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
@@ -90,23 +92,5 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Create deployment package
-        run: |
-          zip -r django-project.zip . \
-            -x ".git/*" \
-               ".github/*" \
-               "*/__pycache__/*" \
-               "*.pyc" \
-               "db.sqlite3" \
-               ".env" \
-               ".env.*" \
-               "!.env.example" \
-               "venv/*" \
-               ".venv/*"
-
-      - name: Upload deployment artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: django-deployment
-          path: django-project.zip
-          retention-days: 7
+      - name: Build Docker image (check only)
+        run: docker build -t albumshop:ci .
